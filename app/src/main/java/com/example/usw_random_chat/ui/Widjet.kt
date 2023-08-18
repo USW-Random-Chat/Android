@@ -7,8 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,7 +35,7 @@ fun button(text: String, enable: Boolean, content: Color, back: Color, modifier:
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
             lineHeight = 20.sp,
             fontWeight = FontWeight(600),
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
     }
 }

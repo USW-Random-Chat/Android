@@ -144,8 +144,7 @@ fun IdSearchEmail(textState: MutableState<String>) {
             },
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
             modifier = Modifier
-                .width(326.dp)
-                .height(56.dp),
+                .width(327.dp)
         )
     }
 }
@@ -182,7 +181,7 @@ fun IdSearchEmailBtn(flag: Boolean){
         Spacer(modifier = Modifier.height(12.dp))
 
         button(
-            text = "로그인",
+            text = "확인메일 전송",
             enable = flag,
             content = Color.White,
             back = Color(0xFF2D64D8),
@@ -193,7 +192,7 @@ fun IdSearchEmailBtn(flag: Boolean){
         Spacer(modifier = Modifier.height(12.dp))
 
         button(
-            "메일 재발송",
+            "로그인 하러가기",
             enable = true,
             Color.White,
             Color.Black,
@@ -226,4 +225,13 @@ fun IdSearchTextPreview(){
 @Composable
 fun IdSearchExitBtnPreview() {
     IdSearchExitBtn()
+}
+@Preview (showBackground = true)
+@Composable
+fun IdSearchEmailPreview() {
+
+    val editTextState = remember {
+        mutableStateOf("")
+    }
+    IdSearchEmail(editTextState)
 }
