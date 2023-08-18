@@ -46,7 +46,6 @@ import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.button
 
 
-
 @Composable
 fun SignUpScreen() {
     val rememberId = remember {
