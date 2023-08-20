@@ -121,7 +121,6 @@ fun SignUpDoneScreen() {
                 .background(color = Color.White)
         )
     }
-
 }
 
 @Composable
