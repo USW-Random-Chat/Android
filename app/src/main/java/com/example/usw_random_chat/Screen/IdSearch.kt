@@ -43,6 +43,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,10 +51,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.button
+import com.example.usw_random_chat.ui.portalEmail
 
 @Composable
 fun IdSearch(){
-    val editTextState = remember {
+    var editTextState = remember {
         mutableStateOf("")
     }
     val openFlag = remember {
@@ -125,27 +127,10 @@ fun IdSearchEmail(textState: MutableState<String>) {
                 top = 143.dp
             )
     ) {
-        TextField(
-            value = textState.value,
-            onValueChange = {textStateValue -> textState.value = textStateValue},
-            placeholder = {
-                Text(
-                    "포털 이메일 입력",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.pretendard_regular))
-                    )
-                )
-            },
-            trailingIcon = {
-                Text(
-                    "@suwon.ac.kr   ",
-                    color = Color(0xFF000000))
-            },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
-            modifier = Modifier
-                .width(327.dp)
-        )
+        portalEmail(
+            textFieldValue = textState.value, onValueChange = { newValue ->
+            textState.value = newValue
+        })
     }
 }
 

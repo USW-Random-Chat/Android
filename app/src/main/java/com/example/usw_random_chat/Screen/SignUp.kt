@@ -197,20 +197,17 @@ fun IdWrite(id: MutableState<String>) {
                 .padding(end = 8.dp)
         )
         Button(
-            onClick = { /* Do something when the button is clicked */ },
+            onClick = {  },
             modifier = Modifier
                 .padding(10.dp)
-                .align(Alignment.CenterVertically)
                 .width(100.dp)
                 .height(38.dp),
-
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 backgroundColor = Color(0xFF2D64D8)
             ),
-
-            ) {
+        ) {
             Text(text = "중복 확인")
         }
     }
@@ -377,12 +374,13 @@ fun EmailTextFieldSignUp(email: MutableState<String>) {
             value = email.value,
             onValueChange = { emailValue -> email.value = emailValue },
             placeholder = { Text("포털 이메일 입력") },
-            trailingIcon = { Text("@suwon.ac.kr    ", color = Color(0xFF000000)) },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
+            trailingIcon = { Text("@ suwon.ac.kr    ", color = Color(0xFF000000)) },
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
             modifier = Modifier
                 .width(326.dp)
-                .heightIn(min = 56.dp)
-
+                .heightIn(
+                    min = 56.dp
+                )
         )
         Text(
             text = "* 이메일 형식이 올바르지 않습니다",
