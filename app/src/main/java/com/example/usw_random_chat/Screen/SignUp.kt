@@ -138,7 +138,7 @@ fun title() {
             modifier = Modifier
                 .height(48.dp)
                 .width(232.dp)
-                .padding(start = 35.dp,top = 15.dp)
+                .padding(start = 25.dp,top = 15.dp)
         )
     }
 }
