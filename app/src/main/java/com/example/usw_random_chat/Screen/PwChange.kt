@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.button
+import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
 fun PwChangeScreen() {
@@ -52,7 +53,11 @@ fun PwChangeScreen() {
 
         Spacer(Modifier.padding(20.dp))
 
-        titleOfPwChange()
+        //titleOfPwChange()
+        tittleWithBackArrow("비밀번호 변경",modifier = Modifier
+            .height(48.dp)
+            .width(232.dp)
+            .padding(start = 25.dp,top = 15.dp))
 
         Spacer(Modifier.padding(15.dp))
 
@@ -67,7 +72,7 @@ fun PwChangeScreen() {
 }
 
 
-@Composable
+/*@Composable
 fun titleOfPwChange() {
     Row(
         Modifier, horizontalArrangement = Arrangement.Center
@@ -98,7 +103,7 @@ fun titleOfPwChange() {
                 .padding(start = 30.dp, top = 10.dp)
         )
     }
-}
+}*/
 
 
 @Composable
