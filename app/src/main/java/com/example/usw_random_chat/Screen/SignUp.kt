@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.button
+import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 
 @Composable
@@ -90,8 +91,12 @@ fun SignUpScreen() {
 
         Spacer(Modifier.padding(20.dp))
 
-        title()
+        //SignUPtitle()
 
+        tittleWithBackArrow("회원가입",modifier = Modifier
+            .height(48.dp)
+            .width(232.dp)
+            .padding(start = 25.dp,top = 15.dp))
         Column(
             Modifier.padding(15.dp)
         ) {
@@ -110,8 +115,8 @@ fun SignUpScreen() {
 }
 
 
-@Composable
-fun title() {
+/*@Composable
+fun SignUPtitle() {
     Row(
         Modifier, horizontalArrangement = Arrangement.Center
     )
@@ -141,7 +146,7 @@ fun title() {
                 .padding(start = 25.dp,top = 15.dp)
         )
     }
-}
+}*/
 
 
 @Composable
