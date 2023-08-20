@@ -116,7 +116,7 @@ fun title() {
         Modifier, horizontalArrangement = Arrangement.Center
     )
     {
-        Spacer(Modifier.width(16.dp))
+        Spacer(Modifier.width(35.dp))
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "",
@@ -138,7 +138,7 @@ fun title() {
             modifier = Modifier
                 .height(48.dp)
                 .width(232.dp)
-                .padding(start = 55.dp,top = 15.dp)
+                .padding(start = 35.dp,top = 15.dp)
         )
     }
 }
@@ -160,7 +160,7 @@ fun IdWrite(id: MutableState<String>) {
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = 17.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = 35.dp,top=5.dp,bottom = 5.dp)
 
         )
         if(id.value.length < 4 || id.value.length > 16) {
@@ -182,7 +182,9 @@ fun IdWrite(id: MutableState<String>) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             //.fillMaxWidth()
-            .padding(start = 10.dp,top = 3.dp)
+            .height(55.dp)
+            .width(350.dp)
+            .padding(start = 30.dp,top = 3.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -205,8 +207,7 @@ fun IdWrite(id: MutableState<String>) {
             // shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .weight(1f)
-                .width(320.dp)
-                .height(55.dp)
+                .width(280.dp)
                 //.padding(end = 8.dp)
         )
         Button(
@@ -248,7 +249,7 @@ fun PwWrite(pw: MutableState<String>,
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = 17.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = 35.dp,top=5.dp,bottom = 5.dp)
 
         )
         if(pw.value.length < 6 || pw.value.length > 20) {
@@ -271,7 +272,9 @@ fun PwWrite(pw: MutableState<String>,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             //.fillMaxWidth()
-            .padding(start = 10.dp)
+            .height(55.dp)
+            .width(350.dp)
+            .padding(start = 30.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -290,8 +293,7 @@ fun PwWrite(pw: MutableState<String>,
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
-                .height(55.dp)
-                .width(320.dp)
+                .width(280.dp)
                 //.padding(start= 5.dp)
         )//baseline_visibility_24
         IconButton(onClick = {   passwordVisible.value = !passwordVisible.value     }) {
@@ -325,7 +327,7 @@ fun PwCheck(
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = 17.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = 35.dp,top=5.dp,bottom = 5.dp)
 
         )
         if (!pwEqualOrNot) {
@@ -348,7 +350,9 @@ fun PwCheck(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             //.fillMaxWidth()
-            .padding(start = 10.dp)
+            .height(55.dp)
+            .width(350.dp)
+            .padding(start = 30.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -367,9 +371,8 @@ fun PwCheck(
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
-                .height(55.dp)
-                .width(320.dp)
-                .padding(start= 5.dp)
+                .width(280.dp)
+                //.padding(start= 5.dp)
         )//baseline_visibility_24
         IconButton(onClick = { passwordCheckVisible.value = !passwordCheckVisible.value }) {
             Icon(
@@ -408,8 +411,9 @@ fun EmailTextFieldSignUp(email: MutableState<String>) {
             ))},
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
             modifier = Modifier
-                .width(337.dp)
+                .width(326.dp)
                 .heightIn(min = 46.dp)
+                .padding(start = 3.dp)
 
         )
         /*Text(
