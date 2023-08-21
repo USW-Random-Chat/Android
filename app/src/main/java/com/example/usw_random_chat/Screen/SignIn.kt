@@ -59,7 +59,6 @@ fun SignInScreen() {
     MadeAccountText()
     OnSignInBtn()
     OnLoginImage()
-    LogInTextTitle()
 }
 @Composable
 fun OnLoginImage() {
@@ -70,45 +69,14 @@ fun OnLoginImage() {
         contentAlignment = Alignment.TopEnd
     ){
         Image(
-            painter = painterResource(id = R.drawable.talkballoon),
+            painter = painterResource(id = R.drawable.balloon),
             contentDescription = "image description",
             modifier = Modifier
-                .width(286.dp)
+                .width(380.dp)
                 .height(268.dp),
             alignment = Alignment.TopEnd
         )
     }
-}
-
-@Composable
-fun LogInTextTitle(){
-    Text(
-        text = "티키타카를 원해?",
-        color = Color(0xFF698AFF),
-        style = TextStyle(
-            fontSize = 36.sp,
-            fontFamily = FontFamily(Font(R.font.kcc_chassam))
-        ),
-        modifier = Modifier
-            .padding(
-                top = 134.dp,
-                start = 32.dp
-            )
-    )
-    Text(
-        text = "수원대학교 친구들과 사이좋게 소통해보자",
-        color = Color(0xFF111111),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontFamily = FontFamily(Font(R.font.kcc_chassam))
-        ),
-        modifier = Modifier
-            .padding(
-                top = 197.dp,
-                start = 32.dp
-            )
-            .width(188.dp)
-    )
 }
 
 
@@ -333,12 +301,6 @@ fun MadeAccountTextPreview() {
 @Composable
 fun OnSignInBtnPreview() {
     OnSignInBtn()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LogInTextTitlePreview() {
-    LogInTextTitle()
 }
 
 
