@@ -2,6 +2,7 @@ package com.example.usw_random_chat.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -141,7 +142,7 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit){
             //.fillMaxWidth()
             .height(55.dp)
             .width(350.dp)
-            .padding(start = 30.dp,top = 3.dp)
+            .padding(start = 30.dp, top = 3.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -184,3 +185,16 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit){
     }
 }
 
+@Composable
+fun MatchingAnimationText(text: String){
+    Text(
+        text = text,
+        style = TextStyle(
+            fontSize = 40.sp,
+            lineHeight = 20.sp,
+            fontFamily = FontFamily(Font(R.font.kcc_chassam)),
+            fontWeight = FontWeight(400),
+            color = Color(0xFF000000),
+        )
+    )
+}
