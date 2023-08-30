@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             USW_Random_ChatTheme {
                 // A surface container using the 'background' color from the theme
-                MatchingScreen()
             }
         }
     }
