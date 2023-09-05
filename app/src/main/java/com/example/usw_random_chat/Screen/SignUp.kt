@@ -116,40 +116,6 @@ fun SignUpScreen() {
 }
 
 
-/*@Composable
-fun SignUPtitle() {
-    Row(
-        Modifier, horizontalArrangement = Arrangement.Center
-    )
-    {
-        Spacer(Modifier.width(35.dp))
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack, contentDescription = "",
-                Modifier
-                    .height(36.dp)
-                    .width(36.dp)
-            )
-        }
-        Text(
-            text = buildAnnotatedString {
-                append("회원가입")
-            },
-            fontSize = 18.sp,
-            lineHeight = 20.sp,
-            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-            fontWeight = FontWeight(600),
-            color = Color(0xFF111111),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .height(48.dp)
-                .width(232.dp)
-                .padding(start = 25.dp,top = 15.dp)
-        )
-    }
-}*/
-
-
 @Composable
 fun IdWrite(id: MutableState<String>) {
 
