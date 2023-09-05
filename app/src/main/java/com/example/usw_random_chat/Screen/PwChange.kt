@@ -69,7 +69,7 @@ fun PwChangeScreen(navController: NavController) {
         TextFieldOfPwChange("", "비밀번호 확인", "* 비밀번호가 일치하지 않습니다")
 
         Spacer(Modifier.padding(10.dp))
-        PwChangeBotton()
+        PwChangeBotton(navController = navController)
     }
 }
 
@@ -176,7 +176,7 @@ fun TextFieldOfPwChange(
 }
 
 @Composable
-fun PwChangeBotton() {
+fun PwChangeBotton( navController: NavController) {
     Column(
         Modifier.padding(42.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -189,7 +189,7 @@ fun PwChangeBotton() {
                 .width(326.dp)
                 .height(56.dp)
         ){
-
+            navController.navigate(Screen.SignInScreen.route)
         }
     }
 
