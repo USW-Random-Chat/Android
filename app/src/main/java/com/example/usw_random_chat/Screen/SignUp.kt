@@ -58,7 +58,7 @@ import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 320)/2
+    val screenWidthInDp = (GetScreenWidthInDp() -326-36)/2
     val rememberId = remember {
         mutableStateOf("")
     }
@@ -101,7 +101,7 @@ fun SignUpScreen(navController: NavController) {
 
         tittleWithBackArrow("회원가입",modifier = Modifier
             .height(48.dp)
-            .width(232.dp)
+            .width(200.dp)
             .padding(start = screenWidthInDp.dp, top = 15.dp))
         Column(
             Modifier.padding(15.dp)
@@ -136,7 +136,7 @@ fun IdWrite(id: MutableState<String>) {
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = screenWidthInDp.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = (screenWidthInDp+5).dp,top=5.dp,bottom = 5.dp)
         )
         if(id.value.length < 4 || id.value.length > 16) {
             Text(
@@ -175,7 +175,7 @@ fun PwWrite(pw: MutableState<String>,
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = screenWidthInDp.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = (screenWidthInDp+5).dp,top=5.dp,bottom = 5.dp)
 
         )
         if(pw.value.length < 6 || pw.value.length > 20) {
@@ -253,7 +253,7 @@ fun PwCheck(
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = screenWidthInDp.dp,top=5.dp,bottom = 5.dp)
+                .padding(start = (screenWidthInDp+5).dp,top=5.dp,bottom = 5.dp)
 
         )
         if (!pwEqualOrNot) {
