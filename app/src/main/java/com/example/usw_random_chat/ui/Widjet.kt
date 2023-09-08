@@ -82,11 +82,12 @@ fun copyRightByFlag(modifier: Modifier) {
 
 @Composable
 fun tittleWithBackArrow(text: String, modifier: Modifier) {
+    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
-        Modifier, horizontalArrangement = Arrangement.Center
+        Modifier, //horizontalArrangement = Arrangement.Center
     )
     {
-        Spacer(Modifier.width(35.dp))
+        Spacer(Modifier.width(screenWidthInDp.dp))
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "",
