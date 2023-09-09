@@ -46,6 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+<<<<<<< HEAD
+=======
+import androidx.constraintlayout.widget.ConstraintLayout
+>>>>>>> ae4d2da (SignIn 화면 constraint로 반응형 적용)
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
