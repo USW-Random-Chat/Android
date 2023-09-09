@@ -45,7 +45,7 @@ import com.example.usw_random_chat.R
 @Composable
 fun button(text: String, enable: Boolean, content: Color, back: Color, modifier: Modifier, onPress : () -> Unit) {
     Button(
-        onClick = onPress ,
+        onClick = onPress,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = back,
             contentColor = content
@@ -301,4 +301,3 @@ fun GetScreenWidthInDp(): Int {
     val screenWidthInPx = context.resources.displayMetrics.widthPixels
     return (screenWidthInPx / density).toInt()
 }
-

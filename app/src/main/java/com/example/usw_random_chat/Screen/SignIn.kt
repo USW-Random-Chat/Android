@@ -6,9 +6,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +32,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -41,9 +44,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.button
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 @Composable
@@ -86,14 +93,11 @@ fun LoginTextField(
     id: MutableState<String>,
     password: MutableState<String>
 ) {
-    Column(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = 365.dp
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val (idbutton,passwordbutton) = createRefs()
         OutlinedTextField(
             value = id.value,
             onValueChange = {idValue -> id.value = idValue},
@@ -105,14 +109,20 @@ fun LoginTextField(
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.pretendard_regular))
-                    )
+                    ),
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
                 )
             },
             modifier = Modifier
-                .width(326.dp)
+                .constrainAs(idbutton) {
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(parent.end, margin = 32.dp)
+                    top.linkTo(parent.top, margin = 363.dp)
+                    width = Dimension.fillToConstraints
+                }
                 .height(48.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = password.value,
             onValueChange = {passwordValue -> password.value = passwordValue},
@@ -124,11 +134,18 @@ fun LoginTextField(
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.pretendard_regular))
-                    )
+                    ),
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
                 )
             },
             modifier = Modifier
-                .width(326.dp)
+                .constrainAs(passwordbutton) {
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(parent.end, margin = 32.dp)
+                    top.linkTo(parent.top, margin = 419.dp)
+                    width = Dimension.fillToConstraints
+                }
                 .height(48.dp),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -138,19 +155,24 @@ fun LoginTextField(
 
 @Composable
 fun OnLoginBtn(navController: NavController) {
-    Box(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 491.dp),
-        contentAlignment = Alignment.TopCenter
+
     ) {
+        val (loginbutton) = createRefs()
         button(
             text = "로그인",
             enable = true,
             content = Color.White,
             back = Color(0xFF2D64D8),
             modifier = Modifier
-                .width(326.dp)
+                .constrainAs(loginbutton) {
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(parent.end, margin = 32.dp)
+                    top.linkTo(parent.top, margin = 491.dp)
+                    width = Dimension.fillToConstraints
+                }
                 .height(56.dp)
         ){
             navController.navigate(Screen.MainPageScreen.route){
@@ -164,16 +186,18 @@ fun OnLoginBtn(navController: NavController) {
 
 @Composable
 fun OnLoginFindIdAndPassword() {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 544.dp
-            ),
-        horizontalArrangement = Arrangement.Center
+    ConstraintLayout(
+        modifier = Modifier.fillMaxSize()
     ) {
+        val (idbutton, image, passwordbutton) = createRefs()
+
         TextButton(
-            onClick = {}
+            onClick = {},
+            modifier = Modifier
+                .constrainAs(idbutton) {
+                    end.linkTo(image.start, margin = 9.dp)
+                    top.linkTo(parent.top , margin = 545.dp)
+                }
         ) {
             Text(
                 text = "아이디 찾기",
@@ -183,35 +207,32 @@ fun OnLoginFindIdAndPassword() {
                 )
             )
         }
-        Spacer(
-            modifier = Modifier
-                .width(7.dp)
-        )
-        Text(
-            text = "/",
-            modifier = Modifier
-                .padding(
-                    top = 15.dp
-                ),
-            color = Color(0xFFBFBFBF),
-            style = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular))
-            )
-        )
 
-        Spacer(
+        Image(
+            painter = painterResource(id = R.drawable.rectangle),
+            contentDescription = "image description",
             modifier = Modifier
-                .width(7.dp)
+                .width(10.dp)
+                .height(16.dp)
+                .constrainAs(image) {
+                    top.linkTo(parent.top , margin = 562.dp)
+                    centerHorizontallyTo(parent)
+                },
         )
         TextButton(
-            onClick = {}
+            onClick = {},
+            modifier = Modifier
+                .constrainAs(passwordbutton) {
+                    start.linkTo(image.end, margin = 9.dp)
+                    top.linkTo(parent.top , margin = 545.dp)
+                }
         ) {
             Text(
                 text = "비밀번호 찾기",
                 color = Color(0xFF232323),
                 style = TextStyle(
                     fontFamily = FontFamily(Font(R.font.pretendard_regular))
-                )
+                ),
             )
         }
     }
@@ -220,37 +241,44 @@ fun OnLoginFindIdAndPassword() {
 
 @Composable
 fun MadeAccountText() {
-    Row(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 609.dp),
-        horizontalArrangement = Arrangement.Center
     ) {
+        val (divider1,divider2,text) = createRefs()
         Divider(
             color = Color(0xFFBFBFBF),
             thickness = 1.dp,
             modifier = Modifier
-                .width(105.dp)
-                .padding(
-                    top = 8.dp,
-                    end = 20.dp
-                )
+                .constrainAs(divider1) {
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(text.start, margin = 21.dp)
+                    top.linkTo(parent.top, margin = 616.dp)
+                    width = Dimension.fillToConstraints
+                }
         )
         Text(
             text = "계정이 없으신가요?",
             style = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular))
-            )
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp
+            ),
+            modifier = Modifier
+                .constrainAs(text) {
+                    centerHorizontallyTo(parent)
+                    top.linkTo(parent.top, margin = 609.dp)
+                }
         )
         Divider(
             color = Color(0xFFBFBFBF),
             thickness = 1.dp,
             modifier = Modifier
-                .width(105.dp)
-                .padding(
-                    top = 8.dp,
-                    start = 20.dp
-                )
+                .constrainAs(divider2) {
+                    end.linkTo(parent.end, margin = 32.dp)
+                    start.linkTo(text.end, margin = 21.dp)
+                    top.linkTo(parent.top, margin = 616.dp)
+                    width = Dimension.fillToConstraints
+                }
         )
     }
 }
@@ -282,14 +310,16 @@ fun OnSignInBtn(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    //SignInScreen(navController = nav)
+    val navController = rememberNavController() // NavController 초기화
+    SignInScreen(navController)
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun OnLoginBtnPreview() {
-    //OnLoginBtn()
+    val navController = rememberNavController() // NavController 초기화
+    OnLoginBtn(navController)
 }
 
 
@@ -309,7 +339,8 @@ fun MadeAccountTextPreview() {
 @Preview(showBackground = true)
 @Composable
 fun OnSignInBtnPreview() {
-    //OnSignInBtn()
+    val navController = rememberNavController()
+    OnSignInBtn(navController)
 }
 
 
@@ -317,4 +348,17 @@ fun OnSignInBtnPreview() {
 @Composable
 fun OnLoginImagePreview() {
     OnLoginImage()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun LoginTextFieldPreview() {
+    val editidState = remember {
+        mutableStateOf("")
+    }
+    val editpasswordState = remember {
+        mutableStateOf("")
+    }
+    LoginTextField(id = editidState, password = editpasswordState)
 }
