@@ -1,9 +1,7 @@
 package com.example.usw_random_chat.Screen
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -48,7 +46,7 @@ fun Navigation() {
             EditProfileScreen(navController)
         }
         composable(route = Screen.LoadingScreen.route) {
-            LoadingScreen(navController)
+            LoadingScreen(navController,Modifier)
         }
         composable(route = Screen.ChatScreen.route) {
             ChattingScreen(navController)
