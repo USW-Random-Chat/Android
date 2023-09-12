@@ -7,21 +7,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -58,7 +50,7 @@ import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    val screenWidthInDp = (GetScreenWidthInDp() -326-36)/2
+    val screenWidthInDp = (GetScreenWidthInDp())/2 -100
     val rememberId = remember {
         mutableStateOf("")
     }
@@ -101,8 +93,9 @@ fun SignUpScreen(navController: NavController) {
 
         tittleWithBackArrow("회원가입",modifier = Modifier
             .height(48.dp)
-            .width(200.dp)
-            .padding(start = screenWidthInDp.dp, top = 15.dp))
+            .width(100.dp)
+            .offset(x=(screenWidthInDp).dp)
+            .offset(y=10.dp))
         Column(
             Modifier.padding(15.dp)
         ) {
@@ -122,7 +115,7 @@ fun SignUpScreen(navController: NavController) {
 
 @Composable
 fun IdWrite(id: MutableState<String>) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2 -10
+    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
 
@@ -136,7 +129,7 @@ fun IdWrite(id: MutableState<String>) {
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
             modifier = Modifier
-                .padding(start = (screenWidthInDp+5).dp,top=5.dp,bottom = 5.dp)
+                .padding(start = (screenWidthInDp-5).dp,top=5.dp,bottom = 5.dp)
         )
         if(id.value.length < 4 || id.value.length > 16) {
             Text(
@@ -162,7 +155,7 @@ fun IdWrite(id: MutableState<String>) {
 fun PwWrite(pw: MutableState<String>,
             fontSize: TextUnit = 17.sp
 ) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2 - 10
+    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2 -10
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
