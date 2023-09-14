@@ -49,6 +49,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
+import com.example.usw_random_chat.ui.GetScreenHeightInDp
+import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.button
 import kotlinx.coroutines.NonDisposableHandle.parent
 
@@ -68,36 +70,43 @@ fun SignInScreen(navController: NavController) {
     OnSignInBtn(navController)
     OnLoginImage()
 }
+
+
 @Composable
 fun OnLoginImage() {
+    val screenHeightInDp = (GetScreenHeightInDp() - 576)
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 63.dp),
+            .fillMaxSize(),
         contentAlignment = Alignment.TopEnd
     ){
         Image(
             painter = painterResource(id = R.drawable.balloon),
             contentDescription = "image description",
             modifier = Modifier
-                .width(380.dp)
-                .height(268.dp),
+                .fillMaxWidth()
+                .height(331.dp)
+                .padding(
+                    start = 32.dp,
+                    top = 63.dp
+                ),
             alignment = Alignment.TopEnd
         )
     }
 }
-
 
 @Composable
 fun LoginTextField(
     id: MutableState<String>,
     password: MutableState<String>
 ) {
+    val screenHeightInDp = (GetScreenHeightInDp() - 481)
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
     ) {
         val (idbutton,passwordbutton) = createRefs()
+
         OutlinedTextField(
             value = id.value,
             onValueChange = {idValue -> id.value = idValue},
@@ -118,7 +127,7 @@ fun LoginTextField(
                 .constrainAs(idbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = 363.dp)
+                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
                     width = Dimension.fillToConstraints
                 }
                 .height(48.dp)
@@ -143,7 +152,7 @@ fun LoginTextField(
                 .constrainAs(passwordbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = 419.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp + 56).dp)
                     width = Dimension.fillToConstraints
                 }
                 .height(48.dp),
@@ -155,10 +164,10 @@ fun LoginTextField(
 
 @Composable
 fun OnLoginBtn(navController: NavController) {
+    val screenHeightInDp = (GetScreenHeightInDp() - 357)
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-
     ) {
         val (loginbutton) = createRefs()
         button(
@@ -169,9 +178,10 @@ fun OnLoginBtn(navController: NavController) {
             modifier = Modifier
                 .constrainAs(loginbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
+                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = 491.dp)
                     width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
                 }
                 .height(56.dp)
         ){
@@ -186,6 +196,8 @@ fun OnLoginBtn(navController: NavController) {
 
 @Composable
 fun OnLoginFindIdAndPassword() {
+    val screenHeightInDp = (GetScreenHeightInDp() - 294)
+
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -195,8 +207,8 @@ fun OnLoginFindIdAndPassword() {
             onClick = {},
             modifier = Modifier
                 .constrainAs(idbutton) {
-                    end.linkTo(image.start, margin = 9.dp)
-                    top.linkTo(parent.top , margin = 545.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp-10).dp)
+                    end.linkTo(image.start, margin = 6.dp)
                 }
         ) {
             Text(
@@ -212,19 +224,19 @@ fun OnLoginFindIdAndPassword() {
             painter = painterResource(id = R.drawable.rectangle),
             contentDescription = "image description",
             modifier = Modifier
-                .width(10.dp)
-                .height(16.dp)
                 .constrainAs(image) {
-                    top.linkTo(parent.top , margin = 562.dp)
                     centerHorizontallyTo(parent)
-                },
+                    top.linkTo(parent.top, margin = (screenHeightInDp).dp)
+                }
+                .width(8.dp)
+                .height(30.dp)
         )
         TextButton(
             onClick = {},
             modifier = Modifier
                 .constrainAs(passwordbutton) {
-                    start.linkTo(image.end, margin = 9.dp)
-                    top.linkTo(parent.top , margin = 545.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp-10).dp)
+                    start.linkTo(image.end, margin = 6.dp)
                 }
         ) {
             Text(
@@ -241,6 +253,8 @@ fun OnLoginFindIdAndPassword() {
 
 @Composable
 fun MadeAccountText() {
+    val screenHeightInDp = (GetScreenHeightInDp() - 238)
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -248,14 +262,14 @@ fun MadeAccountText() {
         val (divider1,divider2,text) = createRefs()
         Divider(
             color = Color(0xFFBFBFBF),
-            thickness = 1.dp,
             modifier = Modifier
                 .constrainAs(divider1) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(text.start, margin = 21.dp)
-                    top.linkTo(parent.top, margin = 616.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp + 10).dp)
                     width = Dimension.fillToConstraints
                 }
+                .height(1.dp)
         )
         Text(
             text = "계정이 없으신가요?",
@@ -266,17 +280,16 @@ fun MadeAccountText() {
             modifier = Modifier
                 .constrainAs(text) {
                     centerHorizontallyTo(parent)
-                    top.linkTo(parent.top, margin = 609.dp)
+                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
                 }
         )
         Divider(
             color = Color(0xFFBFBFBF),
-            thickness = 1.dp,
             modifier = Modifier
                 .constrainAs(divider2) {
                     end.linkTo(parent.end, margin = 32.dp)
                     start.linkTo(text.end, margin = 21.dp)
-                    top.linkTo(parent.top, margin = 616.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp+10).dp)
                     width = Dimension.fillToConstraints
                 }
         )
@@ -285,21 +298,25 @@ fun MadeAccountText() {
 
 @Composable
 fun OnSignInBtn(navController: NavController) {
-
-    Box(
+    val screenHeightInDp = (GetScreenHeightInDp() - 201)
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 643.dp),
-        contentAlignment = Alignment.TopCenter
     ) {
+        val (madeidbutton) = createRefs()
         button(
             "회원가입",
             enable = true,
             Color.White,
             Color.Black,
-            Modifier
-                .width(326.dp)
-                .height(56.dp),
+            modifier = Modifier
+                .constrainAs(madeidbutton) {
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(parent.end, margin = 32.dp)
+                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
+                    width = Dimension.fillToConstraints
+                }
+                .height(56.dp)
         ){
             navController.navigate(Screen.SignUpScreen.route)
         }
@@ -346,13 +363,6 @@ fun OnSignInBtnPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun OnLoginImagePreview() {
-    OnLoginImage()
-}
-
-
-@Preview(showBackground = true)
-@Composable
 fun LoginTextFieldPreview() {
     val editidState = remember {
         mutableStateOf("")
@@ -361,4 +371,11 @@ fun LoginTextFieldPreview() {
         mutableStateOf("")
     }
     LoginTextField(id = editidState, password = editpasswordState)
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun OnLoginImagePreview() {
+    OnLoginImage()
 }

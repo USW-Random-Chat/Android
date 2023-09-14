@@ -32,9 +32,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
+import com.example.usw_random_chat.ui.GetScreenHeightInDp
 import com.example.usw_random_chat.ui.MatchingAnimationText
 import com.example.usw_random_chat.ui.button
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +46,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MatchingScreen(navController: NavController) {
+    val screenHeightInDp = (GetScreenHeightInDp() - 295)
     val matchingBlank = remember {
         mutableStateOf(false)
     }
@@ -86,12 +89,11 @@ fun MatchingScreen(navController: NavController) {
         screen4 = matchingDot3.value,
         screen5 = matchingDot4.value
     )
-    Column(
-        Modifier
+    ConstraintLayout(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(top = 375.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        val (text1, text2, matchingbutton) = createRefs()
         Text(
             text = "알고 계셨나요?",
             style = TextStyle(
@@ -100,10 +102,14 @@ fun MatchingScreen(navController: NavController) {
                 fontFamily = FontFamily(Font(R.font.kcc_chassam)),
                 fontWeight = FontWeight(400),
                 color = Color(0xFF2D64D8),
-                textAlign = TextAlign.Center,
-            )
+                textAlign = TextAlign.Center
+            ),
+            modifier = Modifier
+                .constrainAs(text1){
+                    bottom.linkTo(text2.top, margin = 18.dp)
+                    centerHorizontallyTo(parent)
+                }
         )
-        Spacer(modifier = Modifier.height(18.dp))
         Text(
             text = "체대옆 공터는 원래 방송반이 있던 큰 건물이었습니다.",
             style = TextStyle(
@@ -112,8 +118,13 @@ fun MatchingScreen(navController: NavController) {
                 fontFamily = FontFamily(Font(R.font.kcc_chassam)),
                 fontWeight = FontWeight(400),
                 color = Color(0xFF767676),
-                textAlign = TextAlign.Center,
-            )
+                textAlign = TextAlign.Center
+            ),
+            modifier = Modifier
+                .constrainAs(text2){
+                    bottom.linkTo(matchingbutton.top, margin = 60.dp)
+                    centerHorizontallyTo(parent)
+                }
         )
         Spacer(modifier = Modifier.height(60.dp))
         button(
@@ -126,6 +137,11 @@ fun MatchingScreen(navController: NavController) {
                 .width(326.dp)
                 .height(56.dp)
                 .background(color = Color.White)
+                .constrainAs(matchingbutton){
+                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
+                    start.linkTo(parent.start, margin = 32.dp)
+                    end.linkTo(parent.end, margin = 32.dp)
+                }
         ){
 
         }
@@ -134,13 +150,15 @@ fun MatchingScreen(navController: NavController) {
 
 @Composable
 fun MatchingAnimation(screen1: Boolean, screen2: Boolean, screen3: Boolean, screen4:Boolean, screen5:Boolean) {
+    val screenHeightInDp = (GetScreenHeightInDp() - 549)
+
     Box(
         modifier = Modifier
             .width(312.dp)
-            .height(345.dp)
+            .height(400.dp)
             .padding(
                 start = 129.dp,
-                top = 295.dp
+                top = screenHeightInDp.dp
             ),
     ) {
         AnimatedVisibility(
