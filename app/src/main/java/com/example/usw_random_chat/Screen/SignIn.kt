@@ -64,12 +64,14 @@ fun SignInScreen(navController: NavController) {
     val editpasswordState = remember {
         mutableStateOf("")
     }
-    LoginTextField(id = editidState, password = editpasswordState)
+    Box(){
+        OnLoginImage()
+        LoginTextField(id = editidState, password = editpasswordState)
+    }
     OnLoginBtn(navController)
     OnLoginFindIdAndPassword()
     MadeAccountText()
     OnSignInBtn(navController)
-    OnLoginImage()
 }
 
 
@@ -78,7 +80,8 @@ fun OnLoginImage() {
     val screenHeightInDp = (GetScreenHeightInDp() - 576)
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(top = 40.dp),
         contentAlignment = Alignment.TopEnd
     ){
         Image(
@@ -128,10 +131,11 @@ fun LoginTextField(
                 .constrainAs(idbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
+                    bottom.linkTo(parent.bottom, margin = 338.dp)
                     width = Dimension.fillToConstraints
                 }
                 .height(48.dp)
+                .background(color = Color.White)
         )
         OutlinedTextField(
             value = password.value,
@@ -153,10 +157,11 @@ fun LoginTextField(
                 .constrainAs(passwordbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = (screenHeightInDp + 56).dp)
+                    bottom.linkTo(parent.bottom, margin = 282.dp)
                     width = Dimension.fillToConstraints
                 }
-                .height(48.dp),
+                .height(48.dp)
+                .background(color = Color.White),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         )
@@ -179,10 +184,9 @@ fun OnLoginBtn(navController: NavController) {
             modifier = Modifier
                 .constrainAs(loginbutton) {
                     start.linkTo(parent.start, margin = 32.dp)
-                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
                     end.linkTo(parent.end, margin = 32.dp)
+                    bottom.linkTo(parent.bottom, margin = 202.dp)
                     width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
                 }
                 .height(56.dp)
         ){
@@ -208,8 +212,8 @@ fun OnLoginFindIdAndPassword() {
             onClick = {},
             modifier = Modifier
                 .constrainAs(idbutton) {
-                    top.linkTo(parent.top, margin = (screenHeightInDp-10).dp)
-                    end.linkTo(image.start, margin = 6.dp)
+                    end.linkTo(image.start, margin = 9.dp)
+                    bottom.linkTo(parent.bottom , margin = 155.dp)
                 }
         ) {
             Text(
@@ -226,6 +230,7 @@ fun OnLoginFindIdAndPassword() {
             contentDescription = "image description",
             modifier = Modifier
                 .constrainAs(image) {
+                    bottom.linkTo(parent.bottom, margin = 173.dp)
                     centerHorizontallyTo(parent)
                     top.linkTo(parent.top, margin = (screenHeightInDp).dp)
                 }
@@ -236,8 +241,8 @@ fun OnLoginFindIdAndPassword() {
             onClick = {},
             modifier = Modifier
                 .constrainAs(passwordbutton) {
-                    top.linkTo(parent.top, margin = (screenHeightInDp-10).dp)
-                    start.linkTo(image.end, margin = 6.dp)
+                    start.linkTo(image.end, margin = 9.dp)
+                    bottom.linkTo(parent.bottom , margin = 155.dp)
                 }
         ) {
             Text(
@@ -267,7 +272,7 @@ fun MadeAccountText() {
                 .constrainAs(divider1) {
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(text.start, margin = 21.dp)
-                    top.linkTo(parent.top, margin = (screenHeightInDp + 10).dp)
+                    bottom.linkTo(parent.bottom, margin = 132.dp)
                     width = Dimension.fillToConstraints
                 }
                 .height(1.dp)
@@ -281,7 +286,7 @@ fun MadeAccountText() {
             modifier = Modifier
                 .constrainAs(text) {
                     centerHorizontallyTo(parent)
-                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
+                    bottom.linkTo(parent.bottom, margin = 124.dp)
                 }
         )
         Divider(
@@ -290,7 +295,7 @@ fun MadeAccountText() {
                 .constrainAs(divider2) {
                     end.linkTo(parent.end, margin = 32.dp)
                     start.linkTo(text.end, margin = 21.dp)
-                    top.linkTo(parent.top, margin = (screenHeightInDp+10).dp)
+                    bottom.linkTo(parent.bottom, margin = 132.dp)
                     width = Dimension.fillToConstraints
                 }
         )
@@ -299,7 +304,6 @@ fun MadeAccountText() {
 
 @Composable
 fun OnSignInBtn(navController: NavController) {
-    val screenHeightInDp = (GetScreenHeightInDp() - 201)
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -310,14 +314,14 @@ fun OnSignInBtn(navController: NavController) {
             enable = true,
             Color.White,
             Color.Black,
-            modifier = Modifier
+            Modifier
                 .constrainAs(madeidbutton) {
+                    bottom.linkTo(parent.bottom, margin = 50.dp)
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
-                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
                     width = Dimension.fillToConstraints
                 }
-                .height(56.dp)
+                .height(56.dp),
         ){
             navController.navigate(Screen.SignUpScreen.route)
         }
