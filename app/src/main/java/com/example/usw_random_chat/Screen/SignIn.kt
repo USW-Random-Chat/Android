@@ -229,9 +229,8 @@ fun OnLoginFindIdAndPassword() {
             contentDescription = "image description",
             modifier = Modifier
                 .constrainAs(image) {
-                    bottom.linkTo(parent.bottom, margin = 173.dp)
+                    bottom.linkTo(parent.bottom, margin = 163.dp)
                     centerHorizontallyTo(parent)
-                    top.linkTo(parent.top, margin = (screenHeightInDp).dp)
                 }
                 .width(8.dp)
                 .height(30.dp)
