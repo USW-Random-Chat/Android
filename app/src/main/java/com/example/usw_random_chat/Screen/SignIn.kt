@@ -80,8 +80,7 @@ fun OnLoginImage() {
     val screenHeightInDp = (GetScreenHeightInDp() - 576)
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 40.dp),
+            .fillMaxSize(),
         contentAlignment = Alignment.TopEnd
     ){
         Image(
@@ -92,7 +91,7 @@ fun OnLoginImage() {
                 .height(331.dp)
                 .padding(
                     start = 32.dp,
-                    top = 63.dp
+                    top = 40.dp
                 ),
             alignment = Alignment.TopEnd
         )
@@ -329,7 +328,7 @@ fun OnSignInBtn(navController: NavController) {
 }
 
 
-@Preview(showBackground = true, device = Devices.PIXEL_2)
+@Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
     val navController = rememberNavController() // NavController 초기화

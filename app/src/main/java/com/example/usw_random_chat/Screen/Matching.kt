@@ -133,12 +133,11 @@ fun MatchingScreen(navController: NavController) {
             Color.White,
             Color.Black,
             Modifier
-                .padding(top = 12.dp)
                 .width(326.dp)
                 .height(56.dp)
                 .background(color = Color.White)
                 .constrainAs(matchingbutton){
-                    top.linkTo(parent.top, margin = screenHeightInDp.dp)
+                    top.linkTo(parent.top, margin = (screenHeightInDp+12).dp)
                     start.linkTo(parent.start, margin = 32.dp)
                     end.linkTo(parent.end, margin = 32.dp)
                 }
