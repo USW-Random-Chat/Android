@@ -472,3 +472,10 @@ fun GetScreenWidthInDp(): Int {
     return (screenWidthInPx / density).toInt()
 }
 
+@Composable
+fun GetScreenHeightInDp(): Int {
+    val context = LocalContext.current
+    val density = LocalDensity.current.density
+    val screenHeightInPx = context.resources.displayMetrics.heightPixels
+    return (screenHeightInPx / density).toInt()
+}
