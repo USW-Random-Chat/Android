@@ -2,7 +2,6 @@ package com.example.usw_random_chat.Screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
@@ -69,17 +67,19 @@ fun PwChangeScreen(navController: NavController) {
         tittleWithBackArrow("비밀번호 변경",modifier = Modifier
             .height(48.dp)
             .width(100.dp)
-            .offset(x=(screenWidthInDp).dp)
-            .offset(y=10.dp))
+            .offset(y = 10.dp)
+            .weight(0.6f)
+
+        )
 
         Spacer(Modifier.padding(15.dp))
 
         TextFieldOfPwChange("새 비밀번호 입력 (문자,숫자 포함 6~20자)", "비밀번호", "* 6자 이상 20자 이내로 작성해 주세요",pw =rememberPW )
-        Spacer(Modifier.padding(5.dp))
+        Spacer(Modifier.padding(10.dp))
 
         TextFieldOfPwCheck("", "비밀번호 확인", "* 비밀번호가 일치하지 않습니다",pwcheck = rememberPWCheck, equal = rememberPwEqualOrNot.value)
 
-        Spacer(Modifier.padding(10.dp))
+        Spacer(Modifier.padding(20.dp))
         PwChangeBotton(navController = navController)
     }
 }
@@ -91,12 +91,10 @@ fun TextFieldOfPwChange(
     subname: String,
     pw : MutableState<String>
 ) {
-    //var text = remember { mutableStateOf("") }
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
-        Modifier, horizontalArrangement = Arrangement.Start
-
+        Modifier, //horizontalArrangement = Arrangement.Start
     ) {
+        Spacer(Modifier.weight(0.15f))
         Text(
             text = name,
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -105,8 +103,7 @@ fun TextFieldOfPwChange(
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
-            modifier = Modifier
-                .padding(start = (screenWidthInDp+5).dp)
+            modifier = Modifier.height(19.dp).weight(0.24f)
 
         )
         if(pw.value.length < 6 || pw.value.length>20) {
@@ -118,40 +115,42 @@ fun TextFieldOfPwChange(
                 fontWeight = FontWeight(400),
                 color = Color(0xFFFF0000),
                 textAlign = TextAlign.Left,
-                modifier = Modifier
-                    .padding(start = 12.dp, top = 3.dp)
+                modifier = Modifier.height(18.dp).weight(0.8f).padding(top=3.dp)
             )
+            Spacer(Modifier.weight(0.3f))
         }
     }
 
-    Spacer(Modifier.padding(1.dp))
+    Spacer(Modifier.padding(5.dp))
 
-    TextField(
-        value = pw.value,
-        onValueChange = { newPw ->
-            pw.value = newPw
-        },
+    Row(Modifier){
+        Spacer(Modifier.weight(0.1f))
+        TextField(
+            value = pw.value,
+            onValueChange = { newPw ->
+                pw.value = newPw
+            },
 
-        placeholder = { Text(text = inWord, color = Color.Gray, fontSize = 14.sp)},
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-            focusedIndicatorColor = Color.Transparent, // 포커스되었을 때의 밑줄 색상
-            unfocusedIndicatorColor = Color.Transparent, // 포커스가 해제되었을 때의 밑줄 색상
-            disabledIndicatorColor = Color.Transparent // 비활성화되었을 때의 밑줄 색상
-        ),
-        // shape 속성 주석 처리
-        // shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .width(368.dp)
-            .height((50.dp))
-            .padding(start = screenWidthInDp.dp)
-            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 8.dp))
-            .border(
-                width = 1.dp, color = Color(0xFFBFBFBF),
-                shape = RoundedCornerShape(8.dp)
-            )
-    )
-
+            placeholder = { Text(text = inWord, color = Color.Gray, fontSize = 14.sp)},
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                focusedIndicatorColor = Color.Transparent, // 포커스되었을 때의 밑줄 색상
+                unfocusedIndicatorColor = Color.Transparent, // 포커스가 해제되었을 때의 밑줄 색상
+                disabledIndicatorColor = Color.Transparent // 비활성화되었을 때의 밑줄 색상
+            ),
+            // shape 속성 주석 처리
+            // shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height((50.dp))
+                .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 8.dp))
+                .border(
+                    width = 1.dp, color = Color(0xFFBFBFBF),
+                    shape = RoundedCornerShape(8.dp)
+                )
+        )
+        Spacer(Modifier.weight(0.1f))
+    }
 }
 
 
@@ -164,11 +163,11 @@ fun TextFieldOfPwCheck(
     equal : Boolean
 ) {
 
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
-    Row(
-        Modifier, horizontalArrangement = Arrangement.Start
 
+    Row(
+        Modifier, //horizontalArrangement = Arrangement.Start
     ) {
+        Spacer(Modifier.weight(0.165f))
         Text(
             text = name,
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -177,9 +176,7 @@ fun TextFieldOfPwCheck(
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
-            modifier = Modifier
-                .padding(start = (screenWidthInDp+5).dp)
-
+            modifier = Modifier.height(19.dp).weight(0.4f)
         )
         if(equal) {
             Text(
@@ -190,15 +187,17 @@ fun TextFieldOfPwCheck(
                 fontWeight = FontWeight(400),
                 color = Color(0xFFFF0000),
                 textAlign = TextAlign.Left,
-                modifier = Modifier
-                    .padding(start = 12.dp, top = 3.dp)
+                modifier = Modifier.height(18.dp).weight(0.8f).padding(top=3.dp)
             )
+            Spacer(Modifier.weight(0.3f))
         }
     }
 
-    Spacer(Modifier.padding(1.dp))
+    Spacer(Modifier.padding(5.dp))
 
-    TextField(
+    Row(Modifier){
+        Spacer(Modifier.weight(0.1f))
+        TextField(
         value = pwcheck.value,
         onValueChange = { newPwcheck ->
             pwcheck.value = newPwcheck
@@ -214,37 +213,41 @@ fun TextFieldOfPwCheck(
         // shape 속성 주석 처리
         // shape = RoundedCornerShape(8.dp),
         modifier = Modifier
-            .width(368.dp)
+            //.width(368.dp)
+            .weight(1f)
             .height((50.dp))
-            .padding(start = screenWidthInDp.dp)
             .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 8.dp))
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
             )
-    )
-
+        )
+        Spacer(Modifier.weight(0.1f))
+    }
 }
 @Composable
 fun PwChangeBotton( navController: NavController) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
-    Column(
-        Modifier.padding(screenWidthInDp.dp), horizontalAlignment = Alignment.CenterHorizontally
+    Row(
+        Modifier
     ) {
+        Spacer(Modifier.weight(0.1f))
         button(
             text = "변경완료",
             enable = true,
             content = Color.White,
             back = Color(0xFF2D64D8),
             modifier = Modifier
-                .width(326.dp)
+                //.width(326.dp)
+                .weight(1f)
                 .height(56.dp)
         ){
             navController.navigate(Screen.SignInScreen.route)
         }
+        Spacer(Modifier.weight(0.1f))
     }
 
 }
+
 
 @Preview(showBackground = true)
 @Composable
