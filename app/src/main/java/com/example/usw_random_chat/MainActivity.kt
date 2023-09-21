@@ -3,17 +3,10 @@ package com.example.usw_random_chat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.usw_random_chat.Screen.LoadingScreen
-import com.example.usw_random_chat.Screen.MatchingScreen
 import com.example.usw_random_chat.Screen.Navigation
-import com.example.usw_random_chat.Screen.PolicyScreen
 import com.example.usw_random_chat.ui.theme.USW_Random_ChatTheme
 
 class MainActivity : ComponentActivity() {
