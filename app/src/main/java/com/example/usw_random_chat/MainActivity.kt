@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
             USW_Random_ChatTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-                SignInScreen(navController)
+                IdSearch(navController)
             }
         }
     }
