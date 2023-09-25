@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,10 +17,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,20 +90,24 @@ fun copyRightByFlag(modifier: Modifier) {
 
 @Composable
 fun tittleWithBackArrow(text: String, modifier: Modifier) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
+
+
     Row(
         Modifier, //horizontalArrangement = Arrangement.Center
     )
     {
-        Spacer(Modifier.width(screenWidthInDp.dp))
+        Spacer(Modifier.weight(0.1f))
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "",
                 Modifier
                     .height(36.dp)
                     .width(36.dp)
+                    .weight(0.1f)
+
             )
         }
+        Spacer(Modifier.weight(0.25f))
         Text(
             text = buildAnnotatedString {
                 append(text)
@@ -117,6 +120,7 @@ fun tittleWithBackArrow(text: String, modifier: Modifier) {
             textAlign = TextAlign.Center,
             modifier = modifier
         )
+        Spacer(Modifier.weight(0.5f))
     }
 }
 
@@ -150,26 +154,28 @@ fun portalEmail(textFieldValue: String, onValueChange: (String) -> Unit) {
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
         modifier = Modifier
             .width(326.dp)
-            .heightIn(min = 46.dp)
-            .padding(start = 3.dp)
+            //.heightIn(min = 46.dp)
+
     )
 }
 
 @Composable
 fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2 - 10
+    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            //.fillMaxWidth()
+            .fillMaxWidth()
             .height(55.dp)
-            .width(360.dp)
-            .padding(start = screenWidthInDp.dp, top = 3.dp)
+            //.width(360.dp)
+            .padding(start = screenWidthInDp.dp, top = 3.dp,end = screenWidthInDp.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
             )
     ) {
+        //Spacer(Modifier.weight(0.1f))
         TextField(
             value = textFieldIdValue,
             onValueChange = { idValue -> onValueChange(idValue) },
@@ -185,14 +191,14 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
             // shape 속성 주석 처리
             // shape = RoundedCornerShape(8.dp),
             modifier = Modifier
-                .weight(1f)
-                .width(290.dp)
+                .weight(0.8f)
+            //.width(290.dp)
             //.padding(end = 8.dp)
         )
         Button(
             onClick = { },
             modifier = Modifier
-                .padding(end = 5.dp)
+                //.padding(start = 30.dp)
                 .align(Alignment.CenterVertically)
                 .width(100.dp)
                 .height(40.dp),
@@ -204,6 +210,7 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
         ) {
             Text(text = "중복 확인")
         }
+        Spacer(Modifier.weight(0.02f))
     }
 }
 
