@@ -1,48 +1,27 @@
-package com.example.usw_random_chat.Screen
+package com.example.usw_random_chat.Screen.view
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.GetScreenHeightInDp
 import com.example.usw_random_chat.ui.MatchingAnimationText
 import com.example.usw_random_chat.ui.button
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun MatchingScreen(navController: NavController) {
@@ -82,6 +61,9 @@ fun MatchingScreen(navController: NavController) {
         matchingDot3.value = false
         matchingDot4.value = false
     }
+    TextBlue()
+    TextBlack()
+    MatchingStopBtn()
     MatchingAnimation(
         screen1 = matchingBlank.value,
         screen2 = matchingDot1.value,
@@ -89,11 +71,18 @@ fun MatchingScreen(navController: NavController) {
         screen4 = matchingDot3.value,
         screen5 = matchingDot4.value
     )
-    ConstraintLayout(
+}
+
+@Composable
+fun TextBlue(){
+    Row(
         modifier = Modifier
             .fillMaxSize()
+            .padding(
+                top = 375.dp
+            )
     ) {
-        val (text1, text2, matchingbutton) = createRefs()
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "알고 계셨나요?",
             style = TextStyle(
@@ -105,11 +94,23 @@ fun MatchingScreen(navController: NavController) {
                 textAlign = TextAlign.Center
             ),
             modifier = Modifier
-                .constrainAs(text1){
-                    bottom.linkTo(text2.top, margin = 18.dp)
-                    centerHorizontallyTo(parent)
-                }
+                .weight(1f)
         )
+        Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+
+@Composable
+fun TextBlack(){
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 413.dp
+            )
+    ) {
+        Spacer(modifier = Modifier.weight(0.1f))
         Text(
             text = "체대옆 공터는 원래 방송반이 있던 큰 건물이었습니다.",
             style = TextStyle(
@@ -121,29 +122,37 @@ fun MatchingScreen(navController: NavController) {
                 textAlign = TextAlign.Center
             ),
             modifier = Modifier
-                .constrainAs(text2){
-                    bottom.linkTo(matchingbutton.top, margin = 60.dp)
-                    centerHorizontallyTo(parent)
-                }
+                .weight(1f)
         )
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.weight(0.1f))
+    }
+}
+
+
+
+@Composable
+fun MatchingStopBtn(){
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 493.dp
+            )
+    ){
+        Spacer(modifier = Modifier.weight(0.1f))
         button(
             "매칭 중단하기",
             enable = true,
             Color.White,
             Color.Black,
             Modifier
-                .width(326.dp)
+                .weight(1f)
                 .height(56.dp)
                 .background(color = Color.White)
-                .constrainAs(matchingbutton){
-                    top.linkTo(parent.top, margin = (screenHeightInDp+12).dp)
-                    start.linkTo(parent.start, margin = 32.dp)
-                    end.linkTo(parent.end, margin = 32.dp)
-                }
-        ){
+        ) {
 
         }
+        Spacer(modifier = Modifier.weight(0.1f))
     }
 }
 
@@ -157,7 +166,7 @@ fun MatchingAnimation(screen1: Boolean, screen2: Boolean, screen3: Boolean, scre
             .height(400.dp)
             .padding(
                 start = 129.dp,
-                top = screenHeightInDp.dp
+                top = 265.dp
             ),
     ) {
         AnimatedVisibility(

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.usw_random_chat.Screen.Navigation
+import com.example.usw_random_chat.Screen.view.Navigation
 import com.example.usw_random_chat.ui.theme.USW_Random_ChatTheme
 
 class MainActivity : ComponentActivity() {

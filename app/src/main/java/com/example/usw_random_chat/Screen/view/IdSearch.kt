@@ -1,41 +1,19 @@
-package com.example.usw_random_chat.Screen
+package com.example.usw_random_chat.Screen.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -43,8 +21,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,41 +47,44 @@ fun IdSearch(navController: NavController){
     }
     IdSearchText()
     IdSearchEmail(textState = editTextState)
-    IdSearchEmailBtn(openFlag.value)
+    IdSearchEmailBtn()
+    Checkemail(openFlag.value)
+    GoLogin()
     IdSearchExitBtn()
 }
 
 
 @Composable
 fun IdSearchExitBtn(){
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                start = 32.dp,
                 top = 80.dp
             )
     ){
+        Spacer(modifier = Modifier.weight(0.1f))
         Image(
             painter = painterResource(id = R.drawable.back),
             contentDescription = "image description",
             modifier = Modifier
-                .width(36.dp)
                 .height(36.dp)
+                .weight(0.2f)
         )
+        Spacer(modifier = Modifier.weight(1.1f))
     }
 }
 
 @Composable
 fun IdSearchText(){
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                start = 155.dp,
                 top = 88.dp
             )
     ) {
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "아이디 찾기",
             color = Color(0xFF111111),
@@ -113,39 +92,43 @@ fun IdSearchText(){
                 fontFamily = FontFamily(Font(R.font.pretendard_regular))
             ),
             fontSize = 18.sp,
-            fontWeight = FontWeight(600)
+            fontWeight = FontWeight(600),
+            modifier = Modifier
+                .weight(0.6f)
         )
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
 fun IdSearchEmail(textState: MutableState<String>) {
 
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                start = 31.dp,
                 top = 143.dp
             )
     ) {
+        Spacer(modifier = Modifier.weight(0.1f))
         portalEmail(
             textFieldValue = textState.value, onValueChange = { newValue ->
                 textState.value = newValue
             })
+        Spacer(modifier = Modifier.weight(0.1f))
     }
 }
 
 @Composable
-fun IdSearchEmailBtn(flag: Boolean){
-    Column(
+fun IdSearchEmailBtn(){
+    Row(
         modifier = Modifier
             .fillMaxSize()
             .padding(
                 top = 256.dp
             ),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.weight(0.3f))
         Text(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color(0xFF989898))) {
@@ -163,39 +146,64 @@ fun IdSearchEmailBtn(flag: Boolean){
             color = Color(0xFFDCDCDC),
             modifier = Modifier
                 .height(18.dp)
-                .width(242.dp)
+                .weight(1f)
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.weight(0.3f))
+    }
+}
 
+@Composable
+fun Checkemail(flag: Boolean){
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 286.dp
+            )
+    ){
+        Spacer(modifier = Modifier.weight(0.1f))
         button(
             text = "확인메일 전송",
             enable = flag,
             content = Color.White,
             back = Color(0xFF2D64D8),
             modifier = Modifier
-                .width(326.dp)
+                .weight(1f)
                 .height(56.dp)
-        ){
+        ) {
 
         }
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.weight(0.1f))
+    }
+}
 
+
+@Composable
+fun GoLogin(){
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 354.dp
+            )
+    ){
+        Spacer(modifier = Modifier.weight(0.1f))
         button(
             "로그인 하러가기",
             enable = true,
             Color.White,
             Color.Black,
             Modifier
-                .width(326.dp)
+                .weight(1f)
                 .height(56.dp)
                 .background(color = Color.White)
         ){
 
         }
+        Spacer(modifier = Modifier.weight(0.1f))
     }
 }
-
-
 
 
 
