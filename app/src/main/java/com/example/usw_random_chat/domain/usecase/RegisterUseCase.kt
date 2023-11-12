@@ -7,4 +7,5 @@ class RegisterUseCase(private val registerRepository: RegisterRepository) {
     suspend fun excute(param : UserDTO) : UserDTO {
         return registerRepository.signin(param)
     }
+
 }
