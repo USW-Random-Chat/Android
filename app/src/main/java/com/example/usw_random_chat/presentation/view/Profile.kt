@@ -1,12 +1,28 @@
 package com.example.usw_random_chat.presentation.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +51,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel = viewModel(), navControlle
         getNickName(profileViewModel.nickname) { profileViewModel.updateNickname(it) }
         getMBTI(mbti = profileViewModel.mbti) { profileViewModel.updateMBTI(it) }
         getSelfIntroduce(introduce = profileViewModel.selfintroduce) { profileViewModel.updateSelfIntroduce(it)}
-        startButton()
+        startButton(profileViewModel)
         Text(
             text = "프로필은 언제든 자유롭게\n수정할 수 있습니다",
             textAlign = TextAlign.Center,
@@ -55,7 +71,7 @@ fun setTitle() {
             .padding(top = 20.dp),
     ) {
         IconButton(
-            onClick = { /*TODO*/ }
+            onClick = {  }
         ) {
             Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back")
         }
@@ -208,10 +224,10 @@ fun getSelfIntroduce(introduce: State<String>, onSelfIntroduceChanged: (String) 
 }
 
 @Composable
-fun startButton() {
+fun startButton(profileViewModel: ProfileViewModel) {
     Box(modifier = Modifier.padding(top = 50.dp)) {
         Button(
-            onClick = { },
+            onClick = { profileViewModel.postProfile() },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF2D64D8),
                 contentColor = Color.White
@@ -238,7 +254,8 @@ fun startButton() {
 @Preview(showBackground = true)
 @Composable
 fun ProfilePreview() {
-    ProfileScreen(profileViewModel = ProfileViewModel(),navController = rememberNavController())
+    ProfileScreen(profileViewModel = viewModel(),navController = rememberNavController())
+
 }
 
 @Preview(showBackground = true)
@@ -271,7 +288,7 @@ fun getSelfIntroducePreview() {
 @Preview(showBackground = true)
 @Composable
 fun startButtonPreview() {
-    startButton()
+    startButton(viewModel())
 }
 
 @Preview(showBackground = true)
