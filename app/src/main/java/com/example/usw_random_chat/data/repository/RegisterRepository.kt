@@ -7,4 +7,6 @@ interface RegisterRepository {
 
     suspend fun signup(param : UserDTO) : UserDTO
 
+    suspend fun idDoubleCheck(param : UserDTO) : UserDTO
+
 }
