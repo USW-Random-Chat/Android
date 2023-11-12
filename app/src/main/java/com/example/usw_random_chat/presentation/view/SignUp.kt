@@ -1,6 +1,5 @@
 package com.example.usw_random_chat.presentation.view
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,42 +36,27 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.usw_random_chat.data.api.Register
-import com.example.usw_random_chat.data.dto.UserDTO
 import com.example.usw_random_chat.R
+import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.idSearchBtn
 import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.tittleWithBackArrow
-import retrofit2.Call
-import retrofit2.Response
 
 
 @Composable
-fun SignUpScreen(navController: NavController) {
+fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: NavController) {
     val screenWidthInDp = (GetScreenWidthInDp())/2 -100
-    val rememberId = remember {
-        mutableStateOf("")
-    }
-    val rememberPw = remember {
-        mutableStateOf("")
-    }
-    val rememberPwCheck = remember {
-        mutableStateOf("")
-    }
-    val rememberEmail = remember {
-        mutableStateOf("")
-    }
+
     var rememberPwVisible = remember {
         mutableStateOf(false)
     }
-
     var rememberPwCheckVisible = remember {
         mutableStateOf(false)
     }
@@ -80,14 +64,11 @@ fun SignUpScreen(navController: NavController) {
     val rememberPwEqualOrNot = remember{
         mutableStateOf(false)
     }
-    rememberPwEqualOrNot.value = rememberPw.value == rememberPwCheck.value
 
     val rememberTrigger = remember{
         mutableStateOf(false)
     }
-    rememberTrigger.value = rememberPw.value == rememberPwCheck.value &&
-            rememberId.value.isNotEmpty() &&
-            rememberEmail.value.isNotEmpty()
+
 
     Column(
         modifier = Modifier
@@ -105,25 +86,26 @@ fun SignUpScreen(navController: NavController) {
         Column(
             Modifier.padding(top =30.dp)
         ) {
-            IdWrite(id = rememberId)
+            IdWrite(signUpViewModel.rememberId){signUpViewModel.updateRememberId(it)}
             Spacer(Modifier.padding(15.dp))
-            PwWrite(pw = rememberPw)
+            PwWrite(signUpViewModel.rememberPw){ signUpViewModel.updateRememberPw(it)}
             Spacer(Modifier.padding(5.dp))
-            PwCheck(
-                pwCheck = rememberPwCheck,
-                pwEqualOrNot = rememberPwEqualOrNot.value)
+            PwCheck(signUpViewModel.rememberPwCheck,signUpViewModel.rememberPwEqualOrNot){
+                signUpViewModel.updateRememberPwCheck(it),signUpViewModel.updateRememberPwEqualOrNot(it)
+            }
             Spacer(Modifier.padding(20.dp))
         }
-        EmailTextFieldSignUp(email = rememberEmail)
+        EmailTextFieldSignUp(signUpViewModel.rememberEmail){signUpViewModel.updateRememberEmail(it)}
         Spacer(Modifier.padding(20.dp))
-        signUpBotton(trigger = rememberTrigger, navController = navController)
+        signUpBotton(signUpViewModel.rememberTrigger, navController = navController){
+            signUpViewModel.updateRememberTrigger(it)
+        }
     }
 
 }
 
 @Composable
-fun IdWrite(id: MutableState<String>) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
+fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
 
@@ -155,15 +137,11 @@ fun IdWrite(id: MutableState<String>) {
     }
     Spacer(Modifier.padding(5.dp))
 
-    idSearchBtn(textFieldIdValue = id.value, onValueChange = {idValue ->
-        id.value = idValue}
-    )
+    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged)
 }
 
 @Composable
-fun PwWrite(pw: MutableState<String>,
-            fontSize: TextUnit = 17.sp
-) {
+fun PwWrite(pw: State<String> ,onRememberPw : (String) -> Unit) {
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
@@ -211,7 +189,7 @@ fun PwWrite(pw: MutableState<String>,
     ) {
         TextField(
             value = pw.value,
-            onValueChange = { pwValue -> pw.value = pwValue },
+            onValueChange = onRememberPw,
             visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
             placeholder = { Text(text = "비밀번호 입력 (문자,숫자 포함 6~20자)", color = Color.Gray) },
             colors = TextFieldDefaults.textFieldColors(
@@ -238,12 +216,13 @@ fun PwWrite(pw: MutableState<String>,
 
 @Composable
 fun PwCheck(
-    pwCheck: MutableState<String>,
-    pwEqualOrNot: Boolean,
+    pwCheck: State<String>,
+    onRememberPwCheck : (String) -> Unit,
+    pwEqualOrNot: State<Boolean>,
+    onRememberPwEqualOrNot : (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    fontSize: TextUnit = 17.sp
 ) {
-
+    val passwordCheckVisible = remember { mutableStateOf(false) }
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
@@ -260,7 +239,7 @@ fun PwCheck(
             modifier =  Modifier.height(19.dp).padding(start = (screenWidthInDp+5).dp)
             //여긴 가중치로 줄 경우 붉은 글씨가 뜰때 얘네가 움직여서 고정값으로 줌
         )
-        if (!pwEqualOrNot) {
+        if (!pwEqualOrNot.value) {
             Text(
                 text = "*비밀번호가 일치하지 않습니다",
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -275,7 +254,7 @@ fun PwCheck(
         Spacer(Modifier.weight(0.1f))
     }
 
-    val passwordCheckVisible = remember { mutableStateOf(false) }
+
 
     Spacer(Modifier.padding(5.dp))
     Row(
@@ -293,7 +272,7 @@ fun PwCheck(
 
         TextField(
             value = pwCheck.value,
-            onValueChange = { pwCheckValue -> pwCheck.value = pwCheckValue },
+            onValueChange = onRememberPwCheck,
             visualTransformation = if (passwordCheckVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
             placeholder = { Text(text = "", color = Color.Gray) },
             colors = TextFieldDefaults.textFieldColors(
@@ -319,21 +298,20 @@ fun PwCheck(
 }
 
 @Composable
-fun EmailTextFieldSignUp(email: MutableState<String>) {
+fun EmailTextFieldSignUp(email: State<String>,onRememberEmail : (String) -> Unit) {
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
     Row(
         Modifier
     ) {
         Spacer(Modifier.weight(0.1f))
-        portalEmail(textFieldValue = email.value, onValueChange = { emailValue ->
-            email.value = emailValue }
+        portalEmail(textFieldValue = email.value, onValueChange = onRememberEmail
         )
         Spacer(Modifier.weight(0.1f))
     }
 }
 
 @Composable
-fun signUpBotton(trigger: MutableState<Boolean>, navController: NavController) {
+fun signUpBotton(trigger: State<Boolean>, navController: NavController) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -341,7 +319,7 @@ fun signUpBotton(trigger: MutableState<Boolean>, navController: NavController) {
             Spacer(Modifier.weight(0.1f))
             button(
                 "회원가입",
-                enable = /*trigger.value,*/ true,
+                enable = trigger.value,
                 Color.White,
                 Color.Black,
                 Modifier
