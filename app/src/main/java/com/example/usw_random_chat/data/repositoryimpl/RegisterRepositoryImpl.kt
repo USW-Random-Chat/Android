@@ -18,7 +18,17 @@ class RegisterRepositoryImpl @Inject constructor(private val register: Register)
     }
 
     override suspend fun signup(param: UserDTO): UserDTO {
-        val response = register.registerSignIn(param)
+        val response = register.registerSignUp(param)
+
+        if (response.isSuccessful){
+            return response.body()!!
+        }else{
+            throw Exception("Fail!!")
+        }
+    }
+
+    override suspend fun idDoubleCheck(param: UserDTO) : UserDTO{
+        val response = register.registerIdDoubleCheck(param)
 
         if (response.isSuccessful){
             return response.body()!!
