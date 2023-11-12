@@ -82,7 +82,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             .height(48.dp)
             .width(100.dp)
             .weight(0.6f)
-            .offset(y=10.dp))
+            .offset(y = 10.dp))
         Column(
             Modifier.padding(top =30.dp)
         ) {
@@ -90,16 +90,14 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             Spacer(Modifier.padding(15.dp))
             PwWrite(signUpViewModel.rememberPw){ signUpViewModel.updateRememberPw(it)}
             Spacer(Modifier.padding(5.dp))
-            PwCheck(signUpViewModel.rememberPwCheck,signUpViewModel.rememberPwEqualOrNot){
-                signUpViewModel.updateRememberPwCheck(it),signUpViewModel.updateRememberPwEqualOrNot(it)
+            PwCheck(signUpViewModel.rememberPwCheck,signUpViewModel.rememberPwEqualOrNot.value){
+                signUpViewModel.updateRememberPwCheck(it)
             }
             Spacer(Modifier.padding(20.dp))
         }
         EmailTextFieldSignUp(signUpViewModel.rememberEmail){signUpViewModel.updateRememberEmail(it)}
         Spacer(Modifier.padding(20.dp))
-        signUpBotton(signUpViewModel.rememberTrigger, navController = navController){
-            signUpViewModel.updateRememberTrigger(it)
-        }
+        signUpBotton(signUpViewModel.rememberTrigger.value, navController = navController)
     }
 
 }
@@ -119,7 +117,9 @@ fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
-            modifier = Modifier.height(19.dp).weight(0.24f)
+            modifier = Modifier
+                .height(19.dp)
+                .weight(0.24f)
         )
         if(id.value.length < 4 || id.value.length > 16) {
             Text(
@@ -130,14 +130,19 @@ fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
                 fontWeight = FontWeight(400),
                 color = Color(0xFFFF0000),
                 textAlign = TextAlign.Left,
-                modifier = Modifier.height(18.dp).weight(1f).padding(top=3.dp)
+                modifier = Modifier
+                    .height(18.dp)
+                    .weight(1f)
+                    .padding(top = 3.dp)
             )
         }
         Spacer(Modifier.weight(0.3f))
     }
     Spacer(Modifier.padding(5.dp))
 
-    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged)
+    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged){
+
+    }
 }
 
 @Composable
@@ -155,7 +160,9 @@ fun PwWrite(pw: State<String> ,onRememberPw : (String) -> Unit) {
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
-            modifier = Modifier.height(19.dp).weight(0.2f)
+            modifier = Modifier
+                .height(19.dp)
+                .weight(0.2f)
 
         )
         if(pw.value.length < 6 || pw.value.length > 20) {
@@ -167,7 +174,10 @@ fun PwWrite(pw: State<String> ,onRememberPw : (String) -> Unit) {
                 fontWeight = FontWeight(400),
                 color = Color(0xFFFF0000),
                 textAlign = TextAlign.Left,
-                modifier = Modifier.height(18.dp).weight(0.65f).padding(top=3.dp)
+                modifier = Modifier
+                    .height(18.dp)
+                    .weight(0.65f)
+                    .padding(top = 3.dp)
             )
         }
         Spacer(Modifier.weight(0.15f))
@@ -181,7 +191,7 @@ fun PwWrite(pw: State<String> ,onRememberPw : (String) -> Unit) {
             .fillMaxWidth()
             .height(55.dp)
             //.width(360.dp)
-            .padding(start = screenWidthInDp.dp,end = screenWidthInDp.dp)
+            .padding(start = screenWidthInDp.dp, end = screenWidthInDp.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -217,10 +227,8 @@ fun PwWrite(pw: State<String> ,onRememberPw : (String) -> Unit) {
 @Composable
 fun PwCheck(
     pwCheck: State<String>,
+    equalCheck : Boolean,
     onRememberPwCheck : (String) -> Unit,
-    pwEqualOrNot: State<Boolean>,
-    onRememberPwEqualOrNot : (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val passwordCheckVisible = remember { mutableStateOf(false) }
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
@@ -236,10 +244,12 @@ fun PwCheck(
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
             textAlign = TextAlign.Left,
-            modifier =  Modifier.height(19.dp).padding(start = (screenWidthInDp+5).dp)
+            modifier = Modifier
+                .height(19.dp)
+                .padding(start = (screenWidthInDp + 5).dp)
             //여긴 가중치로 줄 경우 붉은 글씨가 뜰때 얘네가 움직여서 고정값으로 줌
         )
-        if (!pwEqualOrNot.value) {
+        if (equalCheck) {
             Text(
                 text = "*비밀번호가 일치하지 않습니다",
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -248,7 +258,9 @@ fun PwCheck(
                 fontWeight = FontWeight(400),
                 color = Color(0xFFFF0000),
                 textAlign = TextAlign.Left,
-                modifier = Modifier.height(18.dp).padding(start =15.dp,top=3.dp)
+                modifier = Modifier
+                    .height(18.dp)
+                    .padding(start = 15.dp, top = 3.dp)
             )
         }
         Spacer(Modifier.weight(0.1f))
@@ -263,7 +275,7 @@ fun PwCheck(
             .fillMaxWidth()
             .height(57.dp)
             //.width(360.dp)
-            .padding(start = screenWidthInDp.dp, top = 3.dp,end = screenWidthInDp.dp)
+            .padding(start = screenWidthInDp.dp, top = 3.dp, end = screenWidthInDp.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
@@ -311,7 +323,7 @@ fun EmailTextFieldSignUp(email: State<String>,onRememberEmail : (String) -> Unit
 }
 
 @Composable
-fun signUpBotton(trigger: State<Boolean>, navController: NavController) {
+fun signUpBotton(trigger: Boolean, navController: NavController) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -319,7 +331,7 @@ fun signUpBotton(trigger: State<Boolean>, navController: NavController) {
             Spacer(Modifier.weight(0.1f))
             button(
                 "회원가입",
-                enable = trigger.value,
+                enable = trigger,
                 Color.White,
                 Color.Black,
                 Modifier
