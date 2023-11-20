@@ -18,4 +18,9 @@ class UseCaseModule {
     fun provideRegisterUseCase(registerRepository: RegisterRepository): RegisterUseCase {
         return RegisterUseCase(registerRepository)
     }
+    @Singleton
+    @Provides
+    fun provideProfileUseCase(profileRepository: ProfileRepository): ProfileUseCase {
+        return ProfileUseCase(profileRepository)
+    }
 }
