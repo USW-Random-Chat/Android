@@ -1,6 +1,8 @@
 package com.example.usw_random_chat.di
 
+import com.example.usw_random_chat.data.repository.ProfileRepository
 import com.example.usw_random_chat.data.repository.RegisterRepository
+import com.example.usw_random_chat.domain.usecase.ProfileUseCase
 import com.example.usw_random_chat.domain.usecase.RegisterUseCase
 import dagger.Module
 import dagger.Provides
