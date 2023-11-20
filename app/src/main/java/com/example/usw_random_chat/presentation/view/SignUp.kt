@@ -104,6 +104,10 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
 
 @Composable
 fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
+    val idLengthCheck = id.value.length < 4 || id.value.length > 16
+
+
+
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
 
@@ -121,7 +125,7 @@ fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
                 .height(19.dp)
                 .weight(0.24f)
         )
-        if(id.value.length < 4 || id.value.length > 16) {
+        if(idLengthCheck) {
             Text(
                 text = "*4자 이상 16자 이내로 작성해주세요",
                 fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -140,7 +144,7 @@ fun IdWrite(id: State<String>, onIdChanged : (String) -> Unit) {
     }
     Spacer(Modifier.padding(5.dp))
 
-    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged){
+    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged , idLengthCheck){
 
     }
 }
