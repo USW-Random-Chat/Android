@@ -158,7 +158,7 @@ fun portalEmail(textFieldValue: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit, onPress: () -> Unit ){
+fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit,idLengthCheck : Boolean, onPress: () -> Unit ){
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
 
     Row(
@@ -188,6 +188,7 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit, onPre
                 .weight(0.8f)
         )
         Button(
+            enabled = idLengthCheck,
             onClick = onPress,
             modifier = Modifier
                 //.padding(start = 30.dp)
