@@ -80,7 +80,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
         EmailTextFieldSignUp(signUpViewModel.rememberEmail){signUpViewModel.updateRememberEmail(it)}
         Spacer(Modifier.padding(20.dp))
         signUpBotton(signUpViewModel.rememberTrigger.value, navController = navController){
-            signUpViewModel.postSignIn()
+            signUpViewModel.postSignUp()
         }
     }
 

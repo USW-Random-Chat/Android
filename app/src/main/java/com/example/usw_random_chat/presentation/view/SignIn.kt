@@ -189,18 +189,14 @@ fun SignInBtn(navController: NavController, btnState : MutableState<Boolean>) { 
 fun SignInScreenPreview() {
     val navController = rememberNavController() // NavController 초기화
     SignInScreen(navController)
-}*/
+}
 
 
-/*@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun OnLoginBtnPreview() {
     val navController = rememberNavController() // NavController 초기화
-<<<<<<< HEAD
     LoginBtn(navController)
-=======
-    OnLoginBtn(navController)
->>>>>>> d45b6b7 (pull change commit)
 }*/
 
 

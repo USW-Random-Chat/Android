@@ -20,7 +20,7 @@ fun Navigation() {
     {
         composable(route = Screen.SignInScreen.route) {
             val viewModel = hiltViewModel<SignInViewModel>()
-            SignInScreen(viewModel(),navController)
+            SignInScreen(viewModel,navController)
         }
         composable(route = Screen.SignUpScreen.route) {
             val viewModel = hiltViewModel<SignUpViewModel>()
