@@ -1,8 +1,7 @@
-package com.example.usw_random_chat.Screen
+package com.example.usw_random_chat.presentation.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,27 +12,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -41,22 +32,17 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.GetScreenHeightInDp
-import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.button
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
-@Composable
+@Composable // 제가 만들어 놓은 viewmodel 함수를 적용해서 완벽한 signin 화면을 만들어주세요, 어려우면 profile 화면 참고!!
 fun SignInScreen(navController: NavController) {
     val editidState = remember {
         mutableStateOf("")
@@ -64,19 +50,25 @@ fun SignInScreen(navController: NavController) {
     val editpasswordState = remember {
         mutableStateOf("")
     }
+    val qwe = remember {
+        mutableStateOf(false)
+    }
     Box(){
-        OnLoginImage()
+        LoginImage()
         LoginTextField(id = editidState, password = editpasswordState)
     }
-    OnLoginBtn(navController)
+    LoginBtn(navController)
     OnLoginFindIdAndPassword()
     MadeAccountText()
-    OnSignInBtn(navController)
+    SignInBtn(navController,qwe)
+
+
+
 }
 
 
 @Composable
-fun OnLoginImage() {
+fun LoginImage() {//
     val screenHeightInDp = (GetScreenHeightInDp() - 576)
     Box(
         modifier = Modifier
@@ -99,7 +91,7 @@ fun OnLoginImage() {
 }
 
 @Composable
-fun LoginTextField(
+fun LoginTextField(  // textfield를 하나만 만들고 이름만 바꿔서 함수를 재사용 할 수 있게 변경해주세요 
     id: MutableState<String>,
     password: MutableState<String>
 ) {
@@ -167,7 +159,7 @@ fun LoginTextField(
 }
 
 @Composable
-fun OnLoginBtn(navController: NavController) {
+fun LoginBtn(navController: NavController) { //onPress란 람다 함수를 추가시키세요
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -185,13 +177,14 @@ fun OnLoginBtn(navController: NavController) {
                 .height(56.dp)
                 .weight(1f)
         ){
+
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
 }
 
 @Composable
-fun OnLoginFindIdAndPassword() {
+fun OnLoginFindIdAndPassword() { //textbutton 이름만 바꿔서 재사용 할 수 있게 수정해주세요 widget폴더에다 만들고 불러오세요
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -240,7 +233,7 @@ fun OnLoginFindIdAndPassword() {
 
 
 @Composable
-fun MadeAccountText() {
+fun MadeAccountText() { // 디바이더 함수도 widget폴더에 만들고 불러와서 사용해주세요
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -280,7 +273,7 @@ fun MadeAccountText() {
 }
 
 @Composable
-fun OnSignInBtn(navController: NavController) {
+fun SignInBtn(navController: NavController, asdasd : MutableState<Boolean>) { // asdasd변수 이름 적절하게 바꿔주세여
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -298,6 +291,9 @@ fun OnSignInBtn(navController: NavController) {
                 .height(56.dp)
                 .weight(1f)
         ){
+            asdasd.value = true
+            navController.navigate(Screen.SignUpScreen.route)
+            asdasd.value = false
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
@@ -316,7 +312,7 @@ fun SignInScreenPreview() {
 @Composable
 fun OnLoginBtnPreview() {
     val navController = rememberNavController() // NavController 초기화
-    OnLoginBtn(navController)
+    LoginBtn(navController)
 }
 
 
@@ -337,7 +333,7 @@ fun MadeAccountTextPreview() {
 @Composable
 fun OnSignInBtnPreview() {
     val navController = rememberNavController()
-    OnSignInBtn(navController)
+    //OnSignInBtn(navController)
 }
 
 
@@ -357,5 +353,5 @@ fun LoginTextFieldPreview() {
 @Preview(showBackground = true)
 @Composable
 fun OnLoginImagePreview() {
-    OnLoginImage()
+    LoginImage()
 }

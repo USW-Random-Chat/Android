@@ -160,7 +160,7 @@ fun portalEmail(textFieldValue: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
+fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit,idLengthCheck : Boolean, onPress: () -> Unit ){
     val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
 
     Row(
@@ -169,17 +169,15 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
             .fillMaxWidth()
             .height(55.dp)
             //.width(360.dp)
-            .padding(start = screenWidthInDp.dp, top = 3.dp,end = screenWidthInDp.dp)
+            .padding(start = screenWidthInDp.dp, top = 3.dp, end = screenWidthInDp.dp)
             .border(
                 width = 1.dp, color = Color(0xFFBFBFBF),
                 shape = RoundedCornerShape(8.dp)
             )
     ) {
-        //Spacer(Modifier.weight(0.1f))
         TextField(
             value = textFieldIdValue,
             onValueChange = { idValue -> onValueChange(idValue) },
-
             placeholder = { Text(text = "아이디 입력 (4~16자)", color = Color.Gray) },
 
             colors = TextFieldDefaults.textFieldColors(
@@ -188,15 +186,12 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit) {
                 unfocusedIndicatorColor = Color.Transparent, // 포커스가 해제되었을 때의 밑줄 색상
                 disabledIndicatorColor = Color.Transparent // 비활성화되었을 때의 밑줄 색상
             ),
-            // shape 속성 주석 처리
-            // shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .weight(0.8f)
-            //.width(290.dp)
-            //.padding(end = 8.dp)
         )
         Button(
-            onClick = { },
+            enabled = idLengthCheck,
+            onClick = onPress,
             modifier = Modifier
                 //.padding(start = 30.dp)
                 .align(Alignment.CenterVertically)
