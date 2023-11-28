@@ -16,12 +16,12 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     private val _id = mutableStateOf("")
     private val _password = mutableStateOf("")
 
-    val Id : State<String> = _id
-    val Password : State<String>  = _password
+    val id : State<String> = _id
+    val password : State<String>  = _password
 
     fun postSignIn(){
         viewModelScope.launch {//viewModelScope 공부하기
-            signInUseCase.excute(UserDTO(Id.value,Password.value))
+            signInUseCase.excute(UserDTO(id.value,password.value))
         }
     }
 }

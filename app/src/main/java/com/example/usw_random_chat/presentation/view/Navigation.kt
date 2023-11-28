@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.ViewModel.ProfileViewModel
+import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 
 @Composable
@@ -18,7 +19,8 @@ fun Navigation() {
     )
     {
         composable(route = Screen.SignInScreen.route) {
-            SignInScreen(navController)
+            val viewModel = hiltViewModel<SignInViewModel>()
+            SignInScreen(viewModel(),navController)
         }
         composable(route = Screen.SignUpScreen.route) {
             val viewModel = hiltViewModel<SignUpViewModel>()

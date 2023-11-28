@@ -63,7 +63,6 @@ fun ProfileScreen(profileViewModel : ProfileViewModel = viewModel(),navControlle
             fontFamily = FontFamily(Font(R.font.kcc_chassam))
         )
     }
-
 }
 
 
