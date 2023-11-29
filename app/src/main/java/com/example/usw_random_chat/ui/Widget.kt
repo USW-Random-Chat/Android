@@ -1,5 +1,6 @@
 package com.example.usw_random_chat.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -31,7 +33,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -284,8 +288,13 @@ fun portalEmail(textFieldValue: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit,idLengthCheck : Boolean, onPress: () -> Unit ){
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
+fun idSearchBtn(
+    textFieldIdValue: String,
+    onValueChange: (String) -> Unit,
+    idLengthCheck: Boolean,
+    onPress: () -> Unit
+) {
+    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -314,7 +323,7 @@ fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit,idLeng
                 .weight(0.8f)
         )
         Button(
-            enabled = idLengthCheck,
+            enabled = !idLengthCheck,
             onClick = onPress,
             modifier = Modifier
                 //.padding(start = 30.dp)
@@ -510,9 +519,8 @@ fun OneButtonDialog(
     contentText: String,
     text: String,
     onPress: () -> Unit,
-    image : Int
-)
-{
+    image: Int
+) {
     Dialog(
         onDismissRequest = onPress,
     ) {
@@ -578,11 +586,53 @@ fun OneButtonDialog(
     }
 }
 
+@Composable
+fun drawerMenu(image: Int, menuName: String, onPress: () -> Unit) {
+    Button(
+        onClick = onPress,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+        elevation = ButtonDefaults.elevation(0.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = image), contentDescription = "", modifier = Modifier
+                .width(25.dp)
+                .height(25.dp), tint = Color.Gray
+        )
+        Text(
+            text = menuName,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight(400),
+            color = Color(0xFF111111),
+            textAlign = TextAlign.Center,
+        )
+        Image(
+            painter = painterResource(id = R.drawable.baseline_chevron_right_24),
+            contentDescription = "",
+        )
+
+    }
+
+}
+
 @Preview(showBackground = true)
 @Composable
 fun TwoButtonDialogPreview() {
     //TwoButtonDialog("신고하시겠습니까?", "취소", "신고하기", {}, {}, R.drawable.baseline_error_24)
-    OneButtonDialog(contentText = "qlfl", text = "sdfaewf", onPress = { /*TODO*/ }, image = R.drawable.baseline_check_circle_24)
+    OneButtonDialog(
+        contentText = "qlfl",
+        text = "sdfaewf",
+        onPress = { /*TODO*/ },
+        image = R.drawable.baseline_check_circle_24
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun draweMenuPreview() {
+    drawerMenu(image = R.drawable.profile_img, menuName = "이용약관") {
+
+    }
 }
 
 @Composable
@@ -599,4 +649,18 @@ fun GetScreenHeightInDp(): Int {
     val density = LocalDensity.current.density
     val screenHeightInPx = context.resources.displayMetrics.heightPixels
     return (screenHeightInPx / density).toInt()
+}
+
+@Composable
+fun RedWarning(warningText: String,modifier: Modifier){
+    Text(
+        text = warningText,
+        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+        fontSize = 12.sp,
+        lineHeight = 14.sp,
+        fontWeight = FontWeight(400),
+        color = Color(0xFFFF0000),
+        textAlign = TextAlign.Left,
+        modifier = modifier
+    )
 }
