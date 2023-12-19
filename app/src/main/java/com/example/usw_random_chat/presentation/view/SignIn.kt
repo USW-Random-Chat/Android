@@ -63,10 +63,10 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
         LoginImage()
         LoginTextField(id = editidState, password = editpasswordState)
     }
-    LoginBtn(navController){signInViewModel.postSignIn()}
+    LoginBtn(navController = navController){signInViewModel.postSignIn()}
     OnLoginFindIdAndPassword()
     MadeAccountText()
-    SignInBtn(navController,qwe)
+    SignInBtn(navController = navController,qwe)
 }
 
 
