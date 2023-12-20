@@ -1,30 +1,43 @@
 package com.example.usw_random_chat.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -34,12 +47,131 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.usw_random_chat.R
+
+
+@Composable
+fun madeAccount() {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 562.dp
+            )
+    ) {
+        Spacer(modifier = Modifier.weight(0.4f))
+        Divider(
+            color = Color(0xFFBFBFBF),
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 9.dp)
+        )
+        Spacer(modifier = Modifier.weight(0.3f))
+
+        Text(
+            text = "계정이 없으신가요?",
+            style = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                fontSize = 14.sp
+            ),
+            modifier = Modifier
+                .weight(1.3f)
+        )
+        Spacer(modifier = Modifier.weight(0.3f))
+
+        Divider(
+            color = Color(0xFFBFBFBF),
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 9.dp)
+        )
+        Spacer(modifier = Modifier.weight(0.4f))
+    }
+}
+
+@Composable
+fun loginFindIdAndPassword() {
+    TextButton(
+        onClick = {},
+        modifier = Modifier
+    ) {
+        Text(
+            text = "아이디 찾기",
+            color = Color(0xFF232323),
+            style = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular))
+            )
+        )
+    }
+    Spacer(modifier = Modifier.width(8.dp))
+    Image(
+        painter = painterResource(id = R.drawable.rectangle),
+        contentDescription = "image description",
+        modifier = Modifier
+            .width(10.dp)
+            .height(32.dp)
+            .padding(top = 15.dp)
+    )
+    Spacer(modifier = Modifier.width(8.dp))
+    TextButton(
+        onClick = {},
+        modifier = Modifier
+
+    ) {
+        Text(
+            text = "비밀번호 찾기",
+            color = Color(0xFF232323),
+            style = TextStyle(
+                fontFamily = FontFamily(Font(R.font.pretendard_regular))
+            ),
+        )
+    }
+}
+
+
+@Composable
+fun loginTextField(
+    text: State<String>,
+    text2: String,
+    onValueChange: (String) -> Unit
+) {
+    Row() {
+        Spacer(modifier = Modifier.weight(0.1f))
+        OutlinedTextField(
+            value = text.value,
+            onValueChange = onValueChange,
+            shape = RoundedCornerShape(10.dp),
+            placeholder = {
+                Text(
+                    text = text2,
+                    color = Color(0xFF989898),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.pretendard_regular))
+                    ),
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
+                )
+            },
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp)
+                .background(color = Color.White),
+            visualTransformation = if (text2 == "PASSWORD") PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = if (text2 == "PASSWORD") KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
+        )
+        Spacer(modifier = Modifier.weight(0.1f))
+    }
+}
+
 
 @Composable
 fun button(
@@ -152,14 +284,19 @@ fun portalEmail(textFieldValue: String, onValueChange: (String) -> Unit) {
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
         modifier = Modifier
             .width(326.dp)
-            //.heightIn(min = 46.dp)
+        //.heightIn(min = 46.dp)
 
     )
 }
 
 @Composable
-fun idSearchBtn(textFieldIdValue: String, onValueChange: (String) -> Unit,idLengthCheck : Boolean, onPress: () -> Unit ){
-    val screenWidthInDp = (GetScreenWidthInDp() - 326)/2
+fun idSearchBtn(
+    textFieldIdValue: String,
+    onValueChange: (String) -> Unit,
+    idLengthCheck: Boolean,
+    onPress: () -> Unit
+) {
+    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -384,9 +521,8 @@ fun OneButtonDialog(
     contentText: String,
     text: String,
     onPress: () -> Unit,
-    image : Int
-)
-{
+    image: Int
+) {
     Dialog(
         onDismissRequest = onPress,
     ) {
@@ -452,11 +588,57 @@ fun OneButtonDialog(
     }
 }
 
+@Composable
+fun drawerMenu(image: Int, menuName: String, onPress: () -> Unit) {
+    Button(
+        onClick = onPress,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+        elevation = ButtonDefaults.elevation(0.dp),
+    ) {
+        Icon(
+            painter = painterResource(id = image),
+            tint = Color.Gray,
+            contentDescription = "",
+            modifier = Modifier
+                .padding(end = 6.dp)
+                .width(25.dp)
+                .height(25.dp),
+        )
+        Text(
+            text = menuName,
+            fontSize = 16.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight(400),
+            color = Color(0xFF111111),
+            textAlign = TextAlign.Center,
+        )
+        Image(
+            painter = painterResource(id = R.drawable.baseline_chevron_right_24),
+            contentDescription = "",
+        )
+
+    }
+
+}
+
 @Preview(showBackground = true)
 @Composable
 fun TwoButtonDialogPreview() {
     //TwoButtonDialog("신고하시겠습니까?", "취소", "신고하기", {}, {}, R.drawable.baseline_error_24)
-    OneButtonDialog(contentText = "qlfl", text = "sdfaewf", onPress = { /*TODO*/ }, image = R.drawable.baseline_check_circle_24)
+    OneButtonDialog(
+        contentText = "qlfl",
+        text = "sdfaewf",
+        onPress = { /*TODO*/ },
+        image = R.drawable.baseline_check_circle_24
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun drawerMenuPreview() {
+    drawerMenu(image = R.drawable.profile_img, menuName = "이용약관") {
+
+    }
 }
 
 @Composable
@@ -476,7 +658,7 @@ fun GetScreenHeightInDp(): Int {
 }
 
 @Composable
-fun RedWarning(warningText: String,modifier: Modifier){
+fun RedWarning(warningText: String, modifier: Modifier) {
     Text(
         text = warningText,
         fontFamily = FontFamily(Font(R.font.pretendard_regular)),

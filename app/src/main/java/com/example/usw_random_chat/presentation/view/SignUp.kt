@@ -75,10 +75,8 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             signUpViewModel.updateRememberPwCheck(it)
         }
         Spacer(Modifier.padding(20.dp))
-        EmailTextFieldSignUp(signUpViewModel.rememberEmail) { signUpViewModel.updateRememberEmail(it) }
-        Spacer(Modifier.padding(20.dp))
-        signUpBotton(signUpViewModel.rememberTrigger.value, navController = navController) {
-            signUpViewModel.postSignIn()
+        signUpButton(signUpViewModel.rememberTrigger.value, navController = navController){
+            signUpViewModel.postSignUp()
         }
     }
 }
@@ -289,7 +287,7 @@ fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit
 }
 
 @Composable
-fun signUpBotton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
+fun signUpButton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {

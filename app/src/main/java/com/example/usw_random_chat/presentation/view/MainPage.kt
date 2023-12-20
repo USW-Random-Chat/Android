@@ -3,8 +3,10 @@ package com.example.usw_random_chat.presentation.view
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,13 +15,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.ModalDrawer
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
@@ -29,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -43,6 +49,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.ui.copyRightByFlag
+import com.example.usw_random_chat.ui.drawerMenu
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -50,37 +57,147 @@ import kotlinx.coroutines.launch
 fun MainScreen(navController: NavController) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        drawerContent = {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                Text(text = "!2512341")
-                Text(text = "iuvablivcasd")
-                Text(text = "!24basfibsdakjfvaisv")
-            }
-        },
-        topBar = {
-            MyTopAppBar() {
-                scope.launch {
-                    scaffoldState.drawerState.open()
-
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            drawerContent = {
+                DrawerScreen()
+            },
+            topBar = {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    MyTopAppBar() {
+                        scope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    }
                 }
-            }
-        },
-        content = { MainContents(navController) },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-    )
+            },
+
+            content = {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    MainContents(navController)
+                }
+            },
+            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+        )
+    }
 }
 
 @Composable
 fun DrawerScreen() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            IconButton(
+                onClick = { /*TODO*/ },
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.cancel),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .width(16.dp)
+                        .height(16.dp)
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.profile_img),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(49.dp)
+                    .height(49.dp)
+            )
+            Text(
+                text = "AnSungMin",
+                fontSize = 22.sp,
+                lineHeight = 24.sp,
+                fontFamily = FontFamily(Font(R.font.kcc_chassam)),
+                fontWeight = FontWeight(400),
+                color = Color(0xFF111111),
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = "# ISTP",
+                fontSize = 14.sp,
+                lineHeight = 24.sp,
+                fontFamily = FontFamily(Font(R.font.kcc_chassam)),
+                fontWeight = FontWeight(400),
+                color = Color(0xFF989898),
+                textAlign = TextAlign.Center,
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .border(100.dp, Color(0xFFEDEDED))
+            )
+            Image(
+                painter = painterResource(id = R.drawable.baseline),
+                contentDescription = "",
+                modifier = Modifier.fillMaxWidth()
+            )
+            drawerMenu(image = R.drawable.profile_img, menuName = "프로필 설정") {
 
-    Text(text = "!2512341")
-    Text(text = "iuvablivcasd")
-    Text(text = "!24basfibsdakjfvaisv")
+            }
+            drawerMenu(image = R.drawable.privacy_policy, menuName = "이용 약관") {
+
+            }
+            drawerMenu(image = R.drawable.codicon_feedback, menuName = "피드백") {
+
+            }
+            drawerMenu(image = R.drawable.logout, menuName = "로그아웃") {
+
+            }
+            Box(
+                Modifier
+                    .background(Color(0xFFEDEDED))
+                    .fillMaxWidth()
+                    .height(150.dp)
+            ) {
+                Column {
+                    Image(
+                        painter = painterResource(id = R.drawable.suchat),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(58.dp)
+                            .height(15.dp)
+                    )
+                    Text(
+                        text = "Copyright 2023. \nFlag inc. all rights reserved.",
+                        fontSize = 10.sp,
+                        lineHeight = 12.sp,
+                        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF767676),
+                        letterSpacing = 0.25.sp,
+                    )
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                        elevation = ButtonDefaults.elevation(0.dp),
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+                        Text(
+                            text = "회원 탈퇴하기",
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF767676),
+                            textAlign = TextAlign.Center,
+                            letterSpacing = 0.3.sp,
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_chevron_right_24),
+                            contentDescription = "",
+                            //modifier = Modifier.
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+
 }
+
 
 @Composable
 fun MyTopAppBar(onPress: () -> Unit) {
@@ -95,7 +212,7 @@ fun MyTopAppBar(onPress: () -> Unit) {
             )
         },
         actions = {
-            IconButton(onClick = {onPress()}) {
+            IconButton(onClick = { onPress() }) {
                 Icon(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = "Menu",
@@ -193,7 +310,7 @@ fun TalkBalloon() {
 @Composable
 fun MatchingButton(navController: NavController) {
     Button(
-        onClick ={navController.navigate(Screen.MatchingScreen.route)} ,
+        onClick = { navController.navigate(Screen.MatchingScreen.route) },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2D64D8),
             contentColor = Color.White
@@ -236,4 +353,10 @@ fun subText() {
 @Composable
 fun MainScreenPreview() {
     MainScreen(navController = rememberNavController())
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DrawerScreenPreview() {
+    DrawerScreen()
 }
