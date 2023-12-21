@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.ViewModel.ProfileViewModel
+import com.example.usw_random_chat.presentation.ViewModel.PwChangeViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 
@@ -29,7 +30,8 @@ fun Navigation() {
             SignUpDoneScreen(navController)
         }
         composable(route = Screen.PwChangeScreen.route) {
-            PwChangeScreen(navController)
+            val viewModel = hiltViewModel<PwChangeViewModel>()
+            PwChangeScreen(viewModel,navController)
         }
         composable(route = Screen.PwSearchScreen.route) {
             PwSearchScreen(navController)
