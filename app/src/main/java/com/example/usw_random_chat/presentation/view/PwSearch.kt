@@ -116,9 +116,10 @@ fun inputId(id: MutableState<String>) {
 @Composable
 fun inputEmail(email: MutableState<String>) {
     portalEmail(
-        textFieldValue = email.value, onValueChange = { emailValue ->
+        textFieldValue = email, onValueChange = { emailValue ->
             email.value = emailValue
-        })
+        }
+    )
 }
 
 @Composable

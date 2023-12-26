@@ -26,4 +26,5 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun provideSignUpRepository(repositoryImpl: SignUpRepositoryImpl): SignUpRepository
+
 }

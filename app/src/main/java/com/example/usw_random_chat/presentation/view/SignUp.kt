@@ -64,7 +64,8 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
                 .height(48.dp)
                 .width(100.dp)
                 .weight(0.6f)
-                .offset(y = 10.dp)
+                .offset(y = 10.dp),
+            onBackClick = { navController.popBackStack() }
         )
         Spacer(Modifier.padding(top = 20.dp))
         writeID(signUpViewModel.rememberId) { signUpViewModel.updateRememberId(it) }
@@ -75,7 +76,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             signUpViewModel.updateRememberPwCheck(it)
         }
         Spacer(Modifier.padding(20.dp))
-        signUpBotton(signUpViewModel.rememberTrigger.value, navController = navController){
+        signUpButton(signUpViewModel.rememberTrigger.value, navController = navController){
             signUpViewModel.postSignUp()
         }
     }
@@ -280,14 +281,14 @@ fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit
     ) {
         Spacer(Modifier.weight(0.1f))
         portalEmail(
-            textFieldValue = email.value, onValueChange = onRememberEmail
+            textFieldValue = email, onValueChange = onRememberEmail
         )
         Spacer(Modifier.weight(0.1f))
     }
 }
 
 @Composable
-fun signUpBotton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
+fun signUpButton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -3,6 +3,7 @@ package com.example.usw_random_chat.data.repositoryimpl
 import com.example.usw_random_chat.data.api.SignInApiService
 import com.example.usw_random_chat.data.dto.UserDTO
 import com.example.usw_random_chat.data.repository.SignInRepository
+import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import javax.inject.Inject
 
 class SignInRepositoryImpl @Inject constructor(private val signInApiService: SignInApiService) : SignInRepository {

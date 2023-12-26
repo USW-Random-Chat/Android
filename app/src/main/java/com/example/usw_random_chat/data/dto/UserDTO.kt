@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class UserDTO(
     @SerializedName("memberEmail")
     val memberEmail : String = "",
-    @SerializedName("memberPW")
+    @SerializedName("memberPw")
     val memberPassword : String = "",
     @SerializedName("memberID")
     val memberID : String = ""
