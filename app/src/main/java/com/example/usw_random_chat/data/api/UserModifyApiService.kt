@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface PwChangeApiService {
+interface UserModifyApiService {
     @POST("member2/signUp") // 세부 주소
     @Headers("content-type: application/json")
     suspend fun registerPwChange(@Body jsonpath: UserDTO) : Response<UserDTO>

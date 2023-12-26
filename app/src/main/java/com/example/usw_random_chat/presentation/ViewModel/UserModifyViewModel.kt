@@ -5,13 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.usw_random_chat.data.dto.UserDTO
-import com.example.usw_random_chat.domain.usecase.PwChangeUseCase
+import com.example.usw_random_chat.domain.usecase.UserModifyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PwChangeViewModel@Inject constructor(private val PwChangeUseCase: PwChangeUseCase) : ViewModel() {
+class UserModifyViewModel@Inject constructor(private val UserModifyUseCase: UserModifyUseCase) : ViewModel() {
     private val _rememberPW  = mutableStateOf("")
     private val _rememberPWCheck  = mutableStateOf("")
     private val _rememberPwEqualOrNot  = mutableStateOf(false)
@@ -55,7 +55,7 @@ class PwChangeViewModel@Inject constructor(private val PwChangeUseCase: PwChange
 
     fun postPwChange(){
         viewModelScope.launch {
-            PwChangeUseCase.pwChange(UserDTO(rememberPW.value,rememberPWCheck.value) )
+            UserModifyUseCase.pwChange(UserDTO(rememberPW.value,rememberPWCheck.value) )
         }
     }
     /*fun signUpViewModel(param : UserDTO){

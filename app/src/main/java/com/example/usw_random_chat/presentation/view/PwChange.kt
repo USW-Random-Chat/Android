@@ -36,7 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
-import com.example.usw_random_chat.presentation.ViewModel.PwChangeViewModel
+import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
 import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.RedWarning
 import com.example.usw_random_chat.ui.button
@@ -44,7 +44,7 @@ import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 
 @Composable
-fun PwChangeScreen(PwChangeViewModel: PwChangeViewModel = viewModel(), navController: NavController) {
+fun PwChangeScreen(UserModifyViewModel: UserModifyViewModel = viewModel(), navController: NavController) {
 
     val screenWidthInDp = (GetScreenWidthInDp()-100)/2
 
@@ -80,18 +80,18 @@ fun PwChangeScreen(PwChangeViewModel: PwChangeViewModel = viewModel(), navContro
         Spacer(Modifier.padding(15.dp))
 
         TextFieldOfPwChange("새 비밀번호 입력 (문자,숫자 포함 6~20자)",
-            "비밀번호",PwChangeViewModel.rememberPW ){
-            PwChangeViewModel.updaterememberPW(it)}
+            "비밀번호",UserModifyViewModel.rememberPW ){
+            UserModifyViewModel.updaterememberPW(it)}
         Spacer(Modifier.padding(10.dp))
 
         TextFieldOfPwCheck("", "비밀번호 확인"
-            ,PwChangeViewModel.rememberPWCheck, PwChangeViewModel.rememberPwEqualOrNot.value){
-            PwChangeViewModel.updaterememberPWCheck(it)
+            ,UserModifyViewModel.rememberPWCheck, UserModifyViewModel.rememberPwEqualOrNot.value){
+            UserModifyViewModel.updaterememberPWCheck(it)
         }
 
         Spacer(Modifier.padding(20.dp))
-        PwChangeBotton(PwChangeViewModel.rememberTrigger.value,navController = navController){
-            PwChangeViewModel.postPwChange()
+        PwChangeBotton(UserModifyViewModel.rememberTrigger.value,navController = navController){
+            UserModifyViewModel.postPwChange()
         }
     }
 }
