@@ -42,4 +42,9 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
             signInUseCase.excute(UserDTO(id.value,password.value,email.value))
         }
     }
+    fun signUpViewModel(param : UserDTO){
+        viewModelScope.launch {//viewModelScope 공부하기
+            signInUseCase.excute(param)
+        }
+    }
 }
