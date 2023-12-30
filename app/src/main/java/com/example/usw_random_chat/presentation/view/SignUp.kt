@@ -47,7 +47,6 @@ import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.RedWarning
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.idSearchBtn
-import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
@@ -75,7 +74,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             signUpViewModel.updateRememberPwCheck(it)
         }
         Spacer(Modifier.padding(20.dp))
-        signUpBotton(signUpViewModel.rememberTrigger.value, navController = navController){
+        signUpButton(signUpViewModel.rememberTrigger.value, navController = navController){
             signUpViewModel.postSignUp()
         }
     }
@@ -273,7 +272,7 @@ fun checkPW(
     }
 }
 
-@Composable
+/*@Composable
 fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit) {
     Row(
         Modifier
@@ -284,10 +283,10 @@ fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit
         )
         Spacer(Modifier.weight(0.1f))
     }
-}
+}*/
 
 @Composable
-fun signUpBotton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
+fun signUpButton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -304,6 +303,7 @@ fun signUpBotton(trigger: Boolean, navController: NavController, onPress: () -> 
                     .background(color = Color.White)
             ) {
                 onPress
+                navController.navigate(Screen.SignInScreen.route)
             }
             Spacer(Modifier.weight(0.1f))
         }
