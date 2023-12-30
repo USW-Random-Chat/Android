@@ -36,7 +36,7 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     fun postSignIn(){
         viewModelScope.launch {//viewModelScope 공부하기
             try {
-                val result = signInUseCase.execute(UserDTO(id.value,password.value))
+                val result = signInUseCase.execute(UserDTO(memberID = id.value,memberPassword = password.value))
                 _signInValue.value = true
             } catch (e: Exception) {
                 _signInValue.value = false

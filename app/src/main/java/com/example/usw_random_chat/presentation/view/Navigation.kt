@@ -9,6 +9,7 @@ import com.example.usw_random_chat.presentation.ViewModel.ProfileViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun Navigation() {
@@ -23,7 +24,7 @@ fun Navigation() {
             SignInScreen(viewModel,navController)
         }
         composable(route = Screen.EmailAuthScreen.route) {
-            val viewModel = hiltViewModel<SignInViewModel>()
+            val viewModel = hiltViewModel<SignUpViewModel>()
             EmailAuthScreen(viewModel,navController)
         }
         composable(route = Screen.SignUpScreen.route) {
@@ -38,10 +39,11 @@ fun Navigation() {
             PwChangeScreen(viewModel,navController)
         }
         composable(route = Screen.PwSearchScreen.route) {
-            PwSearchScreen(navController)
+            val viewModel = hiltViewModel<UserModifyViewModel>()
+            PwSearchScreen(navController,viewModel)
         }
         composable(route = Screen.IdSearchScreen.route) {
-            val viewModel = hiltViewModel<SignInViewModel>()
+            val viewModel = hiltViewModel<UserModifyViewModel>()
             IdSearch(viewModel,navController)
         }
         composable(route = Screen.ProfileScreen.route) {

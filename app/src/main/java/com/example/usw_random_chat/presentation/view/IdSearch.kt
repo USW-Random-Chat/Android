@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
+import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.sendImg
@@ -41,10 +42,10 @@ import com.example.usw_random_chat.ui.text
 import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
-fun IdSearch(signInViewModel: SignInViewModel = viewModel(),navController: NavController){
-    IdSearchEmail(email = signInViewModel.email){ signInViewModel.updateEmail(it) }
+fun IdSearch(userModifyViewModel: UserModifyViewModel = viewModel(), navController: NavController){
+    IdSearchEmail(email = userModifyViewModel.email){ userModifyViewModel.updateEmail(it) }
     IdText()
-    IdSearchEmailBtn(){signInViewModel.postSignIn()}
+    IdSearchEmailBtn(){userModifyViewModel.postAuthEmail()}
     GoLogin(navController)
     IdSearchExitBtn(navController)
 }

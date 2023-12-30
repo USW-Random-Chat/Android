@@ -66,23 +66,17 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         updateRememberTrigger()
     }
 
-    fun updateRememberPwEqualOrNot(){
+    private fun updateRememberPwEqualOrNot(){
         _rememberPwEqualOrNot.value = _rememberPw.value == _rememberPwCheck.value
         updateRememberTrigger()
     }
-    fun updateRememberTrigger(){
-        IdlengthCheck()
+    private fun updateRememberTrigger(){
+        checkIdLength()
         _rememberTrigger.value =  _rememberPw.value == _rememberPwCheck.value &&
                 _rememberIdLength.value && _rememberPwEqualOrNot.value
     }
-
-    fun IdlengthCheck(){
-        if(_rememberId.value.length < 4 || _rememberId.value.length> 16){
-            _rememberIdLength.value = false
-        }
-        else{
-            _rememberIdLength.value = true
-        }
+    private fun checkIdLength(){
+        _rememberIdLength.value = !(_rememberId.value.length < 4 || _rememberId.value.length> 16)
     }
 
     fun postSignUp(){
@@ -94,4 +88,5 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         _rememberEmail.value = newValue
         updateRememberTrigger()
     }*/
+
 }
