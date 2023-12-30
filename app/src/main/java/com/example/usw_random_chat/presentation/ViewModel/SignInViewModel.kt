@@ -3,6 +3,8 @@ package com.example.usw_random_chat.presentation.ViewModel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.usw_random_chat.data.dto.UserDTO
@@ -16,13 +18,11 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
 
     private val _id = mutableStateOf("")
     private val _password = mutableStateOf("")
-    private val _email = mutableStateOf("")
-    private val _verifyflag = mutableStateOf(false)
+    private val _signInValue = mutableStateOf(false)
 
     val id : State<String> = _id
     val password : State<String>  = _password
-    val email : State<String>  = _email
-    val verifyflag : State<Boolean>  = _verifyflag
+    val signInValue : State<Boolean> = _signInValue
 
     fun updateID(newValue : String){
         _id.value = newValue
@@ -32,19 +32,15 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
         _password.value = newValue
     }
 
-    fun updateEmail(newValue: String){
-        _email.value = newValue
-    }
-
 
     fun postSignIn(){
         viewModelScope.launch {//viewModelScope 공부하기
-            signInUseCase.excute(UserDTO(id.value,password.value,email.value))
-        }
-    }
-    fun signUpViewModel(param : UserDTO){
-        viewModelScope.launch {//viewModelScope 공부하기
-            signInUseCase.excute(param)
+            try {
+                val result = signInUseCase.execute(UserDTO(id.value,password.value))
+                _signInValue.value = true
+            } catch (e: Exception) {
+                _signInValue.value = false
+            }
         }
     }
 }

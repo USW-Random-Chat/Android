@@ -37,6 +37,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
+import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.sendImg
@@ -44,11 +45,11 @@ import com.example.usw_random_chat.ui.text
 import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
-fun EmailAuthScreen(signInViewModel: SignInViewModel = viewModel(), navController: NavController){
-    SignUpEmail(email = signInViewModel.email){ signInViewModel.updateEmail(it) }
+fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: NavController){
+    SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
-    RequestEmail(verifyflag = true){signInViewModel.postSignIn()}
-    NextBtn(navController)
+    RequestEmail(){signUpViewModel.verifyEmail()}
+    NextBtn(verifyFlag = signUpViewModel.verifyFlag.value,navController)
     SignUpExitBtn(navController)
 }
 
@@ -118,7 +119,7 @@ fun SignUpEmailBtn(){
 }
 
 @Composable
-fun RequestEmail(verifyflag: Boolean,onPress: () -> Unit){
+fun RequestEmail(onPress: () -> Unit){
 
     Row(
         modifier = Modifier
@@ -130,7 +131,7 @@ fun RequestEmail(verifyflag: Boolean,onPress: () -> Unit){
         Spacer(modifier = Modifier.weight(0.1f))
         button(
             text = "인증메일 전송",
-            enable = verifyflag,
+            enable = true,
             content = Color.White,
             back = Color(0xFF2D64D8),
             modifier = Modifier
@@ -145,7 +146,7 @@ fun RequestEmail(verifyflag: Boolean,onPress: () -> Unit){
 
 
 @Composable
-fun NextBtn(navController: NavController){
+fun NextBtn(verifyFlag: Boolean,navController: NavController){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -156,7 +157,7 @@ fun NextBtn(navController: NavController){
         Spacer(modifier = Modifier.weight(0.1f))
         button(
             "다음",
-            enable = true,
+            enable = verifyFlag,
             Color.White,
             Color.Black,
             Modifier

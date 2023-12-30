@@ -51,7 +51,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
             LoginTextFieldPW(password = signInViewModel.password) { signInViewModel.updatePassWord(it) }
         }
     }
-    LoginBtn(){signInViewModel.postSignIn()}
+    LoginBtn(signInValue = signInViewModel.signInValue.value,navController){signInViewModel.postSignIn()}
     OnLoginFindIdAndPassword(navController)
     MadeAccountText()
     SignUpBtn(navController)
@@ -98,7 +98,7 @@ fun LoginTextFieldPW(  // textfield를 하나만 만들고 이름만 바꿔서 �
 }
 
 @Composable
-fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
+fun LoginBtn(signInValue : Boolean,navController: NavController,onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -117,6 +117,12 @@ fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키�
                 .weight(1f),
         ){
             onPress()
+            if(signInValue){
+                navController.navigate(Screen.SignUpScreen.route)
+            }
+            else{
+
+            }
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }

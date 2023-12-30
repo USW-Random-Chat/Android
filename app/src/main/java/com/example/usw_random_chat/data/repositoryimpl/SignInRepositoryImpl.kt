@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class SignInRepositoryImpl @Inject constructor(private val signInApiService: SignInApiService) : SignInRepository {
 
-    override suspend fun signin(param: UserDTO): UserDTO {
+    override suspend fun signIn(param: UserDTO): UserDTO {
         val response = signInApiService.registerSignIn(param)
 
         if (response.isSuccessful){
