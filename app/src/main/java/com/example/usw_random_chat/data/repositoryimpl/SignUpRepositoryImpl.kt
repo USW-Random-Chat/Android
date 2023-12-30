@@ -6,6 +6,8 @@ import com.example.usw_random_chat.data.repository.SignUpRepository
 import javax.inject.Inject
 
 class SignUpRepositoryImpl @Inject constructor(private val signUpApiService: SignUpApiService)  : SignUpRepository {
+
+
     override suspend fun signup(param: UserDTO): UserDTO {
         val response = signUpApiService.registerSignUp(param)
 
@@ -26,4 +28,13 @@ class SignUpRepositoryImpl @Inject constructor(private val signUpApiService: Sig
         }
     }
 
+    override suspend fun authEmail(param: UserDTO): UserDTO {
+        val response = signUpApiService.registerAuthEmail(param)
+
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else {
+            throw Exception("Fail!!")
+        }
+    }
 }

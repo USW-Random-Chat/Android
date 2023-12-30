@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,21 +42,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
+import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
+import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
 
 @Composable
-fun PwSearchScreen(navController: NavController) {
-    val id = remember {
-        mutableStateOf("")
-    }
-    val email = remember {
-        mutableStateOf("")
-    }
-    val code = remember {
-        mutableStateOf("")
-    }
-
+fun PwSearchScreen(navController: NavController,userModifyViewModel: UserModifyViewModel) {
     Column(
         Modifier
             .fillMaxSize()
@@ -63,12 +56,12 @@ fun PwSearchScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         setPwSearchTitle()
-        inputId(id = id)
+        inputId(id = userModifyViewModel.rememberID){}
         Spacer(modifier = Modifier.height(21.dp))
-        inputEmail(email = email)
+        inputEmail(email = userModifyViewModel.rememberEmail){}
         explainText()
-        sendNumberButton()
-        inputCode(code = code)
+        sendNumberButton(){userModifyViewModel.postAuthCode()}
+        inputCode(code = userModifyViewModel.rememberCode,{}){userModifyViewModel.checkAuthCode()}
     }
 }
 
@@ -98,10 +91,10 @@ fun setPwSearchTitle() {
 }
 
 @Composable
-fun inputId(id: MutableState<String>) {
+fun inputId(id: State<String>, onChange: () -> Unit) {
     TextField(
         value = id.value,
-        onValueChange = { idValue -> id.value = idValue },
+        onValueChange = { onChange },
         placeholder = { Text("아이디 입력") },
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
         modifier = Modifier
@@ -114,10 +107,10 @@ fun inputId(id: MutableState<String>) {
 }
 
 @Composable
-fun inputEmail(email: MutableState<String>) {
+fun inputEmail(email: State<String>, onChange: () -> Unit) {
     portalEmail(
-        textFieldValue = email.value, onValueChange = { emailValue ->
-            email.value = emailValue
+        textFieldValue = email, onValueChange = {
+            onChange
         })
 }
 
@@ -143,7 +136,7 @@ fun explainText() {
 }
 
 @Composable
-fun sendNumberButton() {
+fun sendNumberButton(onPress : () -> Unit) {
     button(
         text = "인증코드 전송",
         enable = true,
@@ -154,12 +147,12 @@ fun sendNumberButton() {
             .width(326.dp)
             .height(56.dp)
     ){
-
+        onPress
     }
 }
 
 @Composable
-fun inputCode(code: MutableState<String>) {
+fun inputCode(code: State<String>, onChange : () -> Unit, onPress: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -173,9 +166,7 @@ fun inputCode(code: MutableState<String>) {
     ) {
         TextField(
             value = code.value,
-            onValueChange = { newText ->
-                code.value = newText
-            },
+            onValueChange = { onChange },
             placeholder = { Text(text = "인증코드 4자리 입력", color = Color.Gray) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
@@ -189,7 +180,7 @@ fun inputCode(code: MutableState<String>) {
                 .weight(1f)
         )
         Button(
-            onClick = { /* Do something when the button is clicked */ },
+            onClick = { onPress },
             modifier = Modifier
                 .padding(end = 6.dp)
                 .align(Alignment.CenterVertically)
@@ -218,5 +209,28 @@ fun inputCode(code: MutableState<String>) {
 @Preview(showBackground = true)
 @Composable
 fun PwSearchScreenPreview() {
-    PwSearchScreen(navController = rememberNavController())
+    val id = remember {
+        mutableStateOf("")
+    }
+    val email = remember {
+        mutableStateOf("")
+    }
+    val code = remember {
+        mutableStateOf("")
+    }
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        setPwSearchTitle()
+        inputId(id = id){}
+        Spacer(modifier = Modifier.height(21.dp))
+        inputEmail(email = email){}
+        explainText()
+        sendNumberButton(){}
+        inputCode(code = code,{}){}
+    }
 }
