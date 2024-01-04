@@ -39,12 +39,13 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun verifyEmail() {
         viewModelScope.launch {
-            try {
-                val result = signUpUseCase.authEmail(UserDTO(email.value))
-                _verifyFlag.value = true
-            } catch (e: Exception) {
-                _verifyFlag.value = false
-            }
+            signUpUseCase.authEmail(UserDTO(memberEmail = email.value))
+        }
+    }
+
+    fun checkVerifyEmail() {
+        viewModelScope.launch {
+            signUpUseCase.checkAuthEmail(UserDTO(memberEmail = email.value))
         }
     }
 

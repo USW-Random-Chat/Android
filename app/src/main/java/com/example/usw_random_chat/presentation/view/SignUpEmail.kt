@@ -49,7 +49,7 @@ fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navControlle
     SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
     RequestEmail(){signUpViewModel.verifyEmail()}
-    NextBtn(verifyFlag = signUpViewModel.verifyFlag.value,navController)
+    NextBtn(){signUpViewModel.checkVerifyEmail()}
     SignUpExitBtn(navController)
 }
 
@@ -146,7 +146,7 @@ fun RequestEmail(onPress: () -> Unit){
 
 
 @Composable
-fun NextBtn(verifyFlag: Boolean,navController: NavController){
+fun NextBtn(onPress: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -157,7 +157,7 @@ fun NextBtn(verifyFlag: Boolean,navController: NavController){
         Spacer(modifier = Modifier.weight(0.1f))
         button(
             "다음",
-            enable = verifyFlag,
+            enable = true,
             Color.White,
             Color.Black,
             Modifier
@@ -165,7 +165,7 @@ fun NextBtn(verifyFlag: Boolean,navController: NavController){
                 .height(56.dp)
                 .background(color = Color.White)
         ){
-            navController.navigate(Screen.SignUpScreen.route)
+            onPress()
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
