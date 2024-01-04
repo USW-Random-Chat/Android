@@ -22,5 +22,4 @@ interface SignUpApiService {
     @GET("member2/signUp")
     @Headers("content-type: application/json")
     suspend fun registerCheckAuthEmail(@Body jsonpath: UserDTO): Response<UserDTO>
-
 }
