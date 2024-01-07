@@ -127,19 +127,19 @@ fun DrawerScreen(navController: NavController, onPress: () -> Unit) {
                     .border(100.dp, Color(0xFFEDEDED))
             )
             Column(modifier = Modifier.weight(1f)){
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(30.dp))
                 drawerMenu(image = R.drawable.profile_img, menuName = "프로필 설정") {
                     navController.navigate(Screen.ProfileScreen.route)
                 }
-                Spacer(modifier = Modifier.height(36.dp))
+                Spacer(modifier = Modifier.height(25.dp))
                 drawerMenu(image = R.drawable.privacy_policy, menuName = "이용 약관") {
                     navController.navigate(Screen.PolicyScreen.route)
                 }
-                Spacer(modifier = Modifier.height(36.dp))
+                Spacer(modifier = Modifier.height(25.dp))
                 drawerMenu(image = R.drawable.codicon_feedback, menuName = "피드백") {
                     navController.navigate(Screen.FeedBackScreen.route)
                 }
-                Spacer(modifier = Modifier.height(36.dp))
+                Spacer(modifier = Modifier.height(25.dp))
                 drawerMenu(image = R.drawable.logout, menuName = "로그아웃") {
 
                 }
@@ -205,9 +205,8 @@ fun MainContents(navController: NavController) {
     ) {
         MatchingButton(navController)
         subText()
-        copyRightByFlag(modifier = Modifier.padding(top = 120.dp))
     }
-
+    copyRightByFlag(modifier = Modifier.padding(bottom = 30.dp))
 }
 
 @Composable
@@ -233,7 +232,7 @@ fun MainText() {
             fontWeight = FontWeight(600),
             color = Color(0xFF111111),
             modifier = Modifier
-                .padding(top = 123.dp, start = 32.dp)
+                .padding(top = 115.dp, start = 32.dp)
                 .height(72.dp)
         )
         Text(
@@ -263,8 +262,8 @@ fun TalkBalloon() {
             painter = painterResource(id = R.drawable.talkballoon2),
             contentDescription = "image description",
             modifier = Modifier
-                .width(331.dp)
-                .height(308.dp),
+                .width(320.dp)
+                .height(290.dp),
             alignment = Alignment.CenterEnd
         )
     }
@@ -280,7 +279,7 @@ fun MatchingButton(navController: NavController) {
         ),
         shape = RoundedCornerShape(25.dp),
         modifier = Modifier
-            .padding(top = 400.dp)
+            .padding(top = 350.dp)
             .width(334.dp)
             .height(64.dp)
     ) {

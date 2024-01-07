@@ -72,7 +72,7 @@ fun SignUpExitBtn(onPress: () -> Unit){
                 .width(100.dp)
                 .weight(0.6f)
                 .offset(y = 10.dp),
-            onBackClick = { onPress }
+            onBackClick = { onPress() }
         )
         Spacer(modifier = Modifier.weight(1.1f))
     }

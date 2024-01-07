@@ -236,17 +236,23 @@ fun button(
 
 @Composable
 fun copyRightByFlag(modifier: Modifier) {
-    Text(
-        text = "@copyright by Flag",
-        fontSize = 12.sp,
-        lineHeight = 20.sp,
-        fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-        fontWeight = FontWeight(400),
-        color = Color(0xFF767676),
-        textAlign = TextAlign.Center,
-        letterSpacing = 0.3.sp,
-        modifier = modifier
-    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ){
+        Text(
+            text = "@copyright by Flag",
+            fontSize = 12.sp,
+            lineHeight = 20.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontWeight = FontWeight(400),
+            color = Color(0xFF767676),
+            textAlign = TextAlign.Center,
+            letterSpacing = 0.3.sp,
+            modifier = modifier,
+        )
+    }
 }
 
 @Composable
@@ -571,7 +577,7 @@ fun OneButtonDialog(
                 contentDescription = "image description",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .padding(top = 24.dp)
+                    .padding(top = 20.dp)
             )
             Text(
                 text = contentText,
@@ -589,9 +595,8 @@ fun OneButtonDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp),
+                    .padding(top = 14.dp),
             ) {
-
                 Spacer(modifier = Modifier.weight(0.1f))
                 Button(
                     onClick = onPress,
@@ -747,10 +752,10 @@ fun drawerMenu(image: Int, menuName: String, onPress: () -> Unit) {
 fun TwoButtonDialogPreview() {
     //TwoButtonDialog("신고하시겠습니까?", "취소", "신고하기", {}, {}, R.drawable.baseline_error_24)
     OneButtonDialog(
-        contentText = "qlfl",
-        text = "sdfaewf",
+        contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+        text = "확인",
         onPress = { /*TODO*/ },
-        image = R.drawable.baseline_check_circle_24
+        image = R.drawable.baseline_error_24
     )
 }
 
