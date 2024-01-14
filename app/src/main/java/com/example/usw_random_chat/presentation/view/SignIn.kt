@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
+import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.loginFindIdAndPassword
 import com.example.usw_random_chat.ui.loginTextField
@@ -51,10 +52,19 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
             LoginTextFieldPW(password = signInViewModel.password) { signInViewModel.updatePassWord(it) }
         }
     }
-    LoginBtn(signInValue = signInViewModel.signInValue.value,navController){signInViewModel.postSignIn()}
+    LoginBtn(){signInViewModel.postSignIn()}
     OnLoginFindIdAndPassword(navController)
     MadeAccountText()
     SignUpBtn(navController)
+
+    if (signInViewModel.loginState.value){
+        OneButtonDialog(
+            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+            text = "확인",
+            onPress = { signInViewModel.changeLoginState() },
+            image = R.drawable.baseline_error_24
+        )
+    }
 }
 
 
@@ -98,7 +108,7 @@ fun LoginTextFieldPW(  // textfield를 하나만 만들고 이름만 바꿔서 �
 }
 
 @Composable
-fun LoginBtn(signInValue : Boolean,navController: NavController,onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
+fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -117,12 +127,6 @@ fun LoginBtn(signInValue : Boolean,navController: NavController,onPress: () -> U
                 .weight(1f),
         ){
             onPress()
-            if(signInValue){
-                navController.navigate(Screen.SignUpScreen.route)
-            }
-            else{
-
-            }
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
@@ -167,7 +171,7 @@ fun SignUpBtn(navController: NavController) { // asdasd변수 이름 적절하�
                 .height(56.dp)
                 .weight(1f)
         ){
-            navController.navigate(Screen.EmailAuthScreen.route)
+            navController.navigate(Screen.MainPageScreen.route)
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
