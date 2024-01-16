@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
+import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.sendImg
@@ -50,8 +51,37 @@ fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navControlle
     SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
     RequestEmail{signUpViewModel.verifyEmail()}
-    NextBtn(){signUpViewModel.checkVerifyEmail()}
+    NextBtn(navController){signUpViewModel.checkVerifyEmail()}
     SignUpExitBtn{navController.popBackStack()}
+
+    if (signUpViewModel.authEmailState.value){
+        navController.navigate(Screen.MainPageScreen.route){
+            navController.popBackStack()
+        }
+        signUpViewModel.changeDialogAuthEmailState()
+    }
+    if(signUpViewModel.dialogAuthEmailState.value){
+        OneButtonDialog(
+            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+            text = "확인",
+            onPress = { signUpViewModel.changeDialogAuthEmailState() },
+            image = R.drawable.baseline_error_24
+        )
+    }
+    if (signUpViewModel.checkAuthEmailState.value){
+        navController.navigate(Screen.MainPageScreen.route){
+            navController.popBackStack()
+        }
+        signUpViewModel.changeCheckAuthEmailState()
+    }
+    if(signUpViewModel.dialogCheckAuthEmailState.value){
+        OneButtonDialog(
+            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+            text = "확인",
+            onPress = { signUpViewModel.changeDialogCheckAuthEmailState() },
+            image = R.drawable.baseline_error_24
+        )
+    }
 }
 
 
@@ -147,7 +177,7 @@ fun RequestEmail(onPress: () -> Unit){
 
 
 @Composable
-fun NextBtn(onPress: () -> Unit){
+fun NextBtn(navController: NavController, onPress: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -166,7 +196,7 @@ fun NextBtn(onPress: () -> Unit){
                 .height(56.dp)
                 .background(color = Color.White)
         ){
-            onPress()
+            navController.navigate(Screen.SignUpScreen.route)
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
@@ -182,7 +212,6 @@ fun EmailAuthScreenPreview(){
     SignUpEmail(email = asd){}
     SignUpEmailBtn()
     RequestEmail{}
-    NextBtn(){}
     SignUpExitBtn{}
 }
 

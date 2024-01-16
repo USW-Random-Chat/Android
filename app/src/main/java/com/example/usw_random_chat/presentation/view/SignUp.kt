@@ -44,6 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 import com.example.usw_random_chat.ui.GetScreenWidthInDp
+import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.RedWarning
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.idSearchBtn
@@ -77,6 +78,21 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
         Spacer(Modifier.padding(20.dp))
         signUpButton(signUpViewModel.rememberTrigger.value, navController = navController){
             signUpViewModel.postSignUp()
+        }
+
+        if (signUpViewModel.signupState.value){
+            navController.navigate(Screen.MainPageScreen.route){
+                navController.popBackStack()
+            }
+            signUpViewModel.changeSignupState()
+        }
+        if(signUpViewModel.dialogSignupState.value){
+            OneButtonDialog(
+                contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+                text = "확인",
+                onPress = { signUpViewModel.changeDialogSignupState() },
+                image = R.drawable.baseline_error_24
+            )
         }
     }
 }
@@ -294,7 +310,7 @@ fun signUpButton(trigger: Boolean, navController: NavController, onPress: () -> 
         Row(Modifier) {
             Spacer(Modifier.weight(0.1f))
             button(
-                "회원가입",
+                "회원가입 완료",
                 enable = trigger,
                 Color.White,
                 Color.Black,
@@ -304,7 +320,6 @@ fun signUpButton(trigger: Boolean, navController: NavController, onPress: () -> 
                     .background(color = Color.White)
             ) {
                 onPress
-                navController.navigate(Screen.SignInScreen.route)
             }
             Spacer(Modifier.weight(0.1f))
         }

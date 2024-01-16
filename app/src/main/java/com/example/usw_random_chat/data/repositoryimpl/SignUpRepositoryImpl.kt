@@ -38,9 +38,9 @@ class SignUpRepositoryImpl @Inject constructor(
     override suspend fun authEmail(param: UserDTO): UserDTO {
         val response = signUpApiService.registerAuthEmail(param)
 
-        if (response.isSuccessful) {
+        if (response.isSuccessful){
             return response.body()!!
-        } else {
+        }else{
             throw Exception("Fail!!")
         }
     }
@@ -48,12 +48,9 @@ class SignUpRepositoryImpl @Inject constructor(
     override suspend fun checkAuthEmail(param: UserDTO): UserDTO {
         val response = signUpApiService.registerCheckAuthEmail(param)
 
-        if (response.isSuccessful) {
-            navController.navigate(Screen.SignUpScreen.route){
-                navController.popBackStack()
-            }
+        if (response.isSuccessful){
             return response.body()!!
-        } else {
+        }else{
             throw Exception("Fail!!")
         }
     }
