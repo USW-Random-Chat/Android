@@ -31,6 +31,8 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private val _rememberPwEqualOrNot = mutableStateOf(false)
     private val _rememberTrigger = mutableStateOf(false)
     private val _rememberIdLength = mutableStateOf(false)
+    private val _checkSignupIdState = mutableStateOf(false)
+    private val _dialogCheckSignUpIdState = mutableStateOf(false)
 
     val rememberId: State<String> = _rememberId
     val rememberPw: State<String> = _rememberPw
@@ -46,22 +48,33 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     val dialogSignupState : State<Boolean> = _dialogSignupState
     val dialogAuthEmailState : State<Boolean> = _dialogAuthEmailState
     val dialogCheckAuthEmailState : State<Boolean> = _dialogCheckAuthEmailState
+    val checkSignupIdState : State<Boolean> = _checkSignupIdState
+    val dialogCheckSignUpIdState : State<Boolean> = _dialogCheckSignUpIdState
 
     fun verifyEmail() {
         viewModelScope.launch {
-            /*when(signUpUseCase.authEmail(UserDTO(memberEmail = email.value))){
+            when(signUpUseCase.authEmail(UserDTO(memberEmail = email.value))){
                 in (200..300) -> _authEmailState.value = true
                 !in (200..300) -> _dialogAuthEmailState.value = true
-            }*/
+            }
         }
     }
 
     fun checkVerifyEmail() {
         viewModelScope.launch {
-            /*when(signUpUseCase.checkAuthEmail(UserDTO(memberEmail = email.value))){
+            when(signUpUseCase.checkAuthEmail(UserDTO(memberEmail = email.value))){
                 in (200..300) -> _checkAuthEmailState.value = true
                 !in (200..300) -> _dialogCheckAuthEmailState.value = true
-            }*/
+            }
+        }
+    }
+
+    fun checkSignUpId() {
+        viewModelScope.launch {
+            when(signUpUseCase.checkSignUpId(UserDTO(memberID = rememberId.value))){
+                in (200..300) -> _checkSignupIdState.value = true
+                !in (200..300) -> _dialogCheckSignUpIdState.value = true
+            }
         }
     }
 
@@ -88,6 +101,12 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private fun updateRememberPwEqualOrNot() {
         _rememberPwEqualOrNot.value = _rememberPw.value == _rememberPwCheck.value
         updateRememberTrigger()
+    }
+    fun changeCheckSignUpIdState(){
+        _checkSignupIdState.value = !_checkSignupIdState.value
+    }
+    fun changeDialogCheckSignUpIdState(){
+        _dialogCheckSignUpIdState.value = !_dialogCheckSignUpIdState.value
     }
     fun changeAuthEmailState(){
         _authEmailState.value = !_authEmailState.value
@@ -117,13 +136,12 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private fun checkIdLength() {
         _rememberIdLength.value = !(_rememberId.value.length < 4 || _rememberId.value.length > 16)
     }
-
     fun postSignUp() {
         viewModelScope.launch {
-            /*when(signUpUseCase.signUp(UserDTO(memberID = rememberId.value, memberPassword = rememberPw.value))){
+            when(signUpUseCase.signUp(UserDTO(memberID = rememberId.value, memberPassword = rememberPw.value))){
                 in (200..300) -> _signupState.value = true
                 !in (200..300) -> _dialogSignupState.value = true
-            }*/
+            }
         }
     }
 }

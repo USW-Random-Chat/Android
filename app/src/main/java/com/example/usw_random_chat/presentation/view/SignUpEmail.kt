@@ -51,34 +51,20 @@ fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navControlle
     SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
     RequestEmail{signUpViewModel.verifyEmail()}
-    NextBtn(navController){signUpViewModel.checkVerifyEmail()}
+    NextBtn(){signUpViewModel.checkVerifyEmail()}
     SignUpExitBtn{navController.popBackStack()}
 
     if (signUpViewModel.authEmailState.value){
-        navController.navigate(Screen.MainPageScreen.route){
+        navController.navigate(Screen.SignUpScreen.route){
             navController.popBackStack()
         }
-        signUpViewModel.changeDialogAuthEmailState()
+        signUpViewModel.changeAuthEmailState()
     }
     if(signUpViewModel.dialogAuthEmailState.value){
         OneButtonDialog(
             contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
             text = "확인",
             onPress = { signUpViewModel.changeDialogAuthEmailState() },
-            image = R.drawable.baseline_error_24
-        )
-    }
-    if (signUpViewModel.checkAuthEmailState.value){
-        navController.navigate(Screen.MainPageScreen.route){
-            navController.popBackStack()
-        }
-        signUpViewModel.changeCheckAuthEmailState()
-    }
-    if(signUpViewModel.dialogCheckAuthEmailState.value){
-        OneButtonDialog(
-            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
-            text = "확인",
-            onPress = { signUpViewModel.changeDialogCheckAuthEmailState() },
             image = R.drawable.baseline_error_24
         )
     }
@@ -177,7 +163,7 @@ fun RequestEmail(onPress: () -> Unit){
 
 
 @Composable
-fun NextBtn(navController: NavController, onPress: () -> Unit){
+fun NextBtn(onPress: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -196,7 +182,7 @@ fun NextBtn(navController: NavController, onPress: () -> Unit){
                 .height(56.dp)
                 .background(color = Color.White)
         ){
-            navController.navigate(Screen.SignUpScreen.route)
+            onPress()
         }
         Spacer(modifier = Modifier.weight(0.1f))
     }
