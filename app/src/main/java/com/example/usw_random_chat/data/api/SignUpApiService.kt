@@ -8,17 +8,21 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface SignUpApiService {
-    @POST("member2/signUp") // 세부 주소
+    @POST("member2/signUp")
     @Headers("content-type: application/json")
     suspend fun registerSignUp(@Body jsonpath: UserDTO) : Response<UserDTO>
-
+    @POST("member/check-duplicate-id")
     suspend fun registerIdDoubleCheck(@Body jsonpath: UserDTO) : Response<UserDTO>
 
-    @GET("member2/signUp")
+    @POST("member2/signUp")
     @Headers("content-type: application/json")
     suspend fun registerAuthEmail(@Body jsonpath: UserDTO): Response<UserDTO>
 
-    @GET("member2/signUp")
+    @POST("member2/signUp")
     @Headers("content-type: application/json")
     suspend fun registerCheckAuthEmail(@Body jsonpath: UserDTO): Response<UserDTO>
+
+    @POST("member2/signUp")
+    @Headers("content-type: application/json")
+    suspend fun registerCheckSignUpId(@Body jsonpath: UserDTO): Response<UserDTO>
 }
