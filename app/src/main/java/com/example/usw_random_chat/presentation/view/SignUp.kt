@@ -74,7 +74,11 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             onBackClick = { navController.popBackStack() }
         )
         Spacer(Modifier.padding(top = 20.dp))
-        writeID(signUpViewModel.rememberId) { signUpViewModel.updateRememberId(it) }
+        writeID(
+            signUpViewModel.rememberId,
+            { newId -> signUpViewModel.updateRememberId(newId) },
+            { signUpViewModel.checkSignUpId() }
+        )
         Spacer(Modifier.padding(15.dp))
         writePW(signUpViewModel.rememberPw) { signUpViewModel.updateRememberPw(it) }
         Spacer(Modifier.padding(5.dp))
@@ -82,14 +86,14 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             signUpViewModel.updateRememberPwCheck(it)
         }
         Spacer(Modifier.padding(20.dp))
-        signUpButton(signUpViewModel.rememberTrigger.value){
+        signUpButton(signUpViewModel.rememberTrigger.value) {
             signUpViewModel.postSignUp()
         }
-        if (signUpViewModel.checkSignupIdState.value){
+        if (signUpViewModel.checkSignupIdState.value) {
             //중복확인 성공했을때 이벤트
             signUpViewModel.changeCheckSignUpIdState()
         }
-        if(signUpViewModel.dialogCheckSignUpIdState.value){
+        if (signUpViewModel.dialogCheckSignUpIdState.value) {
             OneButtonDialog(
                 contentText = "아이디가 \n중복입니다.",
                 text = "확인",
@@ -98,13 +102,26 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             )
         }
 
-        if (signUpViewModel.signupState.value){
-            navController.navigate(Screen.SignInScreen.route){
+        if (signUpViewModel.checkSignupNickNameState.value) {
+            //중복확인 성공했을때 이벤트
+            signUpViewModel.changeCheckSignUpNickNameState()
+        }
+        if (signUpViewModel.dialogCheckSignUpNickNameState.value) {
+            OneButtonDialog(
+                contentText = "닉네임익 \n중복입니다.",
+                text = "확인",
+                onPress = { signUpViewModel.changeDialogCheckSignUpNickNameState() },
+                image = R.drawable.baseline_error_24
+            )
+        }// 이건 닉네임 중복 확인에 쓰는 건데 닉네임 부분이 없어요
+
+        if (signUpViewModel.signupState.value) {
+            navController.navigate(Screen.SignInScreen.route) {
                 navController.popBackStack()
             }
             signUpViewModel.changeSignupState()
         }
-        if(signUpViewModel.dialogSignupState.value){
+        if (signUpViewModel.dialogSignupState.value) {
             OneButtonDialog(
                 contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
                 text = "확인",
@@ -116,7 +133,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
 }
 
 @Composable
-fun writeID(id: State<String>, onIdChanged: (String) -> Unit) {
+fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Unit) {
     val idLengthCheck = id.value.length < 4 || id.value.length > 16
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
@@ -155,7 +172,7 @@ fun writeID(id: State<String>, onIdChanged: (String) -> Unit) {
     }
     Spacer(Modifier.padding(5.dp))
     idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged, idLengthCheck) {
-
+        onPress()
     }
 }
 
