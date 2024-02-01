@@ -51,20 +51,33 @@ fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navControlle
     SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
     RequestEmail{signUpViewModel.verifyEmail()}
-    NextBtn(){signUpViewModel.checkVerifyEmail()}
+    NextBtn(navController){signUpViewModel.checkVerifyEmail()}
     SignUpExitBtn{navController.popBackStack()}
 
     if (signUpViewModel.authEmailState.value){
-        navController.navigate(Screen.SignUpScreen.route){
-            navController.popBackStack()
-        }
+        //이메일 전송했을 때 이벤트
         signUpViewModel.changeAuthEmailState()
     }
     if(signUpViewModel.dialogAuthEmailState.value){
         OneButtonDialog(
-            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+            contentText = "이메일 전송을\n실패했습니다.",
             text = "확인",
             onPress = { signUpViewModel.changeDialogAuthEmailState() },
+            image = R.drawable.baseline_error_24
+        )
+    }
+
+    if (signUpViewModel.checkAuthEmailState.value){
+        navController.navigate(Screen.SignUpScreen.route){
+            navController.popBackStack()
+        }
+        signUpViewModel.changeCheckAuthEmailState()
+    }
+    if(signUpViewModel.dialogCheckAuthEmailState.value){
+        OneButtonDialog(
+            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
+            text = "확인",
+            onPress = { signUpViewModel.changeDialogCheckAuthEmailState() },
             image = R.drawable.baseline_error_24
         )
     }
@@ -163,7 +176,7 @@ fun RequestEmail(onPress: () -> Unit){
 
 
 @Composable
-fun NextBtn(onPress: () -> Unit){
+fun NextBtn(navController: NavController,onPress: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -182,6 +195,7 @@ fun NextBtn(onPress: () -> Unit){
                 .height(56.dp)
                 .background(color = Color.White)
         ){
+            navController.navigate(Screen.SignUpScreen.route)//이걸로 이미지 확인 했는데 전 잘 뜨는데 혹시 다시 꺠지면 말해주세요
             onPress()
         }
         Spacer(modifier = Modifier.weight(0.1f))
