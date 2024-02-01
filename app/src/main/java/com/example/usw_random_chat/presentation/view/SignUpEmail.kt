@@ -195,7 +195,7 @@ fun NextBtn(navController: NavController,onPress: () -> Unit){
                 .height(56.dp)
                 .background(color = Color.White)
         ){
-            navController.navigate(Screen.MainPageScreen.route)//이걸로 이미지 확인 했는데 전 잘 뜨는데 혹시 다시 꺠지면 말해주세요
+            navController.navigate(Screen.SignUpScreen.route)//이걸로 이미지 확인 했는데 전 잘 뜨는데 혹시 다시 꺠지면 말해주세요
             onPress()
         }
         Spacer(modifier = Modifier.weight(0.1f))

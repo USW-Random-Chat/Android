@@ -10,8 +10,7 @@ import com.example.usw_random_chat.presentation.view.Screen
 import javax.inject.Inject
 
 class SignUpRepositoryImpl @Inject constructor(
-    private val signUpApiService: SignUpApiService,
-    private val navController: NavController
+    private val signUpApiService: SignUpApiService
 )  : SignUpRepository {
 
 
