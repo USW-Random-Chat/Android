@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
 import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.button
