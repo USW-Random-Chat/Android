@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
+import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
 import com.example.usw_random_chat.ui.text
@@ -29,12 +30,25 @@ fun IdSearch(userModifyViewModel: UserModifyViewModel = viewModel(), navControll
     IdText()
     IdSearchEmailBtn(){userModifyViewModel.postAuthEmail()}
     GoLogin(navController)
-    IdSearchExitBtn(navController)
+    IdSearchExitBtn{navController.popBackStack()}
+
+    if (userModifyViewModel.checkIdSearchAuthEmail.value){
+        //이메일 전송했을 때 이벤트
+        userModifyViewModel.changeCheckIdSearchAuthEmail()
+    }
+    if(userModifyViewModel.dialogCheckIdSearchAuthEmail.value){
+        OneButtonDialog(
+            contentText = "포털 메일 정보가\n 올바르지 않습니다.",
+            text = "확인",
+            onPress = { userModifyViewModel.changeDialogCheckIdSearchAuthEmail() },
+            image = R.drawable.baseline_error_24
+        )
+    }
 }
 
 
 @Composable
-fun IdSearchExitBtn(navController: NavController){
+fun IdSearchExitBtn(onPress: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +64,7 @@ fun IdSearchExitBtn(navController: NavController){
                 .width(100.dp)
                 .weight(0.6f)
                 .offset(y = 10.dp),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { onPress() }
         )
         Spacer(modifier = Modifier.weight(1.1f))
     }
