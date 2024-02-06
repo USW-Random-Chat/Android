@@ -393,7 +393,7 @@ fun signUpButton(trigger: Boolean, onPress: () -> Unit) {
         Row(Modifier) {
             Spacer(Modifier.weight(0.1f))
             button(
-                "회원가입 완료",
+                "다음",
                 enable = trigger,
                 Color.White,
                 Color.Black,
