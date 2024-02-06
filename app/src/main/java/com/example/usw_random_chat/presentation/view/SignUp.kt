@@ -324,7 +324,7 @@ fun checkPW(
                 .padding(start = (screenWidthInDp + 5).dp)
             //여긴 가중치로 줄 경우 붉은 글씨가 뜰때 얘네가 움직여서 고정값으로 줌
         )
-        if (equalCheck) {
+        if (!equalCheck && pwCheck.value.isNotEmpty()) {
             RedWarning(
                 "*비밀번호가 일치하지 않습니다",
                 Modifier
