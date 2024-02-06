@@ -325,10 +325,11 @@ fun portalEmail(
 }
 
 @Composable
-fun idSearchBtn(
+fun textFieldSearchBtn(
+    graytext : String,
     textFieldIdValue: String,
     onValueChange: (String) -> Unit,
-    idLengthCheck: Boolean,
+    trigger: Boolean,
     onPress: () -> Unit
 ) {
     val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
@@ -348,7 +349,7 @@ fun idSearchBtn(
         TextField(
             value = textFieldIdValue,
             onValueChange = { idValue -> onValueChange(idValue) },
-            placeholder = { Text(text = "아이디 입력 (4~16자)", color = Color.Gray) },
+            placeholder = { Text(text = graytext, color = Color.Gray) },
 
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
@@ -360,7 +361,7 @@ fun idSearchBtn(
                 .weight(0.8f)
         )
         Button(
-            enabled = !idLengthCheck,
+            enabled = !trigger,
             onClick = onPress,
             modifier = Modifier
                 //.padding(start = 30.dp)
