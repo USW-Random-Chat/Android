@@ -2,13 +2,9 @@ package com.example.usw_random_chat.presentation.ViewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.usw_random_chat.data.dto.UserDTO
-import com.example.usw_random_chat.data.repository.SignUpRepository
-import com.example.usw_random_chat.data.repositoryimpl.SignUpRepositoryImpl
 import com.example.usw_random_chat.domain.usecase.SignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -57,7 +53,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun verifyEmail() {
         viewModelScope.launch {
-            when(signUpUseCase.authEmail(UserDTO(email = email.value))){
+            when(signUpUseCase.authEmail(UserDTO(email = _email.value))){
                 in (200..300) -> _authEmailState.value = true
                 !in (200..300) -> _dialogAuthEmailState.value = true
             }
@@ -66,7 +62,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun checkVerifyEmail() {
         viewModelScope.launch {
-            when(signUpUseCase.checkAuthEmail(UserDTO(email = email.value))){
+            when(signUpUseCase.checkAuthEmail(UserDTO(email = _email.value))){
                 in (200..300) -> _checkAuthEmailState.value = true
                 !in (200..300) -> _dialogCheckAuthEmailState.value = true
             }
@@ -75,19 +71,21 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun checkSignUpId() {   //중복확인버튼에 사용할 함수
         viewModelScope.launch {
-            when(signUpUseCase.idDoubleCheck(UserDTO(memberID = rememberId.value))){
+            when(signUpUseCase.idDoubleCheck(UserDTO(memberID = _rememberId.value))){
                 in (200..300) -> _checkSignupIdState.value = true
                 !in (200..300) -> _dialogCheckSignUpIdState.value = true
             }
+            updateRememberTrigger()
         }
     }
 
     fun checkSignUpNickName() {   //회원가입 닉네임 중복 확인에 쓸 함수
         viewModelScope.launch {
-            when(signUpUseCase.checkSignUpNickName(UserDTO(nickname = nickName.value))){
+            when(signUpUseCase.checkSignUpNickName(UserDTO(nickname = _nickName.value))){
                 in (200..300) -> _checkSignupNickNameState.value = true
                 !in (200..300) -> _dialogCheckSignUpNickNameState.value = true
             }
+            updateRememberTrigger()
         }
     }
 
@@ -154,7 +152,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private fun updateRememberTrigger() {
         checkIdLength()
         _rememberTrigger.value = _rememberPw.value == _rememberPwCheck.value &&
-                _rememberIdLength.value && _rememberPwEqualOrNot.value
+                _checkSignupIdState.value && _rememberPwEqualOrNot.value && _checkSignupNickNameState.value
     }
 
     private fun checkIdLength() {
@@ -162,7 +160,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     }
     fun postSignUp() {
         viewModelScope.launch {
-            when(signUpUseCase.signUp(UserDTO(memberID = rememberId.value, memberPassword = rememberPw.value))){
+            when(signUpUseCase.signUp(UserDTO(memberID = _rememberId.value, memberPassword = _rememberPw.value, email = _email.value, nickname = _nickName.value))){
                 in (200..300) -> _signupState.value = true
                 !in (200..300) -> _dialogSignupState.value = true
             }
