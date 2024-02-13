@@ -258,17 +258,17 @@ fun tittleWithBackArrow(text: String, modifier: Modifier, onBackClick: () -> Uni
         Modifier, //horizontalArrangement = Arrangement.Center
     )
     {
-        Spacer(Modifier.weight(0.1f))
+        Spacer(Modifier.weight(0.12f))
         IconButton(onClick = { onBackClick() }) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "back",
                 Modifier
-                    .height(36.dp)
-                    .width(36.dp)
+                    .height(26.dp)
+                    .width(26.dp)
                     .weight(0.1f)
             )
         }
-        Spacer(Modifier.weight(0.25f))
+        Spacer(Modifier.weight(0.2f))
         Text(
             text = buildAnnotatedString {
                 append(text)
