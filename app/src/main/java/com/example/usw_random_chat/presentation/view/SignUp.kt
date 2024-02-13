@@ -74,8 +74,8 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             { newId -> signUpViewModel.updateRememberId(newId) },
             { signUpViewModel.checkSignUpId() }
         )
-        Spacer(Modifier.padding(15.dp))
-        writeNickName(signUpViewModel.nickName,signUpViewModel.checkSignupNickNameState.value,
+        Spacer(Modifier.padding(10.dp))
+        writeNickName(signUpViewModel.nickName, signUpViewModel.checkSignupNickNameState.value,
             { newNickname -> signUpViewModel.updateRememberNickName(newNickname) }
         ) { signUpViewModel.checkSignUpNickName() }
         Spacer(Modifier.padding(15.dp))
@@ -133,7 +133,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
 
 @Composable
 fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Unit) {
-    val idLengthCheck = id.value.length < 4 || id.value.length >16
+    val idLengthCheck = id.value.length < 4 || id.value.length > 16
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
@@ -170,7 +170,12 @@ fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Uni
         Spacer(Modifier.weight(0.3f))
     }
     Spacer(Modifier.padding(5.dp))
-    textFieldSearchBtn("아이디 입력 (4~16자)",textFieldIdValue = id.value, onValueChange = onIdChanged, idLengthCheck) {
+    textFieldSearchBtn(
+        "아이디 입력 (4~16자)",
+        textFieldIdValue = id.value,
+        onValueChange = onIdChanged,
+        idLengthCheck
+    ) {
         onPress()
     }
 }
@@ -179,7 +184,8 @@ fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Uni
 fun writeNickName(
     nickname: State<String>,
     nicknameTrigger: Boolean,
-    onNickNAmeChanged: (String) -> Unit, onPress: () -> Unit) {
+    onNickNAmeChanged: (String) -> Unit, onPress: () -> Unit
+) {
 
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
@@ -219,7 +225,12 @@ fun writeNickName(
         Spacer(Modifier.weight(0.3f))
     }
     Spacer(Modifier.padding(5.dp))
-    textFieldSearchBtn("닉네임 입력",textFieldIdValue = nickname.value, onValueChange = onNickNAmeChanged,nickname.value.isEmpty()) {
+    textFieldSearchBtn(
+        "닉네임 입력",
+        textFieldIdValue = nickname.value,
+        onValueChange = onNickNAmeChanged,
+        nickname.value.isEmpty()
+    ) {
         onPress()
     }
 }
