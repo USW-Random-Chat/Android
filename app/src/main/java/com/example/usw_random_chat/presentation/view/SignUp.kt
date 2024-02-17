@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -49,14 +47,11 @@ import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.RedWarning
 import com.example.usw_random_chat.ui.button
-import com.example.usw_random_chat.ui.idSearchBtn
-import com.example.usw_random_chat.ui.loginTextField
-import com.example.usw_random_chat.ui.text
+import com.example.usw_random_chat.ui.textFieldSearchBtn
 import com.example.usw_random_chat.ui.tittleWithBackArrow
 
 @Composable
 fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: NavController) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
 
     Column(
         modifier = Modifier
@@ -80,18 +75,25 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
             { signUpViewModel.checkSignUpId() }
         )
         Spacer(Modifier.padding(15.dp))
+        writeNickName(signUpViewModel.nickName,signUpViewModel.checkSignupNickNameState.value,
+            { newNickname -> signUpViewModel.updateRememberNickName(newNickname) }
+        ) { signUpViewModel.checkSignUpNickName() }
+        Spacer(Modifier.padding(15.dp))
         writePW(signUpViewModel.rememberPw) { signUpViewModel.updateRememberPw(it) }
         Spacer(Modifier.padding(5.dp))
         checkPW(signUpViewModel.rememberPwCheck, signUpViewModel.rememberPwEqualOrNot.value) {
             signUpViewModel.updateRememberPwCheck(it)
         }
         Spacer(Modifier.padding(20.dp))
-        signUpButton(signUpViewModel.rememberTrigger.value) {
-            signUpViewModel.postSignUp()
-        }
+        signUpNextButton(signUpViewModel.rememberTrigger.value, navController)
         if (signUpViewModel.checkSignupIdState.value) {
             //중복확인 성공했을때 이벤트
-            signUpViewModel.changeCheckSignUpIdState()
+            OneButtonDialog(
+                contentText = "아이디 사용이 \n가능합니다.",
+                text = "확인",
+                onPress = { signUpViewModel.changeCheckSignUpIdState() },
+                image = R.drawable.baseline_error_24
+            )
         }
         if (signUpViewModel.dialogCheckSignUpIdState.value) {
             OneButtonDialog(
@@ -104,7 +106,12 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
 
         if (signUpViewModel.checkSignupNickNameState.value) {
             //중복확인 성공했을때 이벤트
-            signUpViewModel.changeCheckSignUpNickNameState()
+            OneButtonDialog(
+                contentText = "닉네임 사용이 \n가능합니다.",
+                text = "확인",
+                onPress = { signUpViewModel.changeCheckSignUpNickNameState() },
+                image = R.drawable.baseline_error_24
+            )
         }
         if (signUpViewModel.dialogCheckSignUpNickNameState.value) {
             OneButtonDialog(
@@ -113,28 +120,13 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: 
                 onPress = { signUpViewModel.changeDialogCheckSignUpNickNameState() },
                 image = R.drawable.baseline_error_24
             )
-        }// 이건 닉네임 중복 확인에 쓰는 건데 닉네임 부분이 없어요
-
-        if (signUpViewModel.signupState.value) {
-            navController.navigate(Screen.SignInScreen.route) {
-                navController.popBackStack()
-            }
-            signUpViewModel.changeSignupState()
-        }
-        if (signUpViewModel.dialogSignupState.value) {
-            OneButtonDialog(
-                contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
-                text = "확인",
-                onPress = { signUpViewModel.changeDialogSignupState() },
-                image = R.drawable.baseline_error_24
-            )
-        }
+        }// 여기 있는 if문 필요없어서 뺐어요
     }
 }
 
 @Composable
 fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Unit) {
-    val idLengthCheck = id.value.length < 4 || id.value.length > 16
+    val idLengthCheck = id.value.length < 4 || id.value.length >16
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
@@ -171,7 +163,56 @@ fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Uni
         Spacer(Modifier.weight(0.3f))
     }
     Spacer(Modifier.padding(5.dp))
-    idSearchBtn(textFieldIdValue = id.value, onValueChange = onIdChanged, idLengthCheck) {
+    textFieldSearchBtn("아이디 입력 (4~16자)",textFieldIdValue = id.value, onValueChange = onIdChanged, idLengthCheck) {
+        onPress()
+    }
+}
+
+@Composable
+fun writeNickName(
+    nickname: State<String>,
+    nicknameTrigger: Boolean,
+    onNickNAmeChanged: (String) -> Unit, onPress: () -> Unit) {
+
+    Row(
+        Modifier, horizontalArrangement = Arrangement.Start
+    ) {
+        Spacer(Modifier.weight(0.2f))
+        Text(
+            text = "닉네임",
+            fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+            fontSize = 16.sp,
+            lineHeight = 18.sp,
+            fontWeight = FontWeight(400),
+            color = Color(0xFF000000),
+            textAlign = TextAlign.Left,
+            modifier = Modifier
+                .height(19.dp)
+                .weight(0.24f)
+        )
+
+        if (!nicknameTrigger or nickname.value.isEmpty()) {
+            RedWarning(
+                "                ",
+                Modifier
+                    .height(18.dp)
+                    .weight(1f)
+                    .padding(top = 3.dp)
+            )
+        } else {
+            RedWarning(
+                "* 이미 사용중인 닉네임입니다",
+                Modifier
+                    .height(18.dp)
+                    .weight(1f)
+                    .padding(top = 3.dp)
+            )
+
+        }
+        Spacer(Modifier.weight(0.3f))
+    }
+    Spacer(Modifier.padding(5.dp))
+    textFieldSearchBtn("닉네임 입력",textFieldIdValue = nickname.value, onValueChange = onNickNAmeChanged,nickname.value.isEmpty()) {
         onPress()
     }
 }
@@ -276,7 +317,7 @@ fun checkPW(
                 .padding(start = (screenWidthInDp + 5).dp)
             //여긴 가중치로 줄 경우 붉은 글씨가 뜰때 얘네가 움직여서 고정값으로 줌
         )
-        if (!equalCheck) {
+        if (!equalCheck && pwCheck.value.isNotEmpty()) {
             RedWarning(
                 "*비밀번호가 일치하지 않습니다",
                 Modifier
@@ -338,14 +379,14 @@ fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit
 }*/
 
 @Composable
-fun signUpButton(trigger: Boolean, onPress: () -> Unit) {
+fun signUpNextButton(trigger: Boolean, navController: NavController) {
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(Modifier) {
             Spacer(Modifier.weight(0.1f))
             button(
-                "회원가입 완료",
+                "다음",
                 enable = trigger,
                 Color.White,
                 Color.Black,
@@ -354,7 +395,8 @@ fun signUpButton(trigger: Boolean, onPress: () -> Unit) {
                     .height(56.dp)
                     .background(color = Color.White)
             ) {
-                onPress()
+                navController.navigate(Screen.EmailAuthScreen.route)
+                //onPress 필요없어서 뺐어요 이메일 인증 화면으로 넘어가서 서버에 전달 해주기 떄문에
             }
             Spacer(Modifier.weight(0.1f))
         }

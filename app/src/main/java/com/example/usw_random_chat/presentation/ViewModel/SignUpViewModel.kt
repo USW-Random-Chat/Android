@@ -2,13 +2,9 @@ package com.example.usw_random_chat.presentation.ViewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.usw_random_chat.data.dto.UserDTO
-import com.example.usw_random_chat.data.repository.SignUpRepository
-import com.example.usw_random_chat.data.repositoryimpl.SignUpRepositoryImpl
 import com.example.usw_random_chat.domain.usecase.SignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,6 +31,8 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     private val _dialogCheckSignUpIdState = mutableStateOf(false)
     private val _checkSignupNickNameState = mutableStateOf(false)
     private val _dialogCheckSignUpNickNameState = mutableStateOf(false)
+    private val _signUpIdState = mutableStateOf(false)
+    private val _signUpNickNameState = mutableStateOf(false)
 
     val rememberId: State<String> = _rememberId
     val nickName: State<String> = _nickName
@@ -57,7 +55,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     fun verifyEmail() {
         viewModelScope.launch {
-            when(signUpUseCase.authEmail(UserDTO(email = email.value))){
+            when(signUpUseCase.authEmail(UserDTO(memberID = rememberId.value, memberPassword = rememberPw.value, nickname = nickName.value, email = email.value))){
                 in (200..300) -> _authEmailState.value = true
                 !in (200..300) -> _dialogAuthEmailState.value = true
             }
@@ -79,6 +77,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
                 in (200..300) -> _checkSignupIdState.value = true
                 !in (200..300) -> _dialogCheckSignUpIdState.value = true
             }
+            updateRememberTrigger()
         }
     }
 
@@ -88,6 +87,7 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
                 in (200..300) -> _checkSignupNickNameState.value = true
                 !in (200..300) -> _dialogCheckSignUpNickNameState.value = true
             }
+            updateRememberTrigger()
         }
     }
 
@@ -124,13 +124,16 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         _checkSignupNickNameState.value = !_checkSignupNickNameState.value
     }
     fun changeDialogCheckSignUpNickNameState(){
+        _signUpNickNameState.value = !_signUpNickNameState.value
         _dialogCheckSignUpNickNameState.value = !_dialogCheckSignUpNickNameState.value
     }
     fun changeCheckSignUpIdState(){
-        _checkSignupIdState.value = !_checkSignupIdState.value
+        _checkSignupIdState.value = !_checkSignupIdState.value// 새로 만든 boolean값 여기에 같이 바꿨어요
+        _signUpNickNameState.value = true//그러면 성공했을때 RememberTrigger 값이 true가 되면 버튼 활성화 됩니다
     }
     fun changeDialogCheckSignUpIdState(){
         _dialogCheckSignUpIdState.value = !_dialogCheckSignUpIdState.value
+        _signUpIdState.value = true
     }
     fun changeAuthEmailState(){
         _authEmailState.value = !_authEmailState.value
@@ -153,19 +156,11 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
 
     private fun updateRememberTrigger() {
         checkIdLength()
-        _rememberTrigger.value = _rememberPw.value == _rememberPwCheck.value &&
-                _rememberIdLength.value && _rememberPwEqualOrNot.value
-    }
+        _rememberTrigger.value = _signUpIdState.value && _rememberPwEqualOrNot.value && _signUpNickNameState.value
+    }//_rememberPw.value == _rememberPwCheck.value 이건 지웠어요 이게 _rememberPwEqualOrNot랑 같아서
+    //그리고 _signUpIdState랑 _signUpNickNameState로 새로 만들었어요 생각해보니까 change함수로 다시 false만들면 버튼활성화가 안되서요 이 boolean값은 if문 안에 넣었습니다
 
     private fun checkIdLength() {
         _rememberIdLength.value = !(_rememberId.value.length < 4 || _rememberId.value.length > 16)
-    }
-    fun postSignUp() {
-        viewModelScope.launch {
-            when(signUpUseCase.signUp(UserDTO(memberID = rememberId.value, memberPassword = rememberPw.value))){
-                in (200..300) -> _signupState.value = true
-                !in (200..300) -> _dialogSignupState.value = true
-            }
-        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.usw_random_chat.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -32,13 +31,10 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -89,43 +85,71 @@ fun text(text1: String,
     )
 }
 
+@Composable
+fun image(){
+    Box(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxSize(),
+        contentAlignment = Alignment.TopEnd
+    ){
+        Row(){
+            Spacer(modifier = Modifier.weight(0.1f))
+            Image(
+                painter = painterResource(id = R.drawable.balloon),
+                contentDescription = "image description",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(331.dp)
+                    .weight(1f),
+                alignment = Alignment.TopEnd
+            )
+        }
+    }
+}
+
 
 @Composable
 fun madeAccount() {
-    Row(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 562.dp
-            )
+            .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(0.4f))
-        Divider(
-            color = Color(0xFFBFBFBF),
+        Spacer(modifier = Modifier.weight(5f))
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .padding(top = 9.dp)
-        )
-        Spacer(modifier = Modifier.weight(0.3f))
+                .fillMaxSize()
+                .weight(0.5f)
+        ) {
+            Spacer(modifier = Modifier.weight(0.4f))
+            Divider(
+                color = Color(0xFFBFBFBF),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 9.dp)
+            )
+            Spacer(modifier = Modifier.weight(0.3f))
 
-        Text(
-            text = "계정이 없으신가요?",
-            style = TextStyle(
-                fontFamily = FontFamily(Font(R.font.pretendard_regular)),
-                fontSize = 14.sp
-            ),
-            modifier = Modifier
-                .weight(1.3f)
-        )
-        Spacer(modifier = Modifier.weight(0.3f))
+            Text(
+                text = "계정이 없으신가요?",
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.pretendard_regular)),
+                    fontSize = 14.sp
+                ),
+                modifier = Modifier
+                    .weight(1.3f)
+            )
+            Spacer(modifier = Modifier.weight(0.3f))
 
-        Divider(
-            color = Color(0xFFBFBFBF),
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 9.dp)
-        )
-        Spacer(modifier = Modifier.weight(0.4f))
+            Divider(
+                color = Color(0xFFBFBFBF),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 9.dp)
+            )
+            Spacer(modifier = Modifier.weight(0.4f))
+        }
+        Spacer(modifier = Modifier.weight(1.5f))
     }
 }
 
@@ -168,41 +192,98 @@ fun loginFindIdAndPassword(navController: NavController) {
     }
 }
 
-
 @Composable
-fun loginTextField(
+fun loginTextFieldId(
     text: State<String>,
     text2: String,
     onValueChange: (String) -> Unit
 ) {
-    Row() {
-        Spacer(modifier = Modifier.weight(0.1f))
-        OutlinedTextField(
-            value = text.value,
-            onValueChange = onValueChange,
-            shape = RoundedCornerShape(10.dp),
-            placeholder = {
-                Text(
-                    text = text2,
-                    color = Color(0xFF989898),
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.pretendard_regular))
-                    ),
-                    modifier = Modifier
-                        .height(IntrinsicSize.Min)
-                )
-            },
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+    ){
+        Spacer(modifier = Modifier.weight(1.2f))
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .height(48.dp)
-                .background(color = Color.White),
-            visualTransformation = if (text2 == "PASSWORD") PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = if (text2 == "PASSWORD") KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
-        )
-        Spacer(modifier = Modifier.weight(0.1f))
+                .fillMaxSize()
+                .weight(0.8f)
+        ) {
+            Spacer(modifier = Modifier.weight(0.1f))
+            OutlinedTextField(
+                value = text.value,
+                onValueChange = onValueChange,
+                shape = RoundedCornerShape(10.dp),
+                placeholder = {
+                    Text(
+                        text = text2,
+                        color = Color(0xFF989898),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.pretendard_regular))
+                        ),
+                        modifier = Modifier
+                            .height(IntrinsicSize.Min)
+                    )
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp)
+                    .background(color = Color.White),
+                visualTransformation = if (text2 == "PASSWORD") PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = if (text2 == "PASSWORD") KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
+            )
+            Spacer(modifier = Modifier.weight(0.1f))
+        }
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
+
+@Composable
+fun loginTextFieldPw(
+    text: State<String>,
+    text2: String,
+    onValueChange: (String) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+    ){
+        Spacer(modifier = Modifier.weight(1.4f))
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(0.8f)
+        ) {
+            Spacer(modifier = Modifier.weight(0.1f))
+            OutlinedTextField(
+                value = text.value,
+                onValueChange = onValueChange,
+                shape = RoundedCornerShape(10.dp),
+                placeholder = {
+                    Text(
+                        text = text2,
+                        color = Color(0xFF989898),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.pretendard_regular))
+                        ),
+                        modifier = Modifier
+                            .height(IntrinsicSize.Min)
+                    )
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp)
+                    .background(color = Color.White),
+                visualTransformation = if (text2 == "PASSWORD") PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = if (text2 == "PASSWORD") KeyboardOptions(keyboardType = KeyboardType.Password) else KeyboardOptions.Default,
+            )
+            Spacer(modifier = Modifier.weight(0.1f))
+        }
+        Spacer(modifier = Modifier.weight(0.8f))
+    }
+}
+
 
 
 @Composable
@@ -330,10 +411,11 @@ fun portalEmail(
 }
 
 @Composable
-fun idSearchBtn(
+fun textFieldSearchBtn(
+    graytext : String,
     textFieldIdValue: String,
     onValueChange: (String) -> Unit,
-    idLengthCheck: Boolean,
+    trigger: Boolean,
     onPress: () -> Unit
 ) {
     val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
@@ -353,7 +435,7 @@ fun idSearchBtn(
         TextField(
             value = textFieldIdValue,
             onValueChange = { idValue -> onValueChange(idValue) },
-            placeholder = { Text(text = "아이디 입력 (4~16자)", color = Color.Gray) },
+            placeholder = { Text(text = graytext, color = Color.Gray) },
 
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
@@ -365,7 +447,7 @@ fun idSearchBtn(
                 .weight(0.8f)
         )
         Button(
-            enabled = !idLengthCheck,
+            enabled = !trigger,
             onClick = onPress,
             modifier = Modifier
                 //.padding(start = 30.dp)

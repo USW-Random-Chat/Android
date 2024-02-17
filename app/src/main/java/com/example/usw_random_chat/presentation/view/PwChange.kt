@@ -250,7 +250,7 @@ fun PwChangeBotton(trigger: Boolean, navController: NavController, onPress: () -
                 .weight(1f)
                 .height(56.dp)
         ){
-        onPress
+        onPress()
         navController.navigate(Screen.SignInScreen.route)
         }
         Spacer(Modifier.weight(0.1f))
