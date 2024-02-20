@@ -16,7 +16,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.IdSearchScreen.route
+        startDestination = Screen.LoadingScreen.route
     )
     {
         composable(route = Screen.SignInScreen.route) {

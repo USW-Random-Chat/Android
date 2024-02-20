@@ -115,7 +115,7 @@ fun madeAccount() {
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(5f))
+        Spacer(modifier = Modifier.weight(5.6f))
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -144,12 +144,12 @@ fun madeAccount() {
             Divider(
                 color = Color(0xFFBFBFBF),
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(1.1f)
                     .padding(top = 9.dp)
             )
             Spacer(modifier = Modifier.weight(0.4f))
         }
-        Spacer(modifier = Modifier.weight(1.5f))
+        Spacer(modifier = Modifier.weight(1.1f))
     }
 }
 
@@ -198,15 +198,9 @@ fun loginTextFieldId(
     text2: String,
     onValueChange: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-    ){
-        Spacer(modifier = Modifier.weight(1.2f))
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .weight(0.8f)
+                .fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
             OutlinedTextField(
@@ -234,8 +228,6 @@ fun loginTextFieldId(
             )
             Spacer(modifier = Modifier.weight(0.1f))
         }
-        Spacer(modifier = Modifier.weight(1f))
-    }
 }
 
 @Composable
@@ -244,15 +236,9 @@ fun loginTextFieldPw(
     text2: String,
     onValueChange: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-    ){
-        Spacer(modifier = Modifier.weight(1.4f))
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(0.8f)
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
             OutlinedTextField(
@@ -280,8 +266,6 @@ fun loginTextFieldPw(
             )
             Spacer(modifier = Modifier.weight(0.1f))
         }
-        Spacer(modifier = Modifier.weight(0.8f))
-    }
 }
 
 

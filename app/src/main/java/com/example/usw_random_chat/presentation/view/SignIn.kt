@@ -37,8 +37,12 @@ import com.example.usw_random_chat.ui.madeAccount
 fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: NavController) {
 
     LoginImage()
-    LoginTextFieldId(id = signInViewModel.id) { signInViewModel.updateID(it) }
-    LoginTextFieldPW(password = signInViewModel.password) { signInViewModel.updatePassWord(it) }
+    LoginTextFieldId(
+        id = signInViewModel.id,
+        password = signInViewModel.password,
+        { newId -> signInViewModel.updateID(newId) },
+        { newPw -> signInViewModel.updatePassWord(newPw) }
+    )
     LoginBtn(){signInViewModel.postSignIn()}
     OnLoginFindIdAndPassword(navController)
     MadeAccountText()
@@ -69,34 +73,41 @@ fun LoginImage() {
 @Composable
 fun LoginTextFieldId(  // textfield를 하나만 만들고 이름만 바꿔서 함수를 재사용 할 수 있게 변경해주세요
     id: State<String>,
-    onValueId: (String) -> Unit
-) {
-    loginTextFieldId(
-        text = id,
-        text2 = "ID",
-        onValueChange = onValueId
-    )
-}
-
-@Composable
-fun LoginTextFieldPW(  // textfield를 하나만 만들고 이름만 바꿔서 함수를 재사용 할 수 있게 변경해주세요
     password: State<String>,
+    onValueId: (String) -> Unit,
     onValuePw: (String) -> Unit
 ) {
-    loginTextFieldPw(
-        text = password,
-        text2 = "PASSWORD",
-        onValueChange = onValuePw
-    )
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+    ){
+        Spacer(modifier = Modifier.weight(2.3f))
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ){
+            loginTextFieldId(
+                text = id,
+                text2 = "ID",
+                onValueChange = onValueId
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            loginTextFieldPw(
+                text = password,
+                text2 = "PASSWORD",
+                onValueChange = onValuePw
+            )
+        }
+        Spacer(modifier = Modifier.weight(1.8f))
+    }
 }
-
 @Composable
 fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
     Column(
         modifier = Modifier
             .fillMaxHeight()
     ){
-        Spacer(modifier = Modifier.weight(4.4f))
+        Spacer(modifier = Modifier.weight(4.9f))
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -116,7 +127,7 @@ fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키�
             }
             Spacer(modifier = Modifier.weight(0.1f))
         }
-        Spacer(modifier = Modifier.weight(2.7f))
+        Spacer(modifier = Modifier.weight(2.2f))
     }
 }
 
@@ -126,7 +137,7 @@ fun OnLoginFindIdAndPassword(navController: NavController) { //textbutton 이름
         modifier = Modifier
             .fillMaxHeight()
     ){
-        Spacer(modifier = Modifier.weight(4.7f))
+        Spacer(modifier = Modifier.weight(5.2f))
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -135,7 +146,7 @@ fun OnLoginFindIdAndPassword(navController: NavController) { //textbutton 이름
         ) {
             loginFindIdAndPassword(navController)
         }
-        Spacer(modifier = Modifier.weight(2.3f))
+        Spacer(modifier = Modifier.weight(1.8f))
     }
 }
 
@@ -151,7 +162,7 @@ fun SignUpBtn(navController: NavController) { // asdasd변수 이름 적절하�
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(5.8f))
+        Spacer(modifier = Modifier.weight(6.4f))
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -171,7 +182,7 @@ fun SignUpBtn(navController: NavController) { // asdasd변수 이름 적절하�
             }
             Spacer(modifier = Modifier.weight(0.1f))
         }
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(0.6f))
     }
 }
 
