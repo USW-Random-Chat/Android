@@ -16,7 +16,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.ChatScreen.route
+        startDestination = Screen.IdSearchScreen.route
     )
     {
         composable(route = Screen.SignInScreen.route) {
@@ -40,7 +40,7 @@ fun Navigation() {
         }
         composable(route = Screen.PwSearchScreen.route) {
             val viewModel = hiltViewModel<UserModifyViewModel>()
-            PwSearchScreen(navController,viewModel)
+            PwSearchScreen(viewModel)
         }
         composable(route = Screen.IdSearchScreen.route) {
             val viewModel = hiltViewModel<UserModifyViewModel>()

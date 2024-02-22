@@ -1,7 +1,6 @@
 package com.example.usw_random_chat.presentation.view
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,39 +9,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
-import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
 import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.button
 import com.example.usw_random_chat.ui.portalEmail
-import com.example.usw_random_chat.ui.sendImg
 import com.example.usw_random_chat.ui.text
 import com.example.usw_random_chat.ui.tittleWithBackArrow
 
@@ -50,12 +30,11 @@ import com.example.usw_random_chat.ui.tittleWithBackArrow
 fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navController: NavController){
     SignUpEmail(email = signUpViewModel.email){ signUpViewModel.updateEmail(it) }
     SignUpEmailBtn()
-    RequestEmail{signUpViewModel.postSignUp()}
-    NextBtn(navController){signUpViewModel.checkVerifyEmail()}
+    RequestEmail{signUpViewModel.verifyEmail()}
     SignUpExitBtn{navController.popBackStack()}
 
     if (signUpViewModel.authEmailState.value){
-        //이메일 전송했을 때 이벤트
+        navController.navigate(Screen.SignInScreen.route)
         signUpViewModel.changeAuthEmailState()
     }
     if(signUpViewModel.dialogAuthEmailState.value){
@@ -63,21 +42,6 @@ fun EmailAuthScreen(signUpViewModel: SignUpViewModel = viewModel(), navControlle
             contentText = "이메일 전송을\n실패했습니다.",
             text = "확인",
             onPress = { signUpViewModel.changeDialogAuthEmailState() },
-            image = R.drawable.baseline_error_24
-        )
-    }
-
-    if (signUpViewModel.checkAuthEmailState.value){
-        navController.navigate(Screen.SignUpScreen.route){
-            navController.popBackStack()
-        }
-        signUpViewModel.changeCheckAuthEmailState()
-    }
-    if(signUpViewModel.dialogCheckAuthEmailState.value){
-        OneButtonDialog(
-            contentText = "아이디 혹은 비밀번호가\n올바르지 않습니다.",
-            text = "확인",
-            onPress = { signUpViewModel.changeDialogCheckAuthEmailState() },
             image = R.drawable.baseline_error_24
         )
     }
@@ -122,7 +86,7 @@ fun SignUpEmail(
             )
     ) {
         Spacer(modifier = Modifier.weight(0.1f))
-        portalEmail(textFieldValue = email, onValueChange = onValueEmail)
+        portalEmail(text = email, onValueChange = onValueEmail)
         Spacer(modifier = Modifier.weight(0.1f))
     }
 }
@@ -168,34 +132,6 @@ fun RequestEmail(onPress: () -> Unit){
                 .weight(1f)
                 .height(56.dp)
         ) {
-            onPress()
-        }
-        Spacer(modifier = Modifier.weight(0.1f))
-    }
-}
-
-
-@Composable
-fun NextBtn(navController: NavController,onPress: () -> Unit){
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = 354.dp
-            )
-    ){
-        Spacer(modifier = Modifier.weight(0.1f))
-        button(
-            "다음",
-            enable = true,
-            Color.White,
-            Color.Black,
-            Modifier
-                .weight(1f)
-                .height(56.dp)
-                .background(color = Color.White)
-        ){
-            navController.navigate(Screen.SignUpScreen.route)//이걸로 이미지 확인 했는데 전 잘 뜨는데 혹시 다시 꺠지면 말해주세요
             onPress()
         }
         Spacer(modifier = Modifier.weight(0.1f))
