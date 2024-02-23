@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
+import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.TextfiledTitle
 import com.example.usw_random_chat.ui.VisibleText
 import com.example.usw_random_chat.ui.button
@@ -77,7 +78,7 @@ fun TextFieldOfPwChange(
     Row(
         Modifier
     ) {
-        Spacer(Modifier.weight(0.17f))
+        Spacer(Modifier.weight(0.13f))
 
         TextfiledTitle("비밀번호","* 6자 이상 20자 이내로 작성해 주세요",
             Modifier
@@ -96,7 +97,7 @@ fun TextFieldOfPwChange(
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)",1f,0.00005f)
+    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)")
 }
 
 
@@ -106,10 +107,11 @@ fun TextFieldOfPwCheck(
     equal: Boolean,
     onRememberPwCheck: (String) -> Unit
 ) {
+
     Row(
         Modifier
     ) {
-        Spacer(Modifier.weight(0.19f))
+        Spacer(Modifier.weight(0.15f))
         TextfiledTitle("비밀번호 확인","* 비밀번호가 일치하지 않습니다",
             Modifier
             .height(19.dp)
@@ -124,16 +126,17 @@ fun TextFieldOfPwCheck(
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pwcheck,onRememberPwCheck,"",1f,0.0005f)
+    VisibleText(pwcheck,onRememberPwCheck,"")
 
 }
 
 @Composable
 fun PwChangeBotton(trigger: Boolean, navController: NavController, onPress: () -> Unit) {
+    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2 -10
     Row(
         Modifier
     ) {
-        Spacer(Modifier.weight(0.1f))
+        Spacer(Modifier.width(screenWidthInDp.dp))
         button(
             text = "변경완료",
             enable = trigger,
@@ -147,7 +150,7 @@ fun PwChangeBotton(trigger: Boolean, navController: NavController, onPress: () -
         onPress()
         navController.navigate(Screen.SignInScreen.route)
         }
-        Spacer(Modifier.weight(0.1f))
+        Spacer(Modifier.width(screenWidthInDp.dp))
     }
 
 }
