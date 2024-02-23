@@ -31,7 +31,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignUpViewModel
-import com.example.usw_random_chat.ui.GetScreenWidthInDp
 import com.example.usw_random_chat.ui.OneButtonDialog
 import com.example.usw_random_chat.ui.TextfiledTitle
 import com.example.usw_random_chat.ui.VisibleText
@@ -119,7 +118,7 @@ fun writeID(id: State<String>, onIdChanged: (String) -> Unit, onPress: () -> Uni
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
-        Spacer(Modifier.weight(0.15f))
+        Spacer(Modifier.weight(0.2f))
 
         TextfiledTitle(
             "아이디", "*4자 이상 16자 이내로 작성해주세요",
@@ -155,7 +154,7 @@ fun writeNickName(
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
-        Spacer(Modifier.weight(0.15f))
+        Spacer(Modifier.weight(0.2f))
 
         TextfiledTitle(
             "닉네임", "                ",
@@ -188,7 +187,7 @@ fun writePW(pw: State<String>, onRememberPw: (String) -> Unit) {
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
-        Spacer(Modifier.weight(0.105f))
+        Spacer(Modifier.weight(0.14f))
 
         TextfiledTitle(
             "비밀번호", "*6자 이상 20자 이내로 작성해 주세요",
@@ -205,7 +204,7 @@ fun writePW(pw: State<String>, onRememberPw: (String) -> Unit) {
     }
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pw, onRememberPw, "비밀번호 입력 (문자,숫자 포함 6~20자)")
+    VisibleText(pw, onRememberPw, "비밀번호 입력 (문자,숫자 포함 6~20자)", 1f, 0.0005f)
 }
 
 @Composable
@@ -217,7 +216,7 @@ fun checkPW(
     Row(
         Modifier, horizontalArrangement = Arrangement.Start
     ) {
-        Spacer(Modifier.weight(0.11f))
+        Spacer(Modifier.weight(0.145f))
         TextfiledTitle(
             "비밀번호 확인", "*비밀번호가 일치하지 않습니다",
             Modifier
@@ -232,7 +231,7 @@ fun checkPW(
     }
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pwCheck, onRememberPwCheck, "")
+    VisibleText(pwCheck, onRememberPwCheck, "", 0.8f, 0.0005f)
 
 }
 
@@ -251,12 +250,11 @@ fun EmailTextFieldSignUp(email: State<String>, onRememberEmail: (String) -> Unit
 
 @Composable
 fun signUpNextButton(trigger: Boolean, navController: NavController) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2 -10
     Column(
         Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(Modifier) {
-            Spacer(Modifier.width(screenWidthInDp.dp))
+            Spacer(Modifier.weight(0.1f))
             button(
                 "다음",
                 enable = trigger,
@@ -270,7 +268,7 @@ fun signUpNextButton(trigger: Boolean, navController: NavController) {
                 navController.navigate(Screen.EmailAuthScreen.route)
                 //onPress 필요없어서 뺐어요 이메일 인증 화면으로 넘어가서 서버에 전달 해주기 떄문에
             }
-            Spacer(Modifier.width(screenWidthInDp.dp))
+            Spacer(Modifier.weight(0.1f))
         }
         Row(Modifier) {
             // 아래 부분 코드를 더 줄일 수 있는 방법이 있는지 고민해주세요

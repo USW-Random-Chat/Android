@@ -346,7 +346,7 @@ fun tittleWithBackArrow(text: String, modifier: Modifier, onBackClick: () -> Uni
         Modifier, //horizontalArrangement = Arrangement.Center
     )
     {
-        Spacer(Modifier.weight(0.1f))
+        Spacer(Modifier.weight(0.12f))
         IconButton(onClick = { onBackClick() }) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack, contentDescription = "back",
@@ -420,7 +420,7 @@ fun textFieldSearchBtn(
     trigger: Boolean,
     onPress: () -> Unit
 ) {
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2 -10
+    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -437,7 +437,7 @@ fun textFieldSearchBtn(
         TextField(
             value = textFieldIdValue,
             onValueChange = { idValue -> onValueChange(idValue) },
-            placeholder = { Text(text = graytext, color = Color.Gray, fontSize = 16.sp) },
+            placeholder = { Text(text = graytext, color = Color.Gray, fontSize = 14.sp) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 focusedIndicatorColor = Color.Transparent, // 포커스되었을 때의 밑줄 색상
@@ -907,12 +907,13 @@ fun TextfiledTitle(title: String,redTrueText:String,textModifier:Modifier,redBoo
 }
 
 @Composable
-fun VisibleText(textValue: State<String>, onValueChange : (String)-> Unit,placeholder:String){
-    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2 -10
+fun VisibleText(textValue: State<String>, onValueChange : (String)-> Unit,placeholder:String,textModifier : Float,spacerModifier: Float){
+    val screenWidthInDp = (GetScreenWidthInDp() - 326) / 2
     val passwordVisible = remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            //.fillMaxWidth()
             .height(55.dp)
             .padding(start = screenWidthInDp.dp, end = screenWidthInDp.dp)
             .border(
@@ -924,7 +925,7 @@ fun VisibleText(textValue: State<String>, onValueChange : (String)-> Unit,placeh
             value = textValue.value,
             onValueChange = {textValue -> onValueChange(textValue)},
             visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-            placeholder = { Text(text = placeholder, color = Color.Gray,fontSize = 16.sp) },
+            placeholder = { Text(text = placeholder, color = Color.Gray,fontSize = 14.sp) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 focusedIndicatorColor = Color.Transparent, // 포커스되었을 때의 밑줄 색상
@@ -932,15 +933,15 @@ fun VisibleText(textValue: State<String>, onValueChange : (String)-> Unit,placeh
                 disabledIndicatorColor = Color.Transparent // 비활성화되었을 때의 밑줄 색상
             ),
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.width((GetScreenWidthInDp()-90).dp)
-
+            modifier = Modifier
+                .weight(textModifier)
         )
         IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
             Icon(
                 painter = painterResource(id = if (passwordVisible.value) R.drawable.visibility else R.drawable.visibility_off),
-                contentDescription = null, // decorative element
-                modifier = Modifier.padding(end = 10.dp)
+                contentDescription = null // decorative element
             )
         }
+        Spacer(Modifier.weight(spacerModifier))
     }
 }
