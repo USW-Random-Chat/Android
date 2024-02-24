@@ -96,7 +96,7 @@ fun TextFieldOfPwChange(
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)",1f,0.00005f)
+    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)")
 }
 
 
@@ -124,7 +124,7 @@ fun TextFieldOfPwCheck(
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pwcheck,onRememberPwCheck,"",1f,0.0005f)
+    VisibleText(pwcheck,onRememberPwCheck,"")
 
 }
 
