@@ -38,8 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -63,11 +61,12 @@ import java.text.SimpleDateFormat
 
 
 @Composable
-fun text(text1: String,
-         text2: String,
-         text3: String,
-         modifier: Modifier
-){
+fun CustomText(
+    text1: String,
+    text2: String,
+    text3: String,
+    modifier: Modifier
+) {
     Text(
         text = buildAnnotatedString {
             withStyle(style = SpanStyle(color = Color(0xFF989898))) {
@@ -76,7 +75,7 @@ fun text(text1: String,
             withStyle(style = SpanStyle(color = Color(0xFF2D64D8))) {
                 append(text2)
             }
-            withStyle(style = SpanStyle(color = Color(0xFF989898))){
+            withStyle(style = SpanStyle(color = Color(0xFF989898))) {
                 append(text3)
             }
         },
@@ -87,32 +86,9 @@ fun text(text1: String,
     )
 }
 
-@Composable
-fun image(){
-    Box(
-        modifier = Modifier
-            .padding(top = 10.dp)
-            .fillMaxSize(),
-        contentAlignment = Alignment.TopEnd
-    ){
-        Row(){
-            Spacer(modifier = Modifier.weight(0.1f))
-            Image(
-                painter = painterResource(id = R.drawable.balloon),
-                contentDescription = "image description",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(331.dp)
-                    .weight(1f),
-                alignment = Alignment.TopEnd
-            )
-        }
-    }
-}
-
 
 @Composable
-fun madeAccount() {
+fun MadeAccount() {
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -156,7 +132,7 @@ fun madeAccount() {
 }
 
 @Composable
-fun loginFindIdAndPassword(navController: NavController) {
+fun LoginFindIdAndPassword(navController: NavController) {
     TextButton(
         onClick = { navController.navigate(Screen.IdSearchScreen.route) },
         modifier = Modifier
@@ -195,7 +171,7 @@ fun loginFindIdAndPassword(navController: NavController) {
 }
 
 @Composable
-fun loginTextFieldId(
+fun LoginTextFieldId(
     text: State<String>,
     text2: String,
     onValueChange: (String) -> Unit
@@ -203,7 +179,7 @@ fun loginTextFieldId(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-    ){
+    ) {
         Spacer(modifier = Modifier.weight(1.2f))
         Row(
             modifier = Modifier
@@ -241,7 +217,7 @@ fun loginTextFieldId(
 }
 
 @Composable
-fun loginTextFieldPw(
+fun LoginTextFieldPW(
     text: State<String>,
     text2: String,
     onValueChange: (String) -> Unit
@@ -249,7 +225,7 @@ fun loginTextFieldPw(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-    ){
+    ) {
         Spacer(modifier = Modifier.weight(1.4f))
         Row(
             modifier = Modifier
@@ -287,9 +263,8 @@ fun loginTextFieldPw(
 }
 
 
-
 @Composable
-fun button(
+fun CustomButton(
     text: String,
     enable: Boolean,
     content: Color,
@@ -319,12 +294,12 @@ fun button(
 }
 
 @Composable
-fun copyRightByFlag(modifier: Modifier) {
+fun CopyRightByFlag(modifier: Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
-    ){
+    ) {
         Text(
             text = "@copyright by Flag",
             fontSize = 12.sp,
@@ -340,7 +315,7 @@ fun copyRightByFlag(modifier: Modifier) {
 }
 
 @Composable
-fun tittleWithBackArrow(text: String, modifier: Modifier, onBackClick: () -> Unit) {
+fun TittleWithBackArrow(text: String, modifier: Modifier, onBackClick: () -> Unit) {
 
     Row(
         Modifier, //horizontalArrangement = Arrangement.Center
@@ -374,7 +349,7 @@ fun tittleWithBackArrow(text: String, modifier: Modifier, onBackClick: () -> Uni
 }
 
 @Composable
-fun portalEmail(
+fun PortalEmail(
     text: State<String>,
     onValueChange: (String) -> Unit
 ) {
@@ -413,8 +388,8 @@ fun portalEmail(
 }
 
 @Composable
-fun textFieldSearchBtn(
-    graytext : String,
+fun TextFieldSearchBtn(
+    graytext: String,
     textFieldIdValue: String,
     onValueChange: (String) -> Unit,
     trigger: Boolean,
@@ -461,6 +436,7 @@ fun textFieldSearchBtn(
             Spacer(Modifier.weight(0.02f))
         }
 }
+
 @Composable
 fun MatchingAnimationText(text: String) {
     Text(
@@ -476,7 +452,7 @@ fun MatchingAnimationText(text: String) {
 }
 
 @Composable
-fun sendImg(id: Int) {
+fun SendImg(id: Int) {
     Image(
         painter = painterResource(id = id),
         contentDescription = "",
@@ -586,7 +562,7 @@ fun TwoButtonDialog(
 }
 
 @Composable
-fun msg(text: String, color: Color) {
+fun MSG(text: String, color: Color) {
     Box(
         Modifier
             .padding(start = 6.dp, end = 6.dp)
@@ -705,7 +681,7 @@ fun OneButtonDialog(
 }
 
 @Composable
-fun drawerBottom() {
+fun DrawerBottom() {
     Column(verticalArrangement = Arrangement.Bottom) {
         Spacer(modifier = Modifier.height(26.dp))
         Image(
@@ -751,7 +727,7 @@ fun drawerBottom() {
 
 
 @Composable
-fun drawerProfile() {
+fun DrawerProfile() {
     Column() {
         Image(
             painter = painterResource(id = R.drawable.profile_img),
@@ -786,9 +762,9 @@ fun drawerProfile() {
 
 
 @Composable
-fun drawerMenu(image: Int, menuName: String, onPress: () -> Unit) {
+fun DrawerMenu(image: Int, menuName: String, onPress: () -> Unit) {
     Button(
-        onClick = {onPress()},
+        onClick = { onPress() },
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
         elevation = ButtonDefaults.elevation(0.dp),
     ) {
@@ -839,26 +815,10 @@ fun TwoButtonDialogPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun drawerMenuPreview() {
-    drawerMenu(image = R.drawable.profile_img, menuName = "이용약관") {
+fun DrawerMenuPreview() {
+    DrawerMenu(image = R.drawable.profile_img, menuName = "이용약관") {
 
     }
-}
-
-@Composable
-fun GetScreenWidthInDp(): Int {
-    val context = LocalContext.current
-    val density = LocalDensity.current.density
-    val screenWidthInPx = context.resources.displayMetrics.widthPixels
-    return (screenWidthInPx / density).toInt()
-}
-
-@Composable
-fun GetScreenHeightInDp(): Int {
-    val context = LocalContext.current
-    val density = LocalDensity.current.density
-    val screenHeightInPx = context.resources.displayMetrics.heightPixels
-    return (screenHeightInPx / density).toInt()
 }
 
 @Composable
@@ -876,7 +836,14 @@ fun RedWarning(warningText: String, modifier: Modifier) {
 }
 
 @Composable
-fun TextfiledTitle(title: String,redTrueText:String,textModifier:Modifier,redBool : Boolean,redFalseText:String,redModifier:Modifier) {
+fun TextFiledTitle(
+    title: String,
+    redTrueText: String,
+    textModifier: Modifier,
+    redBool: Boolean,
+    redFalseText: String,
+    redModifier: Modifier
+) {
     Text(
         text = title,
         fontFamily = FontFamily(Font(R.font.pretendard_regular)),
@@ -940,4 +907,17 @@ fun VisibleText(textValue: State<String>, onValueChange : (String)-> Unit,placeh
         }
         Spacer(Modifier.weight(0.07f))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun VisibleTextPreview() {
+    val sad: State<String> = remember {
+        mutableStateOf("")
+    }
+    VisibleText(
+        textValue = sad,
+        onValueChange = {},
+        placeholder = "안녕하세요",
+    )
 }
