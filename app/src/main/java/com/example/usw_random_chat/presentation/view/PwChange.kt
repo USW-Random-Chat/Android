@@ -19,10 +19,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.ViewModel.UserModifyViewModel
-import com.example.usw_random_chat.ui.TextfiledTitle
+import com.example.usw_random_chat.ui.TextFiledTitle
 import com.example.usw_random_chat.ui.VisibleText
-import com.example.usw_random_chat.ui.button
-import com.example.usw_random_chat.ui.tittleWithBackArrow
+import com.example.usw_random_chat.ui.CustomButton
+import com.example.usw_random_chat.ui.TittleWithBackArrow
 
 
 @Composable
@@ -39,7 +39,7 @@ fun PwChangeScreen(
 
         Spacer(Modifier.padding(20.dp))
 
-        tittleWithBackArrow(
+        TittleWithBackArrow(
             "비밀번호 변경",
             modifier = Modifier
                 .height(48.dp)
@@ -79,16 +79,16 @@ fun TextFieldOfPwChange(
     ) {
         Spacer(Modifier.weight(0.17f))
 
-        TextfiledTitle("비밀번호","* 6자 이상 20자 이내로 작성해 주세요",
+        TextFiledTitle("비밀번호","* 6자 이상 20자 이내로 작성해 주세요",
             Modifier
-            .height(19.dp)
-            .weight(0.24f),
+                .height(19.dp)
+                .weight(0.24f),
             redBool,"                       ",
             Modifier
-            .height(18.dp)
-            .weight(0.8f)
-            .padding(top = 3.dp)
-            )
+                .height(18.dp)
+                .weight(0.8f)
+                .padding(top = 3.dp)
+        )
 
         Spacer(Modifier.weight(0.3f))
 
@@ -96,7 +96,7 @@ fun TextFieldOfPwChange(
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)",1f,0.00005f)
+    VisibleText(pw,onRememberPw,"새 비밀번호 입력 (문자,숫자 포함 6~20자)")
 }
 
 
@@ -110,21 +110,21 @@ fun TextFieldOfPwCheck(
         Modifier
     ) {
         Spacer(Modifier.weight(0.19f))
-        TextfiledTitle("비밀번호 확인","* 비밀번호가 일치하지 않습니다",
+        TextFiledTitle("비밀번호 확인","* 비밀번호가 일치하지 않습니다",
             Modifier
-            .height(19.dp)
-            .weight(0.4f),!equal,"                 ",
+                .height(19.dp)
+                .weight(0.4f),!equal,"                 ",
             Modifier
-            .height(18.dp)
-            .weight(0.8f)
-            .padding(top = 3.dp))
+                .height(18.dp)
+                .weight(0.8f)
+                .padding(top = 3.dp))
 
         Spacer(Modifier.weight(0.3f))
     }
 
     Spacer(Modifier.padding(5.dp))
 
-    VisibleText(pwcheck,onRememberPwCheck,"",1f,0.0005f)
+    VisibleText(pwcheck,onRememberPwCheck,"")
 
 }
 
@@ -134,7 +134,7 @@ fun PwChangeBotton(trigger: Boolean, navController: NavController, onPress: () -
         Modifier
     ) {
         Spacer(Modifier.weight(0.1f))
-        button(
+        CustomButton(
             text = "변경완료",
             enable = trigger,
             content = Color.White,
@@ -144,8 +144,8 @@ fun PwChangeBotton(trigger: Boolean, navController: NavController, onPress: () -
                 .weight(1f)
                 .height(56.dp)
         ){
-        onPress()
-        navController.navigate(Screen.SignInScreen.route)
+            onPress()
+            navController.navigate(Screen.SignInScreen.route)
         }
         Spacer(Modifier.weight(0.1f))
     }

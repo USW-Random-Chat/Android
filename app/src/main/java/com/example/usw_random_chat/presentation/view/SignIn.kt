@@ -2,7 +2,6 @@
 package com.example.usw_random_chat.presentation.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,12 +24,11 @@ import androidx.navigation.NavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.SignInViewModel
 import com.example.usw_random_chat.ui.OneButtonDialog
-import com.example.usw_random_chat.ui.button
-import com.example.usw_random_chat.ui.image
-import com.example.usw_random_chat.ui.loginFindIdAndPassword
-import com.example.usw_random_chat.ui.loginTextFieldId
-import com.example.usw_random_chat.ui.loginTextFieldPw
-import com.example.usw_random_chat.ui.madeAccount
+import com.example.usw_random_chat.ui.CustomButton
+import com.example.usw_random_chat.ui.LoginFindIdAndPassword
+import com.example.usw_random_chat.ui.LoginTextFieldID
+import com.example.usw_random_chat.ui.LoginTextFieldPW
+import com.example.usw_random_chat.ui.MadeAccount
 
 
 @Composable // 제가 만들어 놓은 viewmodel 함수를 적용해서 완벽한 signin 화면을 만들어주세요, 어려우면 profile 화면 참고!!
@@ -38,11 +36,11 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
 
     LoginImage()
     LoginTextFieldId(
-        id = signInViewModel.id,
-        password = signInViewModel.password,
-        { newId -> signInViewModel.updateID(newId) },
-        { newPw -> signInViewModel.updatePassWord(newPw) }
-    )
+        id = signInViewModel.id)
+        { newId -> signInViewModel.updateID(newId) }
+    LoginTextFieldPw(
+        password = signInViewModel.password
+    ) { signInViewModel.updatePassWord(it) }
     LoginBtn(){signInViewModel.postSignIn()}
     OnLoginFindIdAndPassword(navController)
     MadeAccountText()
@@ -67,39 +65,49 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
 
 @Composable
 fun LoginImage() {
-    image()
+    Box(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxSize(),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Row() {
+            Spacer(modifier = Modifier.weight(0.1f))
+            Image(
+                painter = painterResource(id = R.drawable.balloon),
+                contentDescription = "image description",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(331.dp)
+                    .weight(1f),
+                alignment = Alignment.TopEnd
+            )
+        }
+    }
 }
 
 @Composable
 fun LoginTextFieldId(  // textfield를 하나만 만들고 이름만 바꿔서 함수를 재사용 할 수 있게 변경해주세요
     id: State<String>,
+    onValueId: (String) -> Unit
+) {
+    LoginTextFieldID(
+        text = id,
+        text2 = "ID",
+        onValueChange = onValueId
+    )
+}
+
+@Composable
+fun LoginTextFieldPw(  // textfield를 하나만 만들고 이름만 바꿔서 함수를 재사용 할 수 있게 변경해주세요
     password: State<String>,
-    onValueId: (String) -> Unit,
     onValuePw: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxHeight()
-    ){
-        Spacer(modifier = Modifier.weight(2.3f))
-        Column(
-            modifier = Modifier
-                .weight(1f)
-        ){
-            loginTextFieldId(
-                text = id,
-                text2 = "ID",
-                onValueChange = onValueId
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            loginTextFieldPw(
-                text = password,
-                text2 = "PASSWORD",
-                onValueChange = onValuePw
-            )
-        }
-        Spacer(modifier = Modifier.weight(1.8f))
-    }
+    LoginTextFieldPW(
+        text = password,
+        text2 = "PASSWORD",
+        onValueChange = onValuePw
+    )
 }
 @Composable
 fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키세요
@@ -114,7 +122,7 @@ fun LoginBtn(onPress: () -> Unit) { //onPress란 람다 함수를 추가시키�
                 .weight(0.8f)
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
-            button(
+            CustomButton(
                 text = "로그인",
                 enable = true,
                 content = Color.White,
@@ -144,7 +152,7 @@ fun OnLoginFindIdAndPassword(navController: NavController) { //textbutton 이름
                 .weight(0.5f),
             horizontalArrangement = Arrangement.Center
         ) {
-            loginFindIdAndPassword(navController)
+            LoginFindIdAndPassword(navController)
         }
         Spacer(modifier = Modifier.weight(1.8f))
     }
@@ -153,7 +161,7 @@ fun OnLoginFindIdAndPassword(navController: NavController) { //textbutton 이름
 
 @Composable
 fun MadeAccountText() { // 디바이더 함수도 widget폴더에 만들고 불러와서 사용해주세요
-    madeAccount()
+    MadeAccount()
 }
 
 @Composable
@@ -169,7 +177,7 @@ fun SignUpBtn(navController: NavController) { // asdasd변수 이름 적절하�
                 .weight(0.8f)
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
-            button(
+            CustomButton(
                 "회원가입",
                 enable = true,
                 Color.White,
