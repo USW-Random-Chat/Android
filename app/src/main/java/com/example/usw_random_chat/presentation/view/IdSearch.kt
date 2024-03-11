@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -174,8 +176,16 @@ fun GoLogin(navController: NavController){
 
 @Preview (showBackground = true)
 @Composable
-fun IdSearchPreview(){
-    IdSearch(navController = rememberNavController())
+fun IdSearchPreview(navController: NavController = rememberNavController()){
+    val email: State<String>  = remember{
+        mutableStateOf("")
+    }
+
+    IdSearchEmail(email){  }
+    IdText()
+    IdSearchEmailBtn(){}
+    GoLogin(navController)
+    IdSearchExitBtn{}
 }
 
 

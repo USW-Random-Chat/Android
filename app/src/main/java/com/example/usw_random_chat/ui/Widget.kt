@@ -180,9 +180,10 @@ fun LoginTextFieldID(
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(1.2f))
+        Spacer(modifier = Modifier.weight(10f))
         Row(
             modifier = Modifier
+                .weight(5f)
                 .fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
@@ -211,6 +212,7 @@ fun LoginTextFieldID(
             )
             Spacer(modifier = Modifier.weight(0.1f))
         }
+        Spacer(modifier = Modifier.weight(8.2f))
     }
 }
 
@@ -224,10 +226,11 @@ fun LoginTextFieldPW(
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(1.4f))
+        Spacer(modifier = Modifier.weight(2.9f))
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
+                .fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.weight(0.1f))
             OutlinedTextField(
@@ -255,6 +258,7 @@ fun LoginTextFieldPW(
             )
             Spacer(modifier = Modifier.weight(0.1f))
         }
+        Spacer(modifier = Modifier.weight(1.6f))
     }
 }
 
