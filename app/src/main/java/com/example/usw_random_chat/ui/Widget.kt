@@ -180,7 +180,7 @@ fun LoginTextFieldID(
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(10f))
+        Spacer(modifier = Modifier.weight(11f))
         Row(
             modifier = Modifier
                 .weight(5f)
@@ -226,7 +226,7 @@ fun LoginTextFieldPW(
         modifier = Modifier
             .fillMaxHeight()
     ) {
-        Spacer(modifier = Modifier.weight(2.9f))
+        Spacer(modifier = Modifier.weight(3f))
         Row(
             modifier = Modifier
                 .weight(1f)
