@@ -60,7 +60,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel(),navController: N
         navController.navigate(Screen.MainPageScreen.route){
             navController.popBackStack()
         }
-        signInViewModel.changeLoginState()//다 괜찮은데 이거 아이디 비번 모두 입력 안하니까
+        signInViewModel.changeLoginState()
     }
     if(signInViewModel.dialogState.value){
         OneButtonDialog(
