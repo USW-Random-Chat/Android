@@ -76,6 +76,7 @@ class ProfileViewModel @Inject constructor(
              * 수정 사항이 있는지 확인
              * 닉네임 수정이 있었을시 중복확인 검사
              * */
+
             _dialogCheckSignUpNickNameState.value = when {
                 // 변경사항 없음
                 firstMbti == _mbti.value && firstNickname == _nickname.value && firstSelfIntroduce == _selfintroduce.value -> 5 // 페이지 이동
@@ -91,10 +92,8 @@ class ProfileViewModel @Inject constructor(
                         ) in 400..500 -> 3 // 닉네임 변경 오류 : 30일 이전에 변경함
                         else -> 5 // 정상 변경
                     }
-
                     else -> 4 // 닉네임 변경F했지만 중복확인 안함
                 }
-
                 else -> when {
                     profileRepository.setProfile(
                         ProfileDTO(
@@ -103,7 +102,6 @@ class ProfileViewModel @Inject constructor(
                             _selfintroduce.value
                         )
                     ) in 400..500 -> 3
-
                     else -> 5
                 }
             }
@@ -118,9 +116,15 @@ class ProfileViewModel @Inject constructor(
                 _nickname.value = response.data.nickName
                 _selfintroduce.value = response.data.selfIntroduce ?: ""
 
+<<<<<<< HEAD
                 firstMbti = response.data.mbti ?: ""
                 firstNickname = response.data.nickName ?: ""
                 firstSelfIntroduce = response.data.selfIntroduce ?: ""
+=======
+                firstMbti = response.data.mbti
+                firstNickname = response.data.nickName
+                firstSelfIntroduce = response.data.selfIntroduce
+>>>>>>> e6f7569 (프로필 설정 기능 수정)
             }
         }
     }
