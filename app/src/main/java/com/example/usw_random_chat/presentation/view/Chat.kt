@@ -205,7 +205,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                     content = {
                         items(chatViewModel.chatList.reversed()) {
                             val dateTime = LocalDateTime.parse(it.sendTime.split(".")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-                            val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH: mm"))
+                            val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                             if (it.sender == chatViewModel.userProfile.value.nickName) {
                                 sendMsg(text = it.contents, timeString)
                             } else if (it.sender == "EXIT_MSG") {
