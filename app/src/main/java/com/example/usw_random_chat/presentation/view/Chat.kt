@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -63,7 +62,10 @@ import androidx.navigation.NavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 val Any.TAG: String
     get() {
@@ -78,19 +80,17 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
     systemUiController.setSystemBarsColor(color = Color(0xFF4D76C8))
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    var newMessageButtonIsVisible by remember {
-        mutableStateOf(false)
-    }
+    fun LazyListState.getFirstIndex() = layoutInfo.visibleItemsInfo.firstOrNull()?.index?: -1
 
-    fun LazyListState.getLastIndex() = layoutInfo.visibleItemsInfo.lastOrNull()?.index
-
-    LaunchedEffect(chatViewModel.chatList.size) {
-        Log.d(TAG, "ChattingScreen: ${listState.getLastIndex()}")
-        if (listState.getLastIndex() == chatViewModel.chatList.size - 1) {
-            listState.animateScrollToItem(chatViewModel.chatList.size)
-        } else if (listState.getLastIndex() != null) {
-            Log.d(TAG, "ChattingScreen: 채팅이 추가되었습니다")
-            newMessageButtonIsVisible = true
+    LaunchedEffect(listState.getFirstIndex()) {
+        // 현재 보여지는 리스트가 최근 메시지인지 체크
+        if (listState.getFirstIndex() <= 0){
+            chatViewModel.setIsLastChat(true)
+            // 최신 메시지로 스크롤되면 숨겨진 채팅을 불러옴
+            // ==> 채팅 보낼 때와 가장 최근 메시지를 보여주는 버튼을 눌렀을때 스크롤을 가장 아래로 내림
+            chatViewModel.moveHiddenMessagesToChatList()
+        } else {
+            chatViewModel.setIsLastChat(false)
         }
     }
 
@@ -98,17 +98,9 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
         chatViewModel.getYourProfile()
     }
 
-    LaunchedEffect(listState.getLastIndex()) {
-        if (listState.getLastIndex() == chatViewModel.chatList.size - 1) {
-            newMessageButtonIsVisible = false
-        }
-    }
-
-
     BackHandler {
         chatViewModel.closeExitDialog()
     }
-
 
     if (chatViewModel.profileDialog.value) {
         CustomDialog(
@@ -164,9 +156,10 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                 { chatViewModel.updateMSG(it) }
             )
             {
-                chatViewModel.sendMSG {
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(chatViewModel.chatList.size)
+                coroutineScope.launch {
+                    listState.animateScrollToItem(0)
+                    chatViewModel.sendMSG {
+
                     }
                 }
             }
@@ -182,28 +175,30 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                     state = listState,
                     modifier = Modifier
                         .padding(bottom = 58.dp),
+                    reverseLayout = true,
                     content = {
-                        items(chatViewModel.chatList) {
+                        items(chatViewModel.chatList.reversed()) {
+                            val dateTime = LocalDateTime.parse(it.sendTime.split(".")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
+                            val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                             if (it.sender == chatViewModel.userProfile.value.nickName) {
-                                sendMsg(text = it.contents)
+                                sendMsg(text = it.contents, timeString)
                             } else if (it.sender == "EXIT_MSG") {
                                 exitMsg(text = it.contents)
                             } else {
-                                receiveMsg(text = it.contents)
+                                receiveMsg(text = it.contents, timeString)
                             }
                         }
                     },
                 )
-                if (newMessageButtonIsVisible) {
+                if (!chatViewModel.isLastChat.value && chatViewModel.hiddenChatList.isNotEmpty()) {
                     NewMessageButton(
                         modifier = Modifier
                             .padding(bottom = 64.dp)
                             .align(Alignment.BottomCenter),
-                        text = chatViewModel.chatList.last().contents
+                        text = chatViewModel.getLastChatContent()
                     ) {
                         coroutineScope.launch {
-                            listState.animateScrollToItem(chatViewModel.chatList.size)
-                            newMessageButtonIsVisible = false
+                            listState.animateScrollToItem(0)
                         }
                     }
                 }
@@ -452,7 +447,7 @@ fun CustomDialog(name: String, mbti: String, selfIntro: String, onChange: () -> 
 }
 
 @Composable
-fun sendMsg(text: String) {
+fun sendMsg(text: String, time: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -461,13 +456,13 @@ fun sendMsg(text: String) {
         verticalAlignment = Alignment.Bottom
     ) {
         Spacer(modifier = Modifier.width(10.dp))
-        TimeText()
+        TimeText(time)
         MSG(text = text, color = Color(0xFFD3DFFF))
     }
 }
 
 @Composable
-fun receiveMsg(text: String) {
+fun receiveMsg(text: String, time : String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -476,7 +471,7 @@ fun receiveMsg(text: String) {
         verticalAlignment = Alignment.Bottom
     ) {
         MSG(text = text, color = Color(0xFFFFFFFF))
-        TimeText()
+        TimeText(time)
         Spacer(modifier = Modifier.width(10.dp))
     }
 }
@@ -506,7 +501,7 @@ fun exitMsgPreView() {
 @Composable
 fun sendMsgPreView() {
     //msg("tghaiuwga", Alignment.Center, Color.White)
-    sendMsg(text = "나우밞낭ㄴ홀마ㅕㅈㅁㄹ함ㄹㅈ함한ㅇaaaaaaaaaaaaaㅁ")
+    sendMsg(text = "나우밞낭ㄴ홀마ㅕㅈㅁㄹ함ㄹㅈ함한ㅇaaaaaaaaaaaaaㅁ", "09:20")
 }
 
 @Preview(showBackground = true)

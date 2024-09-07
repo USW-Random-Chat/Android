@@ -41,7 +41,9 @@ class ChatViewModel @Inject constructor(
     private val serverUrl: String = "ws://43.202.91.160:8080/stomp"
     private val stomp = StompClient(client, 5000L).apply { this@apply.url = serverUrl }
 
-    private val _chatList = mutableStateListOf<MessageDTO>()
+    private val _chatList = mutableStateListOf<MessageDTO>() // 현재 화면에 보여질 메시지 리스트
+    private val _hiddenChatList = mutableStateListOf<MessageDTO>() // 바로 추가되지 않는 메시지가 여기로 들어감
+    private val _isLastChat = mutableStateOf(true)
     private val _msg = mutableStateOf("")
     private val _profileDialog = mutableStateOf(false)
     private val _reportDialog = mutableStateOf(false)
@@ -55,6 +57,8 @@ class ChatViewModel @Inject constructor(
 
     val matchingPresence = _matchingPresence
     val chatList = _chatList
+    val hiddenChatList = _hiddenChatList
+    val isLastChat = _isLastChat
     val msg: State<String> = _msg
     val profileDialog: State<Boolean> = _profileDialog
     val opponentUserProfile : State<ProfileDTO> = _opponentUserProfile
@@ -211,8 +215,6 @@ class ChatViewModel @Inject constructor(
                 put("roomId", roodID)
                 put("sender",  if  (isExitMsg) "EXIT_MSG" else _userProfile.value.nickName)
                 put("contents", _msg.value)
-
-
             }
             stomp.send(
                 "/pub/chat/message/$roodID",
@@ -265,15 +267,46 @@ class ChatViewModel @Inject constructor(
             stomp.join("/sub/chat/$roodID").subscribe { message ->
                 Log.d("receive", message)
                 val data = Gson().fromJson(message, MessageDTO::class.java)
-                _chatList.add(data)
+                if (isLastChat.value) {
+                    _chatList.add(data)
+                } else {
+                    _hiddenChatList.add(data)
+                }
             }
         }
+    }
+
+    /**
+     * hiddenChatList 에 있는 항목을 chatList 로 옮겨줌
+     * @return 옮겨진 hiddenChatList Size
+     * */
+    fun moveHiddenMessagesToChatList():Int{
+        val size = _hiddenChatList.size
+        _chatList.addAll(_hiddenChatList)
+        _hiddenChatList.clear()
+        return size
     }
 
     fun unsubscribeStomp() {
         viewModelScope.launch {
            // stomp.join(wss).subscribe{ Log.d(tag,"Unsubscribe Success") }.dispose()
         }
+    }
+
+    /**
+     * 현재 스크롤 상태가 마지막 메시지인지에 대한 정보 뷰모델에 전달
+     * @param newIsLastChat 마지막 메시지인지에 대한 정보
+     * */
+    fun setIsLastChat(newIsLastChat: Boolean) {
+        _isLastChat.value = newIsLastChat
+    }
+
+    /**
+     * 히든 메시지 중 sender 가 EXIT_MSG인 것을 제외하고 마지막 항목의 내용을 반환
+     * @return 히든 메시지 중 마지막 내용 반환
+     * */
+    fun getLastChatContent(): String {
+        return hiddenChatList.last { it.sender != "EXIT_MSG" }.contents
     }
 
     companion object {
