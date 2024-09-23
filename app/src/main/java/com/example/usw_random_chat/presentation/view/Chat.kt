@@ -61,6 +61,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
+import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel.Companion.reportUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,7 +73,6 @@ val Any.TAG: String
         val tag = javaClass.simpleName
         return if (tag.length <= 23) tag else tag.substring(0, 23)
     }
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = viewModel()) {
@@ -113,11 +113,14 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
     }
     if (chatViewModel.reportDialog.value) {
         TwoButtonDialog(
-            contentText = "신고하시겠습니까?",
-            leftText = "취소",
+            contentText = "신고하시겠습니까?\n원활한 신고를 위해 내용 캡처를 해주세요!",
+            leftText = "캡처하러 가기",
             rightText = "신고하기",
             leftonPress = { chatViewModel.closeReportDialog() },
-            {},
+            {
+                chatViewModel.changeWebViewState()
+                chatViewModel.closeReportDialog()
+            },
             R.drawable.baseline_error_24
         )
     }
@@ -137,6 +140,12 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             R.drawable.baseline_error_24
         )
     }
+    if (chatViewModel.WebView.value){
+        WebViewBottomSheet(url = reportUrl,"신고하기 창 닫기") {
+            chatViewModel.changeWebViewState()
+        }
+    }
+
 
     Scaffold(
         topBar = {

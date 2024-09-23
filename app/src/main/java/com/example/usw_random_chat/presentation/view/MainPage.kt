@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -49,6 +50,10 @@ import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
+import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel.Companion.feedBackUrl
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -82,6 +87,7 @@ fun MainScreen(navController: NavController, chatViewModel: ChatViewModel = view
                         navController,
                         chatViewModel.userProfile.value.nickName,
                         chatViewModel.userProfile.value.mbti,
+                        {chatViewModel.changeWebViewState()},
                         { chatViewModel.logout() },
                         {chatViewModel.changeCheckDeleteMemberDialog()}) {
                         scope.launch {
@@ -130,6 +136,11 @@ fun MainScreen(navController: NavController, chatViewModel: ChatViewModel = view
             image = R.drawable.baseline_check_circle_24
         )
     }
+    if (chatViewModel.WebView.value){
+        WebViewBottomSheet(url = feedBackUrl, "피드백 창 닫기"){
+            chatViewModel.changeWebViewState()
+        }
+    }
 }
 
 @Composable
@@ -137,6 +148,7 @@ fun DrawerScreen(
     navController: NavController,
     name: String,
     mbti: String,
+    onPressFeedBack: () -> Unit,
     onPressLogout: () -> Unit,
     onPressWithDrawal: () -> Unit,
     onPress: () -> Unit
@@ -180,7 +192,7 @@ fun DrawerScreen(
                 }
                 Spacer(modifier = Modifier.height(25.dp))
                 DrawerMenu(image = R.drawable.codicon_feedback, menuName = "피드백") {
-                    navController.navigate(Screen.FeedBackScreen.route)
+                    onPressFeedBack()
                 }
                 Spacer(modifier = Modifier.height(25.dp))
                 DrawerMenu(image = R.drawable.logout, menuName = "로그아웃") {
@@ -242,7 +254,7 @@ fun MyTopAppBar(onPress: () -> Unit) {
 @Composable
 fun MainContents(onPress: () -> Unit) {
     TalkBalloon()
-    AdBanner()
+    BannersAds()
     MainText()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -354,6 +366,23 @@ fun subText() {
         modifier = Modifier
             .padding(top = 24.dp)
 
+    )
+}
+
+@Composable
+fun BannersAds() {
+    AndroidView(
+        modifier = Modifier.fillMaxWidth(),
+        factory = { context ->
+            AdView(context).apply {
+                setAdSize(AdSize.BANNER)
+                adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                loadAd(AdRequest.Builder().build())
+            }
+        },
+        update = { adView ->
+            adView.loadAd(AdRequest.Builder().build())
+        }
     )
 }
 

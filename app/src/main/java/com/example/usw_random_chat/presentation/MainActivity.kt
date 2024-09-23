@@ -11,14 +11,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.usw_random_chat.presentation.view.MatchingScreen
 import com.example.usw_random_chat.presentation.view.Navigation
 import com.example.usw_random_chat.ui.theme.USW_Random_ChatTheme
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            MobileAds.initialize(this@MainActivity) {}
+        }
 
         setContent {
             USW_Random_ChatTheme {
