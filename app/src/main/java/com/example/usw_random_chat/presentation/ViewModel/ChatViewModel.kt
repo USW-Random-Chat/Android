@@ -55,7 +55,8 @@ class ChatViewModel @Inject constructor(
     private val _checkDeleteMemberDialog = mutableStateOf(false)
     private val _deleteMemberDialog = mutableStateOf(false)
 
-    private val _WebView = mutableStateOf(false)
+    private val _ReportWebView = mutableStateOf(false)
+    private val _FeedBackWebView = mutableStateOf(false)
 
     val matchingPresence = _matchingPresence
     val chatList = _chatList
@@ -69,7 +70,8 @@ class ChatViewModel @Inject constructor(
     val userProfile: State<ProfileDTO> = _userProfile
     val deleteMemberDialog = _deleteMemberDialog
     val checkDeleteMemberDialog = _checkDeleteMemberDialog
-    val WebView = _WebView
+    val ReportWebView = _ReportWebView
+    val FeedBackWebView = _FeedBackWebView
 
     val textList = mutableStateListOf(
         "체대옆 공터는 원래 방송반이 있던 큰 건물이었습니다.",
@@ -138,8 +140,11 @@ class ChatViewModel @Inject constructor(
         Log.d(TAG, "startMatching: after stomp.send()")
     }
 
-    fun changeWebViewState(){
-        _WebView.value = !_WebView.value
+    fun changeReportWebViewState(){
+        _ReportWebView.value = !_ReportWebView.value
+    }
+    fun changeFeedBackWebViewState(){
+        _FeedBackWebView.value = !_FeedBackWebView.value
     }
 
     fun closeProfileDialog() {

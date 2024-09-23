@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -87,7 +88,7 @@ fun MainScreen(navController: NavController, chatViewModel: ChatViewModel = view
                         navController,
                         chatViewModel.userProfile.value.nickName,
                         chatViewModel.userProfile.value.mbti,
-                        {chatViewModel.changeWebViewState()},
+                        {chatViewModel.changeFeedBackWebViewState()},
                         { chatViewModel.logout() },
                         {chatViewModel.changeCheckDeleteMemberDialog()}) {
                         scope.launch {
@@ -136,9 +137,10 @@ fun MainScreen(navController: NavController, chatViewModel: ChatViewModel = view
             image = R.drawable.baseline_check_circle_24
         )
     }
-    if (chatViewModel.WebView.value){
+    if (chatViewModel.FeedBackWebView.value){
+        Log.d("QWE","!!!!!!")
         WebViewBottomSheet(url = feedBackUrl, "피드백 창 닫기"){
-            chatViewModel.changeWebViewState()
+            chatViewModel.changeFeedBackWebViewState()
         }
     }
 }
@@ -289,6 +291,7 @@ fun MainText() {
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
             fontWeight = FontWeight(600),
             color = Color(0xFF111111),
+            overflow = TextOverflow.Visible,
             modifier = Modifier
                 .padding(top = 115.dp, start = 32.dp)
                 .height(72.dp)
@@ -376,7 +379,7 @@ fun BannersAds() {
         factory = { context ->
             AdView(context).apply {
                 setAdSize(AdSize.BANNER)
-                adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                adUnitId = "ca-app-pub-8656876347774087/2133832681"
                 loadAd(AdRequest.Builder().build())
             }
         },

@@ -569,7 +569,7 @@ fun TwoButtonDialog(
         Column(
             modifier = Modifier
                 .width(270.dp)
-                .height(164.dp)
+                .wrapContentHeight()
                 .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 20.dp)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

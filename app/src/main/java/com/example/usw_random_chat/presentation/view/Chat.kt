@@ -118,7 +118,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             rightText = "신고하기",
             leftonPress = { chatViewModel.closeReportDialog() },
             {
-                chatViewModel.changeWebViewState()
+                chatViewModel.changeReportWebViewState()
                 chatViewModel.closeReportDialog()
             },
             R.drawable.baseline_error_24
@@ -140,9 +140,10 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             R.drawable.baseline_error_24
         )
     }
-    if (chatViewModel.WebView.value){
+    if (chatViewModel.ReportWebView.value){
+        Log.d("!@#!@#","ejsdiaskds")
         WebViewBottomSheet(url = reportUrl,"신고하기 창 닫기") {
-            chatViewModel.changeWebViewState()
+            chatViewModel.changeReportWebViewState()
         }
     }
 
