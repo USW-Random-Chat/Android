@@ -65,6 +65,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -537,7 +538,8 @@ fun MatchingAnimationText(text: String) {
             fontFamily = FontFamily(Font(R.font.kcc_chassam)),
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
-        )
+        ),
+        overflow = TextOverflow.Visible
     )
 }
 
@@ -596,7 +598,7 @@ fun TwoButtonDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp),
+                    .padding(top = 24.dp, bottom = 24.dp),
             ) {
 
                 Spacer(modifier = Modifier.weight(0.1f))

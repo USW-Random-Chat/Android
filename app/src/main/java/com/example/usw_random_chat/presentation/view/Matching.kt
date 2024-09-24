@@ -1,5 +1,6 @@
 package com.example.usw_random_chat.presentation.view
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,13 +24,22 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun MatchingScreen(navController: NavController, chatViewModel: ChatViewModel = viewModel()) {
+    val text = remember {
+        mutableStateOf(chatViewModel.textList.random())
+    }
     TextBlue()
-    TextBlack(chatViewModel.textList.random())
+    TextBlack(text.value)
     MatchingStopBtn{
         navController.popBackStack()
         chatViewModel.stopMatching()
     }
     MatchingAnimation()
+
+    BackHandler {
+        navController.popBackStack()
+        chatViewModel.stopMatching()
+    }
+
     if (chatViewModel.matchingPresence.value){
         navController.navigate(Screen.ChatScreen.route) {
             navController.popBackStack()
@@ -159,8 +169,8 @@ fun MatchingAnimation() {
     }
     Box(
         modifier = Modifier
-            .width(312.dp)
-            .height(400.dp)
+            .wrapContentWidth()
+            .wrapContentHeight()
             .padding(
                 start = 129.dp,
                 top = 265.dp

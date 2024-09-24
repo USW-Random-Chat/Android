@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -183,20 +184,23 @@ fun DrawerScreen(
                     .height(1.dp)
                     .border(100.dp, Color(0xFFEDEDED))
             )
-            Column(modifier = Modifier.weight(1f)) {
-                Spacer(modifier = Modifier.height(30.dp))
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                //Spacer(modifier = Modifier.height(30.dp))
                 DrawerMenu(image = R.drawable.profile_img, menuName = "내 정보 수정") {
                     navController.navigate(Screen.EditProfileScreen.route)
                 }
-                Spacer(modifier = Modifier.height(25.dp))
-                DrawerMenu(image = R.drawable.privacy_policy, menuName = "이용 약관") {
-                    navController.navigate(Screen.PolicyScreen.route)
-                }
-                Spacer(modifier = Modifier.height(25.dp))
+               // Spacer(modifier = Modifier.height(25.dp))
+//                DrawerMenu(image = R.drawable.privacy_policy, menuName = "이용 약관 ") {
+//                    navController.navigate(Screen.PolicyScreen.route)
+//                }
+                //Spacer(modifier = Modifier.height(25.dp))
                 DrawerMenu(image = R.drawable.codicon_feedback, menuName = "피드백") {
                     onPressFeedBack()
                 }
-                Spacer(modifier = Modifier.height(25.dp))
+                //Spacer(modifier = Modifier.height(25.dp))
                 DrawerMenu(image = R.drawable.logout, menuName = "로그아웃") {
                     onPressLogout()
                     navController.navigate(Screen.SignInScreen.route) {

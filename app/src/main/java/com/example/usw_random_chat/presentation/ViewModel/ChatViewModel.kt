@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -49,7 +50,7 @@ class ChatViewModel @Inject constructor(
     private val _reportDialog = mutableStateOf(false)
     private val _exitDialog = mutableStateOf(false)
     private val _userProfile = mutableStateOf(ProfileDTO("", "", ""))
-    private val _opponentUserProfile = mutableStateOf(ProfileDTO("", "", ""))
+    private val _opponentUserProfile = MutableStateFlow(ProfileDTO("", "", ""))
     private val _matchingPresence = mutableStateOf(false)
 
     private val _checkDeleteMemberDialog = mutableStateOf(false)
@@ -64,7 +65,7 @@ class ChatViewModel @Inject constructor(
     val isLastChat = _isLastChat
     val msg: State<String> = _msg
     val profileDialog: State<Boolean> = _profileDialog
-    val opponentUserProfile : State<ProfileDTO> = _opponentUserProfile
+    val opponentUserProfile : MutableStateFlow<ProfileDTO> = _opponentUserProfile
     val exitDialog: State<Boolean> = _exitDialog
     val reportDialog: State<Boolean> = _reportDialog
     val userProfile: State<ProfileDTO> = _userProfile

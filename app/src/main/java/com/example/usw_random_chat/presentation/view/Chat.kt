@@ -36,8 +36,10 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,6 +59,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.usw_random_chat.R
@@ -73,6 +77,7 @@ val Any.TAG: String
         val tag = javaClass.simpleName
         return if (tag.length <= 23) tag else tag.substring(0, 23)
     }
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = viewModel()) {
@@ -80,7 +85,14 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
     systemUiController.setSystemBarsColor(color = Color(0xFF4D76C8))
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val opponentUserProfile by chatViewModel.opponentUserProfile.collectAsStateWithLifecycle()
     fun LazyListState.getFirstIndex() = layoutInfo.visibleItemsInfo.firstOrNull()?.index?: -1
+
+    DisposableEffect(Unit) {
+        onDispose {
+            chatViewModel.exitChattingRoom()
+        }
+    }
 
     LaunchedEffect(listState.getFirstIndex()) {
         // 현재 보여지는 리스트가 최근 메시지인지 체크
@@ -104,9 +116,9 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
 
     if (chatViewModel.profileDialog.value) {
         CustomDialog(
-            name = chatViewModel.opponentUserProfile.value.nickName,
-            mbti = chatViewModel.opponentUserProfile.value.mbti,
-            selfIntro = chatViewModel.opponentUserProfile.value.selfIntroduce
+            name = opponentUserProfile.nickName,
+            mbti = opponentUserProfile.mbti,
+            selfIntro = opponentUserProfile.selfIntroduce
         ) {
             chatViewModel.closeProfileDialog()
         }
@@ -153,7 +165,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             ChatTopAppBar(
                 Modifier
                     .height(84.dp),
-                chatViewModel.opponentUserProfile.value.nickName,
+                opponentUserProfile.nickName,
                 {
                     chatViewModel.closeProfileDialog()
                 },
