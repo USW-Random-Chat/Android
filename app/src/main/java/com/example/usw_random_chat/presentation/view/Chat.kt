@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -39,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,7 +67,6 @@ import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel.Companion.reportUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -94,13 +93,20 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
         }
     }
 
+    LaunchedEffect(chatViewModel.chatList.size){ // 메시지가  추가될 때
+        if (chatViewModel.isLastChat.value) {
+            listState.scrollToItem(0)
+        }
+    }
+
+    LaunchedEffect(listState.layoutInfo.visibleItemsInfo.firstOrNull()?.key){//보여지는 메시지가 달라질때
+        chatViewModel.updateVisibleChatSet(listState.layoutInfo.visibleItemsInfo)
+    }
+
     LaunchedEffect(listState.getFirstIndex()) {
         // 현재 보여지는 리스트가 최근 메시지인지 체크
         if (listState.getFirstIndex() <= 0){
             chatViewModel.setIsLastChat(true)
-            // 최신 메시지로 스크롤되면 숨겨진 채팅을 불러옴
-            // ==> 채팅 보낼 때와 가장 최근 메시지를 보여주는 버튼을 눌렀을때 스크롤을 가장 아래로 내림
-            chatViewModel.moveHiddenMessagesToChatList()
         } else {
             chatViewModel.setIsLastChat(false)
         }
@@ -181,7 +187,6 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                 coroutineScope.launch {
                     listState.animateScrollToItem(0)
                     chatViewModel.sendMSG {
-
                     }
                 }
             }
@@ -212,7 +217,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                         }
                     },
                 )
-                if (!chatViewModel.isLastChat.value && chatViewModel.hiddenChatList.isNotEmpty()) {
+                if (!chatViewModel.isLastChat.value && chatViewModel.hasNewMessage()) {
                     NewMessageButton(
                         modifier = Modifier
                             .padding(bottom = 64.dp)
