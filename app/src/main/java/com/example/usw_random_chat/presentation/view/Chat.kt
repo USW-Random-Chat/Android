@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -67,6 +66,7 @@ import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel.Companion.reportUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -186,8 +186,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             {
                 coroutineScope.launch {
                     listState.animateScrollToItem(0)
-                    chatViewModel.sendMSG {
-                    }
+                    chatViewModel.sendMSG ()
                 }
             }
         },
@@ -206,7 +205,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                     content = {
                         items(chatViewModel.chatList.reversed()) {
                             val dateTime = LocalDateTime.parse(it.sendTime.split(".")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
-                            val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                            val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH: mm"))
                             if (it.sender == chatViewModel.userProfile.value.nickName) {
                                 sendMsg(text = it.contents, timeString)
                             } else if (it.sender == "EXIT_MSG") {
