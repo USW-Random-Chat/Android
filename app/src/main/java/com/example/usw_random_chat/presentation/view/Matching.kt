@@ -27,6 +27,13 @@ fun MatchingScreen(navController: NavController, chatViewModel: ChatViewModel = 
     val text = remember {
         mutableStateOf(chatViewModel.textList.random())
     }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            chatViewModel.stopMatching()
+        }
+    }
+
     TextBlue()
     TextBlack(text.value)
     MatchingStopBtn{
