@@ -21,6 +21,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.json.JSONObject
@@ -66,7 +67,7 @@ class ChatViewModel @Inject constructor(
     val isLastChat = _isLastChat
     val msg: State<String> = _msg
     val profileDialog: State<Boolean> = _profileDialog
-    val opponentUserProfile: MutableStateFlow<ProfileDTO> = _opponentUserProfile
+    val opponentUserProfile : MutableStateFlow<ProfileDTO> = _opponentUserProfile
     val exitDialog: State<Boolean> = _exitDialog
     val reportDialog: State<Boolean> = _reportDialog
     val userProfile: State<ProfileDTO> = _userProfile

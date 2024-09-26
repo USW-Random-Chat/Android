@@ -39,11 +39,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,7 +66,6 @@ import com.example.usw_random_chat.R
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel
 import com.example.usw_random_chat.presentation.ViewModel.ChatViewModel.Companion.reportUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -203,15 +202,19 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
                         .padding(bottom = 58.dp),
                     reverseLayout = true,
                     content = {
-                        items(chatViewModel.chatList.reversed()) {
+                        items(chatViewModel.chatList.reversed(), key={it.sendTime + it.sender}) {
                             val dateTime = LocalDateTime.parse(it.sendTime.split(".")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
                             val timeString = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-                            if (it.sender == chatViewModel.userProfile.value.nickName) {
-                                sendMsg(text = it.contents, timeString)
-                            } else if (it.sender == "EXIT_MSG") {
-                                exitMsg(text = it.contents)
-                            } else {
-                                receiveMsg(text = it.contents, timeString)
+                            when (it.sender) {
+                                chatViewModel.userProfile.value.nickName -> {
+                                    sendMsg(text = it.contents, timeString)
+                                }
+                                "EXIT_MSG" -> {
+                                    exitMsg(text = it.contents)
+                                }
+                                else -> {
+                                    receiveMsg(text = it.contents, timeString)
+                                }
                             }
                         }
                     },
