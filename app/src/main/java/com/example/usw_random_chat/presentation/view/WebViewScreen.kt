@@ -27,7 +27,7 @@ import com.example.usw_random_chat.R
 
 
 @Composable
-fun WebViewBottomSheet(url: String, text :String, onPress: () -> Unit) {
+fun WebViewBottomSheet(url: String, text: String, onPress: () -> Unit) {
     WebViewScreen(url = url)
     Box(
         modifier = Modifier
@@ -60,7 +60,7 @@ fun WebViewBottomSheet(url: String, text :String, onPress: () -> Unit) {
 @Composable
 fun WebViewScreen(url: String) {
     val context = LocalContext.current
-    AndroidView(factory = {
+    AndroidView(modifier = Modifier.fillMaxSize(), factory = {
         WebView(context).apply {
             settings.javaScriptEnabled = true
             webViewClient = WebViewClient()

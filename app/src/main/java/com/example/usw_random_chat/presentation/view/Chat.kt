@@ -134,7 +134,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             leftText = "캡처하러 가기",
             rightText = "신고하기",
             leftonPress = { chatViewModel.closeReportDialog() },
-            {
+            rightonPress = {
                 chatViewModel.changeReportWebViewState()
                 chatViewModel.closeReportDialog()
             },
@@ -157,13 +157,6 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             R.drawable.baseline_error_24
         )
     }
-    if (chatViewModel.ReportWebView.value){
-        Log.d("!@#!@#","ejsdiaskds")
-        WebViewBottomSheet(url = reportUrl,"신고하기 창 닫기") {
-            chatViewModel.changeReportWebViewState()
-        }
-    }
-
 
     Scaffold(
         topBar = {
@@ -234,6 +227,13 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
             }
         },
     )
+
+    if (chatViewModel.ReportWebView.value){
+        Log.d("!@#!@#","ejsdiaskds")
+        WebViewBottomSheet(url = reportUrl,"신고하기 창 닫기") {
+            chatViewModel.changeReportWebViewState()
+        }
+    }
 }
 
 @Composable
