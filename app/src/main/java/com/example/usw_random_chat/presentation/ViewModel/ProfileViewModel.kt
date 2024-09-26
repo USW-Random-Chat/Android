@@ -117,6 +117,7 @@ class ProfileViewModel @Inject constructor(
                 _selfintroduce.value = response.data.selfIntroduce ?: ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 firstMbti = response.data.mbti ?: ""
                 firstNickname = response.data.nickName ?: ""
                 firstSelfIntroduce = response.data.selfIntroduce ?: ""
@@ -125,6 +126,11 @@ class ProfileViewModel @Inject constructor(
                 firstNickname = response.data.nickName
                 firstSelfIntroduce = response.data.selfIntroduce
 >>>>>>> e6f7569 (프로필 설정 기능 수정)
+=======
+                firstMbti = response.data.mbti ?: ""
+                firstNickname = response.data.nickName ?: ""
+                firstSelfIntroduce = response.data.selfIntroduce ?: ""
+>>>>>>> c494557 (프로필 초기 정보 null 예외처리)
             }
         }
     }
