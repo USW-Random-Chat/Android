@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.usw_random_chat'
+    namespace 'com.android.usw_random_chat'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.usw_random_chat"
+        applicationId "com.android.usw_random_chat"
         minSdk 26
         targetSdk 33
         versionCode 1
