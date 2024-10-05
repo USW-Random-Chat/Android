@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.usw_random_chat",
+  "applicationId": "main.app.usw_random_chat",
   "variantName": "release",
   "elements": [
     {
