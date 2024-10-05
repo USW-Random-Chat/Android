@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace 'com.android.usw_random_chat'
+    namespace 'main.app.usw_random_chat'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.android.usw_random_chat"
+        applicationId "main.app.usw_random_chat"
         minSdk 26
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        targetSdk 34
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
