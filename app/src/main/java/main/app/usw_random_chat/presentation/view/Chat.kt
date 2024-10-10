@@ -87,7 +87,7 @@ fun ChattingScreen(navController: NavController, chatViewModel: ChatViewModel = 
     val userProfile by chatViewModel.userProfile.collectAsStateWithLifecycle()
     fun LazyListState.getFirstIndex() = layoutInfo.visibleItemsInfo.firstOrNull()?.index?: -1
     val context = LocalContext.current
-
+// git test 주석입니다 무시하세요
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.exitChattingRoom()
