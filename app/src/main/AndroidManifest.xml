@@ -19,7 +19,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8656876347774087~7688894778"/>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name="main.app.usw_random_chat.presentation.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:label="@string/app_name"
