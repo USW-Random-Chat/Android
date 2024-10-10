@@ -24,6 +24,7 @@ import main.app.usw_random_chat.presentation.ViewModel.UserModifyViewModel
 
 @Composable
 fun IdSearch(userModifyViewModel: UserModifyViewModel = viewModel(), navController: NavController){
+    // git test
     IdSearchEmail(email = userModifyViewModel.email){ userModifyViewModel.updateEmail(it) }
     IdText()
     IdSearchEmailBtn(){userModifyViewModel.findUserID()}
