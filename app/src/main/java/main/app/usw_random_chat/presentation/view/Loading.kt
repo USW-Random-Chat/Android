@@ -33,7 +33,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun LoadingScreen(navController: NavController, signInViewModel: SignInViewModel = viewModel()) {
-
+// git test 무시하세요!
     LoadingLogo("심심할 땐,", "SUCHAT")
 
     LaunchedEffect(Unit){
